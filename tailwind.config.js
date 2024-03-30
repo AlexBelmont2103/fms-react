@@ -13,9 +13,9 @@ export default {
   plugins: [
     nextui({
       layout: {
-        spacingUnit: 3, 
-        disabledOpacity: 0.5, 
-        dividerWeight: "1px", 
+        spacingUnit: 3,
+        disabledOpacity: 0.5,
+        dividerWeight: "1px",
         fontSize: {
           tiny: "0.75rem", // text-tiny
           small: "0.875rem", // text-small
@@ -42,9 +42,9 @@ export default {
       themes: {
         dark: {
           colors: {
-            background: "#5C4082",
+            background: "#000000",
             foreground: "#ffffff",
-            primary:{
+            primary: {
               100: "#F2E4F9",
               200: "#E4CBF4",
               300: "#C7A7E0",
@@ -70,7 +70,7 @@ export default {
               DEFAULT: "#666666",
               foreground: "#ffffff",
             },
-            succes:{
+            succes: {
               100: "#E8FCDE",
               200: "#CDFABD",
               300: "#A7F099",
@@ -83,7 +83,7 @@ export default {
               DEFAULT: "#3BB247",
               foreground: "#ffffff",
             },
-            warning:{
+            warning: {
               100: "#FDEFCD",
               200: "#FCDA9C",
               300: "#F7BE6A",
@@ -96,7 +96,7 @@ export default {
               DEFAULT: "#C55C08",
               foreground: "#ffffff",
             },
-            danger:{
+            danger: {
               100: "#FCE2CD",
               200: "#FABF9D",
               300: "#F1926B",
@@ -127,9 +127,9 @@ export default {
         },
         light: {
           colors: {
-            background: "#ed2323",
-            foreground: "#ffffff",
-            primary:{
+            background: "#ffffff",
+            foreground: "#000000",
+            primary: {
               100: "#F3E3F4",
               200: "#E6C8E9",
               300: "#B897BF",
@@ -155,7 +155,7 @@ export default {
               DEFAULT: "#fbe6e5",
               foreground: "#ffffff",
             },
-            succes:{
+            succes: {
               100: "#FEFCFA",
               200: "#FEF8F5",
               300: "#FDF3F0",
@@ -168,7 +168,7 @@ export default {
               DEFAULT: "#fbe6e5",
               foreground: "#ffffff",
             },
-            warning:{
+            warning: {
               100: "#FDF0D6",
               200: "#FCDEAD",
               300: "#F8C584",
@@ -181,7 +181,7 @@ export default {
               DEFAULT: "#ed8533",
               foreground: "#ffffff",
             },
-            danger:{
+            danger: {
               100: "#FEE1D2",
               200: "#FDBDA6",
               300: "#F99079",

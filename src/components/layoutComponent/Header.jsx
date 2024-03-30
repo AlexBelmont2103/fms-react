@@ -79,7 +79,9 @@ function Header() {
           </div>
         </div>
       </div>
-      <Divider className="py-1" />
+      <div className="container flex mx-auto">
+        <Divider className="py-1" />
+      </div>
       <div className="container mx-auto px-0 h-auto">
         <Navbar>
           <NavbarContent className="hidden sm:flex" justify="start">

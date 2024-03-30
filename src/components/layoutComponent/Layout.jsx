@@ -5,13 +5,13 @@ import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedCon
 
 function Layout() {
   const {clienteLogged} = useClienteLoggedContext();
-  console.log("Layout.js - clienteLogged: ", clienteLogged);
-  let _listaCategorias = useLoaderData();
-  console.log("Layout.js - _listaCategorias: ", _listaCategorias);
+  console.log("clienteLogged: ", clienteLogged);
+  //let _listaCategorias = useLoaderData();
+  //console.log("_listaCategorias: ", _listaCategorias);
   let _location=useLocation();
-  console.log("Layout.js - _location: ", _location);
+  console.log(" _location: ", _location);
   return (
-    <>
+    <div>
         <Header />
         <div className="container mx-auto">
             <div className="flex flex-wrap">
@@ -21,7 +21,7 @@ function Layout() {
             </div>
         </div>
         <Footer />
-    </>
+    </div>
 );
 }
 
