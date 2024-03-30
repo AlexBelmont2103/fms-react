@@ -19,6 +19,7 @@ import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedCon
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import Banner from "../../assets/images/FullMetalStore.png";
 import ModalRegistro from "./ModalRegistro";
+import BotonDarkMode from "./BotonDarkMode";
 
 function Header() {
   const { clienteLogged, dispatch } = useClienteLoggedContext();
@@ -55,6 +56,9 @@ function Header() {
     <header>
       <div className="container flex mx-auto px-0 h-19 ">
         <div className="container bg-black flex justify-end gap-8">
+          <div className="py-2">
+            <BotonDarkMode />
+          </div>
           <div className="py-2">
             <Button href="#" color="default" variant="shadow">
               Login

@@ -40,9 +40,9 @@ export default {
         },
       },
       themes: {
-        "eva-01": {
+        dark: {
           colors: {
-            background: "#0D001A",
+            background: "#ffffff",
             foreground: "#ffffff",
             primary:{
               100: "#F2E4F9",
@@ -125,9 +125,9 @@ export default {
             },
           },
         },
-        "eva-02": {
+        light: {
           colors: {
-            background: "#0D001A",
+            background: "#ed2323",
             foreground: "#ffffff",
             primary:{
               100: "#F3E3F4",
