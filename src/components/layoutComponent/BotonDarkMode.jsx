@@ -1,6 +1,7 @@
 import { Switch } from "@nextui-org/react";
-import { MoonIcon } from "./MoonIcon";
-import { SunIcon } from "./SunIcon";
+import SunIcon from "./SunIcon";
+import MoonIcon from "./MoonIcon";
+
 
 function BotonDarkMode() {
   return (
@@ -8,13 +9,14 @@ function BotonDarkMode() {
       defaultSelected
       size="lg"
       color="secondary"
-      thumbIcon={({ isSelected, className }) =>
+      thumbIcon={({ isSelected, className }) => {
+        cambiarTema(isSelected);
         isSelected ? (
           <SunIcon className={className} />
         ) : (
           <MoonIcon className={className} />
-        )
-      }
+        );
+      }}
     >
       Dark mode
     </Switch>

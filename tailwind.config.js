@@ -42,7 +42,7 @@ export default {
       themes: {
         dark: {
           colors: {
-            background: "#ffffff",
+            background: "#5C4082",
             foreground: "#ffffff",
             primary:{
               100: "#F2E4F9",

@@ -7,7 +7,7 @@ import './index.css'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <NextUIProvider>
-      <main className='light w-full'>
+      <main id="main" className='dark w-full'>
       <App />
       </main>
     </NextUIProvider>

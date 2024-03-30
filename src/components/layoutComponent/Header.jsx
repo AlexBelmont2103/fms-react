@@ -54,11 +54,13 @@ function Header() {
 
   return (
     <header>
-      <div className="container flex mx-auto px-0 h-19 ">
-        <div className="container bg-black flex justify-end gap-8">
+      <div className="container bg-black flex mx-auto px-0 h-19 ">
+        <div className="container flex gap-4 justify-start">
           <div className="py-2">
             <BotonDarkMode />
           </div>
+        </div>
+        <div className="container bg-black flex justify-end gap-8">
           <div className="py-2">
             <Button href="#" color="default" variant="shadow">
               Login
@@ -138,9 +140,14 @@ function Header() {
         </Navbar>
       </div>
       {/*Modal de Registro */}
-      <Modal size="2xl" isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside">
+      <Modal
+        size="2xl"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        scrollBehavior="inside"
+      >
         <ModalContent>
-          <ModalRegistro onOpenChange={onOpenChange}/>
+          <ModalRegistro onOpenChange={onOpenChange} />
         </ModalContent>
       </Modal>
     </header>
