@@ -7,7 +7,7 @@ import './index.css'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <NextUIProvider>
-      <main className='purple-dark w-full'>
+      <main className='eva-02 w-full'>
       <App />
       </main>
     </NextUIProvider>
