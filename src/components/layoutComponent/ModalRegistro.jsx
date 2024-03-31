@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import clienteRESTService from "../../servicios/restCliente";
 import * as Yup from "yup";
 import RegistroForm from "../zonaCliente/RegistroForm";
+import { useDarkMode } from "../../contextProviders/darkModeContext";
 function ModalRegistro(props) {
   const navigate = useNavigate();
   const validationSchema = Yup.object({
@@ -48,8 +49,9 @@ function ModalRegistro(props) {
       "Debes aceptar los términos y condiciones"
     ),
   });
+  const { darkMode } = useDarkMode();
   return (
-    <>
+    <div className={darkMode ? "purple-light":"purple-dark"}>
       <ModalHeader>Registro</ModalHeader>
       <ModalBody>
         <div className="flex flex-wrap">
@@ -93,7 +95,7 @@ function ModalRegistro(props) {
           Cerrar
         </Button>
       </ModalFooter>
-    </>
+    </div>
   );
 }
 

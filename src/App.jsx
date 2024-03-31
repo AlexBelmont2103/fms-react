@@ -29,9 +29,8 @@ function App() {
 
 function AppContent() {
   const {darkMode} = useDarkMode();
-  console.log('darkMode en appContent', darkMode);
   return (
-    <div id='contenedor' className={`${darkMode ? "dark" : "light"}`}>
+    <div id='contenedor'className={darkMode ? "purple-light": "purple-dark"}>
       <ClienteLoggedProvider>
         <ItemsCarroProvider>
           <RouterProvider router={routerObjects} />

@@ -14,12 +14,17 @@ import {
   useDisclosure,
   Modal,
   ModalContent,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
 } from "@nextui-org/react";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
+import { useDarkMode } from "../../contextProviders/darkModeContext";
 import Banner from "../../assets/images/FullMetalStore.png";
 import ModalRegistro from "./ModalRegistro";
 import BotonDarkMode from "./BotonDarkMode";
+import Login from "./Login";
 
 function Header() {
   const { clienteLogged, dispatch } = useClienteLoggedContext();
@@ -42,6 +47,7 @@ function Header() {
       label: "Delete file",
     },
   ];
+  const { darkMode } = useDarkMode();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   function calcularTotalCarro() {
     let _total = 0;
@@ -53,18 +59,29 @@ function Header() {
   }
 
   return (
-    <header>
+    <header className={darkMode ? "purple-light" : "purple-dark"}>
       <div className="container bg-black flex mx-auto px-0 h-19 ">
-        <div className="container flex gap-4 justify-start">
+        <div className="container flex gap-4 px-7 justify-start">
           <div className="py-2">
             <BotonDarkMode />
           </div>
         </div>
-        <div className="container bg-black flex justify-end gap-8">
+        <div
+          className={
+            darkMode
+              ? "purple-light container bg-black flex justify-end gap-8"
+              : "purple-dark container bg-black flex justify-end gap-8"
+          }
+        >
           <div className="py-2">
-            <Button href="#" color="default" variant="shadow">
-              Login
-            </Button>
+            <Popover placement="bottom" showArrow={true}>
+              <PopoverTrigger>
+                <Button>Open Popover</Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <Login />
+              </PopoverContent>
+            </Popover>
           </div>
           <div className="py-2 px-2">
             <Button
@@ -83,7 +100,7 @@ function Header() {
         <Divider className="py-1" />
       </div>
       <div className="container mx-auto px-0 h-auto">
-        <Navbar>
+        <Navbar isBordered="true">
           <NavbarContent className="hidden sm:flex" justify="start">
             <NavbarItem>
               <Link color="foreground" href="/">
@@ -95,7 +112,7 @@ function Header() {
             <NavbarItem>
               <div className="container flex gap-1">
                 <Input type="text" placeholder="Buscar por grupo, titulo..." />
-                <Button color="secondary" variant="ghost">
+                <Button color="primary" variant="ghost">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -118,7 +135,7 @@ function Header() {
             <NavbarItem>
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant="bordered">Categorías</Button>
+                  <Button color="primary">Categorías</Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Dynamic Actions" items={items}>
                   {(item) => (

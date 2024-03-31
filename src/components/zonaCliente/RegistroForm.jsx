@@ -8,7 +8,6 @@ function RegistroForm() {
   let { isValid, values } = useFormikContext();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [repasswordVisible, setRepasswordVisible] = useState(false);
-
   useEffect(() => {
     // Comprueba si el email ya está registrado
     if (values.email) {
@@ -56,6 +55,7 @@ function RegistroForm() {
                   {...field}
                   label="Email"
                   color="secondary"
+                  variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
                   }
@@ -72,6 +72,7 @@ function RegistroForm() {
                   {...field}
                   label="Repite el Email"
                   color="secondary"
+                  variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
                   }
@@ -88,6 +89,7 @@ function RegistroForm() {
                   label="Contaseña"
                   type={passwordVisible ? "text" : "password"}
                   color="secondary"
+                  variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
                   }
@@ -118,6 +120,7 @@ function RegistroForm() {
                   label="Repite la contraseña"
                   type={repasswordVisible ? "text" : "password"}
                   color="secondary"
+                  variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
                   }
@@ -147,6 +150,7 @@ function RegistroForm() {
                   {...field}
                   label="Nombre"
                   color="secondary"
+                  variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
                   }
@@ -162,6 +166,7 @@ function RegistroForm() {
                   {...field}
                   label="Apellidos"
                   color="secondary"
+                  variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
                   }
@@ -177,6 +182,7 @@ function RegistroForm() {
                   {...field}
                   label="Teléfono"
                   color="secondary"
+                  variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
                   }
@@ -192,6 +198,7 @@ function RegistroForm() {
                   {...field}
                   label="Nombre de usuario"
                   color="secondary"
+                  variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
                   }
