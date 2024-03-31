@@ -46,6 +46,21 @@ let clienteRESTService = {
             console.log('Error al intentar comprobar login...',error);
         }
     },
+    login: async function (credenciales) {
+        console.log('credenciales recibidos en el cliente...',credenciales)
+        try {
+            let response = await fetch('http://localhost:5000/api/Cliente/Login', {
+                method: 'POST',
+                body: JSON.stringify(credenciales),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            return await response.json();
+        }catch(error){
+            console.log('Error al intentar loguear cliente...',error);
+        }
+    },
 };
 
 export default clienteRESTService;

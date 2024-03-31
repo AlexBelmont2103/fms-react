@@ -1,7 +1,11 @@
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
+import LoginForm from "../zonaCliente/LoginForm";
+import clienteRESTService from "../../servicios/restCliente";
+import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 function Login() {
+  const { dispatch } = useClienteLoggedContext();
   const { darkMode } = useDarkMode();
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -17,15 +21,32 @@ function Login() {
   return (
     <div
       className={
-        darkMode ? "purple-light flex flex-wrap" : "purple-dark flex flex-wrap"
+        darkMode
+          ? "purple-light container flex "
+          : "purple-dark container flex "
       }
     >
-      <div>
+      <div className="justify-center">
         <h3>Inicia sesión en FullMetalStore</h3>
-        <p>
-          Bienvenido a la tienda nº1 de metal en España. Por favor, completa el
-          formulario y procura no cagarla
-        </p>
+        <div id='errorLogin'className="hidden text-red-500">Error al iniciar sesión</div>
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={validationSchema}
+          onSubmit={async (values, { setSubmitting }) => {
+            let _resp = await clienteRESTService.login(values);
+            if (_resp.codigo === 0) {
+              let payload ={
+                datoscliente: _resp.datoscliente,
+                tokensesion: _resp.tokensesion,
+              }
+              dispatch({ type: "CLIENTE_LOGIN", payload: payload });
+            } else {
+              document.getElementById('errorLogin').classList.remove('hidden');
+            }
+          }}
+        >
+          <LoginForm />
+        </Formik>
       </div>
     </div>
   );

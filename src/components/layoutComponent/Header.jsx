@@ -17,11 +17,13 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
+  User,
 } from "@nextui-org/react";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
-import Banner from "../../assets/images/FullMetalStore.png";
+import BannerDark from "../../assets/images/FullMetalStoreDark.png";
+import BannerLight from "../../assets/images/FullMetalStoreLight.png";
 import ModalRegistro from "./ModalRegistro";
 import BotonDarkMode from "./BotonDarkMode";
 import Login from "./Login";
@@ -73,27 +75,50 @@ function Header() {
               : "purple-dark container bg-black flex justify-end gap-8"
           }
         >
-          <div className="py-2">
-            <Popover placement="bottom" showArrow={true}>
-              <PopoverTrigger>
-                <Button>Open Popover</Button>
-              </PopoverTrigger>
-              <PopoverContent>
-                <Login />
-              </PopoverContent>
-            </Popover>
-          </div>
-          <div className="py-2 px-2">
-            <Button
-              as={Link}
-              color="secondary"
-              href="#"
-              variant="ghost"
-              onPress={onOpen}
-            >
-              Registrate
-            </Button>
-          </div>
+          {clienteLogged != null && (
+            
+            <div className="py-2 px-2">
+              <User 
+                className="text-white"
+                name={clienteLogged.datoscliente.nombre + " " + clienteLogged.datoscliente.apellidos}
+                description={(
+                  <Link href="/Cliente/Panel" size="sm">
+                    {clienteLogged.datoscliente.cuenta.email}
+                  </Link>
+                )}
+                avatarProps={
+                  {src:`${clienteLogged.datoscliente.cuenta.imagenAvatar}`}
+                }
+              />
+            </div>
+          )}
+          {clienteLogged == null && (
+            <>
+              <div className="py-2">
+                <Popover placement="left" showArrow={true}>
+                  <PopoverTrigger>
+                    <Button color="primary" variant="shadow">
+                      Login
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <Login />
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <div className="py-2 px-2">
+                <Button
+                  as={Link}
+                  color="primary"
+                  href="#"
+                  variant="ghost"
+                  onPress={onOpen}
+                >
+                  Registrate
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div className="container flex mx-auto">
@@ -104,7 +129,12 @@ function Header() {
           <NavbarContent className="hidden sm:flex" justify="start">
             <NavbarItem>
               <Link color="foreground" href="/">
-                <Image width={160} height={160} alt="Banner" src={Banner} />
+                <Image
+                  width={160}
+                  height={160}
+                  alt="Banner"
+                  src={darkMode ? BannerLight : BannerDark}
+                />
               </Link>
             </NavbarItem>
           </NavbarContent>
