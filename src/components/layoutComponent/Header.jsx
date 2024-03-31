@@ -112,7 +112,7 @@ function Header() {
             <NavbarItem>
               <div className="container flex gap-1">
                 <Input type="text" placeholder="Buscar por grupo, titulo..." />
-                <Button color="primary" variant="ghost">
+                <Button color="primary" variant="shadow">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
