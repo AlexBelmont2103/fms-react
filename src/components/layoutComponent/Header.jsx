@@ -2,7 +2,6 @@ import {
   Navbar,
   NavbarContent,
   NavbarItem,
-  Link,
   Button,
   Image,
   Input,
@@ -19,6 +18,7 @@ import {
   PopoverContent,
   User,
 } from "@nextui-org/react";
+import {Link} from "react-router-dom";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import { useDarkMode } from "../../contextProviders/darkModeContext";

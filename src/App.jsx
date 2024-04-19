@@ -7,16 +7,21 @@ import { ClienteLoggedProvider } from "./contextProviders/clienteLoggedContext";
 import { ItemsCarroProvider } from "./contextProviders/itemsCarroContext";
 import Layout from "./components/layoutComponent/Layout";
 import RegistroOk from "./components/zonaCliente/RegistroOk";
+import Albumes from "./components/zonaTienda/Albumes";
 import {
   DarkModeProvider,
   useDarkMode,
 } from "./contextProviders/darkModeContext";
+import tiendaRESTService from "./servicios/restTienda";
 
 const routerObjects = createBrowserRouter([
   {
     element: <Layout />,
-    path: "/",
-    children: [{ path: "/Cliente/RegistroOk/:email", element: <RegistroOk /> }],
+    loader: tiendaRESTService.RecuperarGeneros,
+    children: [
+      {path: "/", element: <Navigate to="/Tienda/Albumes" />},
+      {path: "/Tienda/Albumes", element: <Albumes />, loader: ()=> tiendaRESTService.RecuperarAlbumes("")},
+      { path: "/Cliente/RegistroOk/:email", element: <RegistroOk /> }],
   },
 ]);
 function App() {
