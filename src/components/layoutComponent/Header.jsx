@@ -154,7 +154,7 @@ function Header() {
                 <DropdownMenu aria-label="Dynamic Actions" items={generos}>
                   {(genero) => (
                     <DropdownItem
-                      key={genero._id}
+                      key={genero._id} textValue={genero.nombre}
                     >
                       <Link to={`Tienda/Albumes?genero=${genero.nombre}`}>{genero.nombre}</Link>
                     </DropdownItem>

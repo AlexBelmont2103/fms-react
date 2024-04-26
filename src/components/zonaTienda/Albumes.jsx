@@ -42,7 +42,7 @@ function Albumes() {
                   {album.numCanciones} Temas
                 </small>
                 <Link to={`?artista=${album.artista}`}>
-                  <h4 className="font-bold text-large">{album.artista}</h4>
+                <h4 className="font-bold text-large" textvalue={album.artista}>{album.artista}</h4>
                 </Link>
               </CardHeader>
               <CardBody className="overflow-visible py-2">
