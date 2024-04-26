@@ -2,6 +2,7 @@ import {
   RouterProvider,
   createBrowserRouter,
   Navigate,
+  useLocation
 } from "react-router-dom";
 import { ClienteLoggedProvider } from "./contextProviders/clienteLoggedContext";
 import { ItemsCarroProvider } from "./contextProviders/itemsCarroContext";
@@ -20,7 +21,7 @@ const routerObjects = createBrowserRouter([
     loader: tiendaRESTService.RecuperarGeneros,
     children: [
       {path: "/", element: <Navigate to="/Tienda/Albumes" />},
-      {path: "/Tienda/Albumes", element: <Albumes />, loader: ()=> tiendaRESTService.RecuperarAlbumes("")},
+      {path: "/Tienda/Albumes", element: <Albumes />},
       { path: "/Cliente/RegistroOk/:email", element: <RegistroOk /> }],
   },
 ]);

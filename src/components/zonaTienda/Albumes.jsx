@@ -1,5 +1,5 @@
-import React from "react";
-import { useLoaderData, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -8,11 +8,28 @@ import {
   Image,
   Button,
 } from "@nextui-org/react";
+import tiendaRESTService from "../../servicios/restTienda";
 
 function Albumes() {
-  const respuestaserver = useLoaderData();
   const location = useLocation();
-  const albumes = respuestaserver.datosalbumes;
+  const busqueda = new URLSearchParams(location.search);
+  let operacion = "";
+  let busquedaValor = "";
+  if (busqueda.has("artista")) {
+    operacion = "artista";
+    busquedaValor = busqueda.get("artista");
+  } else if (busqueda.has("genero")) {
+    operacion = "genero";
+    busquedaValor = busqueda.get("genero");
+  }
+  const [albumes, setAlbumes] = useState([]);
+  useEffect(() => {
+    tiendaRESTService
+      .RecuperarAlbumes(operacion, busquedaValor)
+      .then((data) => {
+        setAlbumes(data.datosalbumes);
+      });
+  }, [operacion, busquedaValor]);
   return (
     <div>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -24,7 +41,9 @@ function Albumes() {
                 <small className="text-default-500">
                   {album.numCanciones} Temas
                 </small>
-                <h4 className="font-bold text-large">{album.artista}</h4>
+                <Link to={`?artista=${album.artista}`}>
+                  <h4 className="font-bold text-large">{album.artista}</h4>
+                </Link>
               </CardHeader>
               <CardBody className="overflow-visible py-2">
                 <Image

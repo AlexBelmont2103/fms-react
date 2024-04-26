@@ -156,7 +156,7 @@ function Header() {
                     <DropdownItem
                       key={genero._id}
                     >
-                      <Link>{genero.nombre}</Link>
+                      <Link to={`Tienda/Albumes?genero=${genero.nombre}`}>{genero.nombre}</Link>
                     </DropdownItem>
                   )}
                 </DropdownMenu>

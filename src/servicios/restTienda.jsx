@@ -9,9 +9,18 @@ let tiendaRESTService = {
             console.log('Error al intentar recuperar generos...', error);
         }
     },
-    RecuperarAlbumes: async function (genero) {
+    RecuperarAlbumes: async function (operacion, busqueda) {
         try {
-            let response = await fetch('http://localhost:5000/api/Tienda/RecuperarAlbumes?genero=' + genero, {
+            let url = 'http://localhost:5000/api/Tienda/';
+            if (operacion === 'genero') {
+                url += 'RecuperarAlbumesGenero/' + busqueda;
+            }else if (operacion === 'artista') {
+                url += 'RecuperarAlbumesArtista/' + busqueda;
+            }else{
+                url += 'RecuperarAlbumes';
+            }
+            console.log('url: ', url);
+            let response = await fetch(url, {
                 method: 'GET',
             });
             return await response.json();
