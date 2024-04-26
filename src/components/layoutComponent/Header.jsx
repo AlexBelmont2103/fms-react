@@ -18,7 +18,7 @@ import {
   PopoverContent,
   User,
 } from "@nextui-org/react";
-import {Link} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
@@ -31,24 +31,8 @@ import Login from "./Login";
 function Header() {
   const { clienteLogged, dispatch } = useClienteLoggedContext();
   const { itemsCarro } = useItemsCarroContext();
-  const items = [
-    {
-      key: "new",
-      label: "New file",
-    },
-    {
-      key: "copy",
-      label: "Copy link",
-    },
-    {
-      key: "edit",
-      label: "Edit file",
-    },
-    {
-      key: "delete",
-      label: "Delete file",
-    },
-  ];
+  const respuestaserver = useLoaderData();
+  const generos = respuestaserver.datosgeneros;
   const { darkMode } = useDarkMode();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   function calcularTotalCarro() {
@@ -61,7 +45,7 @@ function Header() {
   }
 
   return (
-    <header className={darkMode ? "purple-light" : "purple-dark"}>
+    <header className={darkMode ? "purple-light" : "purple-dark"} style={{ borderRadius: "10px" }}>
       <div className="container bg-black flex mx-auto px-0 h-19 ">
         <div className="container flex gap-4 px-7 justify-start">
           <div className="py-2">
@@ -124,7 +108,7 @@ function Header() {
       <div className="container flex mx-auto">
         <Divider className="py-1" />
       </div>
-      <div className="container mx-auto px-0 h-auto">
+      <div className="container mx-auto px-0 h-auto rounded-md">
         <Navbar isBordered="true">
           <NavbarContent className="hidden sm:flex" justify="start">
             <NavbarItem>
@@ -167,14 +151,12 @@ function Header() {
                 <DropdownTrigger>
                   <Button color="primary">Categorías</Button>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Dynamic Actions" items={items}>
-                  {(item) => (
+                <DropdownMenu aria-label="Dynamic Actions" items={generos}>
+                  {(genero) => (
                     <DropdownItem
-                      key={item.key}
-                      color={item.key === "delete" ? "danger" : "default"}
-                      className={item.key === "delete" ? "text-danger" : ""}
+                      key={genero._id}
                     >
-                      {item.label}
+                      <Link>{genero.nombre}</Link>
                     </DropdownItem>
                   )}
                 </DropdownMenu>
