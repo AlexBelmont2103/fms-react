@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Navbar,
   NavbarContent,
@@ -24,7 +24,17 @@ function BarraNavegacion() {
   const respuestaserver = useLoaderData();
   const [isInvisible, setIsInvisible] = useState(false);
   const generos = respuestaserver.datosgeneros;
-
+  const [totalItemsCarro, setTotalItemsCarro] = useState(0);
+  useEffect(() => {
+    setTotalItemsCarro(
+      itemsCarro.reduce((total, item) => total + item.cantidad, 0)
+    );
+    if (totalItemsCarro === 0) {
+      setIsInvisible(true);
+    } else {
+      setIsInvisible(false);
+    }
+  }, [itemsCarro, totalItemsCarro]);
   return (
     <div className="container mx-auto px-0 h-auto rounded-md">
       <Navbar isBordered="true">
@@ -83,7 +93,7 @@ function BarraNavegacion() {
           <NavbarItem className="px-5">
             <Badge
               color="danger"
-              content={50}
+              content={totalItemsCarro}
               isInvisible={isInvisible}
               shape="circle"
             >

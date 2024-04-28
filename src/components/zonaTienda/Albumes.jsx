@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import tiendaRESTService from "../../servicios/restTienda";
+import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 
 function Albumes() {
   const location = useLocation();
@@ -25,6 +26,20 @@ function Albumes() {
     busquedaValor = busqueda.get("genero");
   }
   const [albumes, setAlbumes] = useState([]);
+  const itemsCarroContext = useItemsCarroContext();
+  function añadirAlbumCarro(album) {
+    if (itemsCarroContext.itemsCarro.some((item) => item._id === album._id)) {
+      itemsCarroContext.dispatch({
+        type: "ADD_CANTIDAD_ALBUM",
+        payload: { _id: album._id, cantidad: 1 },
+      });
+    } else {
+      itemsCarroContext.dispatch({
+        type: "ADD_NUEVO_ALBUM",
+        payload: { album, cantidad: 1 },
+      });
+    }
+  }
   useEffect(() => {
     tiendaRESTService
       .RecuperarAlbumes(operacion, busquedaValor)
@@ -32,6 +47,10 @@ function Albumes() {
         setAlbumes(data.datosalbumes);
       });
   }, [operacion, busquedaValor]);
+  useEffect(() => {
+    console.log(itemsCarroContext.itemsCarro);
+  }, [itemsCarroContext.itemsCarro]);
+
   return (
     <div className={darkMode ? "purple-light" : "purple-dark"}>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -64,10 +83,11 @@ function Albumes() {
                 {album.stock > 0 ? (
                   <Button
                     className="text-tiny"
-                    variant="solid"
+                    variant="shadow"
                     color="primary"
                     radius="lg"
                     size="sm"
+                    onClick={() => añadirAlbumCarro(album)}
                   >
                     Comprar
                   </Button>

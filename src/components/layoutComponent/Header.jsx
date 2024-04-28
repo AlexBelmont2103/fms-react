@@ -5,7 +5,6 @@ import BarraNavegacion from "./BarraNavegacion";
 
 function Header() {
   const { darkMode } = useDarkMode();
-
   return (
     <header
       className={darkMode ? "purple-light" : "purple-dark"}
