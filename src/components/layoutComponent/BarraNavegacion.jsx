@@ -1,0 +1,99 @@
+import { useState } from "react";
+import {
+  Navbar,
+  NavbarContent,
+  NavbarItem,
+  Button,
+  Image,
+  Input,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Badge,
+} from "@nextui-org/react";
+import BannerDark from "../../assets/images/FullMetalStoreDark.png";
+import BannerLight from "../../assets/images/FullMetalStoreLight.png";
+import { Link, useLoaderData } from "react-router-dom";
+import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
+import { useDarkMode } from "../../contextProviders/darkModeContext";
+import CartIcon from "../../uiComponents/CartIcon";
+function BarraNavegacion() {
+  const { itemsCarro } = useItemsCarroContext();
+  const { darkMode } = useDarkMode();
+  const respuestaserver = useLoaderData();
+  const [isInvisible, setIsInvisible] = useState(false);
+  const generos = respuestaserver.datosgeneros;
+
+  return (
+    <div className="container mx-auto px-0 h-auto rounded-md">
+      <Navbar isBordered="true">
+        <NavbarContent className="hidden sm:flex" justify="start">
+          <NavbarItem>
+            <Link color="foreground" href="/">
+              <Image
+                width={160}
+                height={160}
+                alt="Banner"
+                src={darkMode ? BannerLight : BannerDark}
+              />
+            </Link>
+          </NavbarItem>
+        </NavbarContent>
+        <NavbarContent className="hidden sm:flex" justify="start">
+          <NavbarItem>
+            <div className="container flex gap-1">
+              <Input type="text" placeholder="Buscar por grupo, titulo..." />
+              <Button color="primary" variant="shadow">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                  />
+                </svg>
+              </Button>
+            </div>
+          </NavbarItem>
+        </NavbarContent>
+        <NavbarContent className="hidden sm:flex" justify="end">
+          <NavbarItem className="px-5">
+            <Dropdown>
+              <DropdownTrigger>
+                <Button color="primary">Categorías</Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Dynamic Actions" items={generos}>
+                {(genero) => (
+                  <DropdownItem key={genero._id} textValue={genero.nombre}>
+                    <Link to={`Tienda/Albumes?genero=${genero.nombre}`}>
+                      {genero.nombre}
+                    </Link>
+                  </DropdownItem>
+                )}
+              </DropdownMenu>
+            </Dropdown>
+          </NavbarItem>
+          <NavbarItem className="px-5">
+            <Badge
+              color="danger"
+              content={50}
+              isInvisible={isInvisible}
+              shape="circle"
+            >
+              <CartIcon size={30} />
+            </Badge>
+          </NavbarItem>
+        </NavbarContent>
+      </Navbar>
+    </div>
+  );
+}
+
+export default BarraNavegacion;
