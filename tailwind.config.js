@@ -43,6 +43,8 @@ export default {
         "purple-dark": {
           extend: "dark",
           colors: {
+            background:"#5C4082",
+            foreground:"#ffffff",
             primary: {
               100: "#F2E4F9",
               200: "#E4CBF4",
@@ -127,6 +129,7 @@ export default {
         "purple-light": {
           extend: "light",
           colors: {
+            background:"#254EDB",
             primary: {
               100: "#D6E4FF",
               200: "#ADC8FF",

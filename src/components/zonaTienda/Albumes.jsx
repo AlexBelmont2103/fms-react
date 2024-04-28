@@ -8,11 +8,13 @@ import {
   Image,
   Button,
 } from "@nextui-org/react";
+import { useDarkMode } from "../../contextProviders/darkModeContext";
 import tiendaRESTService from "../../servicios/restTienda";
 
 function Albumes() {
   const location = useLocation();
   const busqueda = new URLSearchParams(location.search);
+  const { darkMode } = useDarkMode();
   let operacion = "";
   let busquedaValor = "";
   if (busqueda.has("artista")) {
@@ -31,7 +33,7 @@ function Albumes() {
       });
   }, [operacion, busquedaValor]);
   return (
-    <div>
+    <div className={darkMode ? "purple-light" : "purple-dark"}>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {albumes.map((album) => (
           <div key={album._id}>
@@ -42,7 +44,12 @@ function Albumes() {
                   {album.numCanciones} Temas
                 </small>
                 <Link to={`?artista=${album.artista}`}>
-                <h4 className="font-bold text-large" textvalue={album.artista}>{album.artista}</h4>
+                  <h4
+                    className="font-bold text-large"
+                    textvalue={album.artista}
+                  >
+                    {album.artista}
+                  </h4>
                 </Link>
               </CardHeader>
               <CardBody className="overflow-visible py-2">
@@ -53,17 +60,29 @@ function Albumes() {
                   width={270}
                 />
               </CardBody>
-              <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
-                <p className="text-tiny">Available soon.</p>
-                <Button
-                  className="text-tiny text-white bg-black/20"
-                  variant="flat"
-                  color="primary"
-                  radius="lg"
-                  size="sm"
-                >
-                  Notify me
-                </Button>
+              <CardFooter className="overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                {album.stock > 0 ? (
+                  <Button
+                    className="text-tiny"
+                    variant="solid"
+                    color="primary"
+                    radius="lg"
+                    size="sm"
+                  >
+                    Comprar
+                  </Button>
+                ) : (
+                  <Button
+                    disabled
+                    className="text-tiny"
+                    variant="flat"
+                    color="danger"
+                    radius="lg"
+                    size="sm"
+                  >
+                    Agotado
+                  </Button>
+                )}
               </CardFooter>
             </Card>
           </div>

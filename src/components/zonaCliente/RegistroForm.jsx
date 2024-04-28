@@ -54,7 +54,7 @@ function RegistroForm() {
                 <Input
                   {...field}
                   label="Email"
-                  color="secondary"
+                  color="primary"
                   variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
@@ -211,6 +211,7 @@ function RegistroForm() {
           <div className="w-full md:w-1/2 px-2">
             <Field name="fechaNacimiento">
               {({ field, form }) => (
+                
                 <label htmlFor="fechaNacimiento">
                   Fecha de nacimiento
                   <input
