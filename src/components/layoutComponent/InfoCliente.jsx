@@ -22,7 +22,7 @@ function InfoCliente() {
   return (
     <div className="container bg-black flex mx-auto px-0 h-19 ">
       <div className="container flex gap-4 px-7 justify-start">
-        <div className="py-2">
+        <div className="py-4 px-5">
           <BotonDarkMode />
         </div>
       </div>
@@ -82,16 +82,18 @@ function InfoCliente() {
         )}
       </div>
       {/*Modal de Registro */}
-      <Modal
-        size="2xl"
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        scrollBehavior="inside"
-      >
-        <ModalContent>
-          <ModalRegistro onOpenChange={onOpenChange} />
-        </ModalContent>
-      </Modal>
+      <div className="px-5">
+        <Modal
+          size="2xl"
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          scrollBehavior="inside"
+        >
+          <ModalContent>
+            <ModalRegistro onOpenChange={onOpenChange} />
+          </ModalContent>
+        </Modal>
+      </div>
     </div>
   );
 }
