@@ -75,7 +75,7 @@ function Albumes() {
                   <Button
                     disabled
                     className="text-tiny"
-                    variant="flat"
+                    variant="shadow"
                     color="danger"
                     radius="lg"
                     size="sm"
