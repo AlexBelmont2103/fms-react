@@ -119,6 +119,7 @@ function BarraNavegacion() {
           onOpenChange={onOpenChange}
           radius="md"
           scrollBehavior="inside"
+          hideCloseButton={true}
         >
           <ModalContent>
             <ModalPedido onOpenChange={onOpenChange} />

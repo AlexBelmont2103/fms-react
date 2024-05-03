@@ -50,7 +50,7 @@ function RegistroForm() {
     {isValid}
       <Form className="space-y-4 space-x-4">
         <div className="flex flex-wrap -mx-2">
-          <div className="w-full md:w-1/2 px-1 py-1">
+          <div className="w-full md:w-1/2 px-2 py-2">
             <Field name="email">
               {({ field, form }) => (
                 <Input

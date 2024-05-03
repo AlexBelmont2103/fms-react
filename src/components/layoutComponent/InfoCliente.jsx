@@ -96,6 +96,7 @@ function InfoCliente() {
           isOpen={isOpen}
           onOpenChange={onOpenChange}
           scrollBehavior="inside"
+          hideCloseButton={true}
         >
           <ModalContent>
             <ModalRegistro onOpenChange={onOpenChange} />
