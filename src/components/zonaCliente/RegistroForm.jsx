@@ -255,9 +255,10 @@ function RegistroForm() {
             <Field name="terminosYCondiciones">
               {({ field, form }) => (
                 <label htmlFor="terminosYCondiciones">
-                  Acepto los términos y condiciones
+                  Acepto los términos y condiciones 
                   <Checkbox
                     color="primary"
+                    className="px-4"
                     onChange={(event) =>
                       form.setFieldValue(field.name, event.target.value)
                     }
