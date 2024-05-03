@@ -21,7 +21,7 @@ import { Link, useLoaderData } from "react-router-dom";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import CartIcon from "../../uiComponents/CartIcon";
-import ModalPedido from "./ModalPedido";
+import ModalCarrito from "./ModalCarrito";
 function BarraNavegacion() {
   const { itemsCarro } = useItemsCarroContext();
   const { darkMode } = useDarkMode();
@@ -114,7 +114,7 @@ function BarraNavegacion() {
       {/*Modal de pedido */}
       <div className="px-5">
         <Modal
-          size="3xl"
+          size="md"
           isOpen={isOpen}
           onOpenChange={onOpenChange}
           radius="md"
@@ -122,7 +122,7 @@ function BarraNavegacion() {
           hideCloseButton={true}
         >
           <ModalContent>
-            <ModalPedido onOpenChange={onOpenChange} />
+            <ModalCarrito onOpenChange={onOpenChange} />
           </ModalContent>
         </Modal>
       </div>

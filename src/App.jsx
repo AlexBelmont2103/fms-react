@@ -14,6 +14,8 @@ import {
   useDarkMode,
 } from "./contextProviders/darkModeContext";
 import tiendaRESTService from "./servicios/restTienda";
+import pedidoRESTService from "./servicios/restPedido";
+import PedidoForm from "./components/pedidoComponent/PedidoForm";
 
 const routerObjects = createBrowserRouter([
   {
@@ -22,7 +24,9 @@ const routerObjects = createBrowserRouter([
     children: [
       {path: "/", element: <Navigate to="/Tienda/Albumes" />},
       {path: "/Tienda/Albumes", element: <Albumes />},
-      { path: "/Cliente/RegistroOk/:email", element: <RegistroOk /> }],
+      { path: "/Cliente/RegistroOk/:email", element: <RegistroOk /> },
+      {path:"/Pedido/MostrarPedido",element:<PedidoForm/>, loader: pedidoRESTService.recuperarProvincias},
+    ],
   },
 ]);
 function App() {

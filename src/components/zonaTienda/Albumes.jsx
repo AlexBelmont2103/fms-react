@@ -26,20 +26,8 @@ function Albumes() {
     busquedaValor = busqueda.get("genero");
   }
   const [albumes, setAlbumes] = useState([]);
-  const itemsCarroContext = useItemsCarroContext();
-  function añadirAlbumCarro(album) {
-    if (itemsCarroContext.itemsCarro.some((item) => item._id === album._id)) {
-      itemsCarroContext.dispatch({
-        type: "ADD_CANTIDAD_ALBUM",
-        payload: { _id: album._id, cantidad: 1 },
-      });
-    } else {
-      itemsCarroContext.dispatch({
-        type: "ADD_NUEVO_ALBUM",
-        payload: { album, cantidad: 1 },
-      });
-    }
-  }
+  const { dispatch } = useItemsCarroContext();
+
   useEffect(() => {
     tiendaRESTService
       .RecuperarAlbumes(operacion, busquedaValor)
@@ -47,10 +35,12 @@ function Albumes() {
         setAlbumes(data.datosalbumes);
       });
   }, [operacion, busquedaValor]);
-  useEffect(() => {
-    console.log(itemsCarroContext.itemsCarro);
-  }, [itemsCarroContext.itemsCarro]);
-
+  function añadirAlbumCarro(album) {
+    dispatch({
+      type: "ADD_NUEVO_ALBUM",
+      payload: { album },
+    });
+  }
   return (
     <div className={darkMode ? "purple-light" : "purple-dark"}>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -87,7 +77,7 @@ function Albumes() {
                     color="primary"
                     radius="lg"
                     size="sm"
-                    onClick={() => añadirAlbumCarro(album)}
+                    onPress={() => añadirAlbumCarro(album)}
                   >
                     Comprar
                   </Button>
