@@ -11,6 +11,9 @@ import {
   DropdownMenu,
   DropdownItem,
   Badge,
+  useDisclosure,
+  Modal,
+  ModalContent,
 } from "@nextui-org/react";
 import BannerDark from "../../assets/images/FullMetalStoreDark.png";
 import BannerLight from "../../assets/images/FullMetalStoreLight.png";
@@ -18,6 +21,7 @@ import { Link, useLoaderData } from "react-router-dom";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import CartIcon from "../../uiComponents/CartIcon";
+import ModalPedido from "./ModalPedido";
 function BarraNavegacion() {
   const { itemsCarro } = useItemsCarroContext();
   const { darkMode } = useDarkMode();
@@ -25,6 +29,7 @@ function BarraNavegacion() {
   const [isInvisible, setIsInvisible] = useState(false);
   const generos = respuestaserver.datosgeneros;
   const [totalItemsCarro, setTotalItemsCarro] = useState(0);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   useEffect(() => {
     setTotalItemsCarro(
       itemsCarro.reduce((total, item) => total + item.cantidad, 0)
@@ -33,6 +38,7 @@ function BarraNavegacion() {
       setIsInvisible(true);
     } else {
       setIsInvisible(false);
+      onOpen();
     }
   }, [itemsCarro, totalItemsCarro]);
   return (
@@ -91,17 +97,34 @@ function BarraNavegacion() {
             </Dropdown>
           </NavbarItem>
           <NavbarItem className="px-5">
-            <Badge
-              color="danger"
-              content={totalItemsCarro}
-              isInvisible={isInvisible}
-              shape="circle"
-            >
-              <CartIcon size={30} />
-            </Badge>
+            <button  onClick={onOpen}>
+              <Badge
+                color="danger"
+                content={totalItemsCarro}
+                isInvisible={isInvisible}
+                showOutline={false}
+                shape="circle"
+              >
+                <CartIcon size={30} />
+              </Badge>
+            </button>
           </NavbarItem>
         </NavbarContent>
       </Navbar>
+      {/*Modal de pedido */}
+      <div className="px-5">
+        <Modal
+          size="3xl"
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          radius="md"
+          scrollBehavior="inside"
+        >
+          <ModalContent>
+            <ModalPedido onOpenChange={onOpenChange} />
+          </ModalContent>
+        </Modal>
+      </div>
     </div>
   );
 }

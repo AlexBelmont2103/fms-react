@@ -7,6 +7,7 @@ import { useDarkMode } from "../../contextProviders/darkModeContext";
 function BotonDarkMode() {
   const { darkMode, toggleDarkMode } = useDarkMode();
   return (
+    <div className={darkMode ? "purple-light":"purple-dark"}>
       <Switch
         defaultSelected
         size="lg"
@@ -16,6 +17,7 @@ function BotonDarkMode() {
         endContent={<SunIcon />}
       >
       </Switch>
+    </div>
   );
 }
 

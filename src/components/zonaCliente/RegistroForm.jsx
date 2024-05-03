@@ -4,10 +4,12 @@ import { Input, Button, Checkbox } from "@nextui-org/react";
 import EyeFilledIcon from "../../uiComponents/EyeFilledIcon";
 import EyeSlashFilledIcon from "../../uiComponents/EyeSlashFilledIcon";
 import clienteRESTService from "../../servicios/restCliente";
+import { useDarkMode } from "../../contextProviders/darkModeContext";
 function RegistroForm() {
   let { isValid, values } = useFormikContext();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [repasswordVisible, setRepasswordVisible] = useState(false);
+  const { darkMode } = useDarkMode();
   useEffect(() => {
     // Comprueba si el email ya está registrado
     if (values.email) {
@@ -44,11 +46,11 @@ function RegistroForm() {
       setRepasswordVisible(!repasswordVisible);
   };
   return (
-    <>
+    <div className={darkMode ? "purple-light" : "purple-dark"}>
     {isValid}
       <Form className="space-y-4 space-x-4">
         <div className="flex flex-wrap -mx-2">
-          <div className="w-full md:w-1/2 px-2 py-2">
+          <div className="w-full md:w-1/2 px-1 py-1">
             <Field name="email">
               {({ field, form }) => (
                 <Input
@@ -56,6 +58,7 @@ function RegistroForm() {
                   label="Email"
                   color="primary"
                   variant="underlined"
+                  className={darkMode ? "text-black" : "text-white"}
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
                   }
@@ -71,7 +74,7 @@ function RegistroForm() {
                 <Input
                   {...field}
                   label="Repite el Email"
-                  color="secondary"
+                  color="primary"
                   variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
@@ -88,7 +91,7 @@ function RegistroForm() {
                   {...field}
                   label="Contaseña"
                   type={passwordVisible ? "text" : "password"}
-                  color="secondary"
+                  color="primary"
                   variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
@@ -119,7 +122,7 @@ function RegistroForm() {
                   {...field}
                   label="Repite la contraseña"
                   type={repasswordVisible ? "text" : "password"}
-                  color="secondary"
+                  color="primary"
                   variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
@@ -149,7 +152,7 @@ function RegistroForm() {
                 <Input
                   {...field}
                   label="Nombre"
-                  color="secondary"
+                  color="primary"
                   variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
@@ -165,7 +168,7 @@ function RegistroForm() {
                 <Input
                   {...field}
                   label="Apellidos"
-                  color="secondary"
+                  color="primary"
                   variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
@@ -175,13 +178,13 @@ function RegistroForm() {
             </Field>
             <ErrorMessage name="apellidos" component="div" className="text-red-500" />
           </div>
-          <div className="w-full md:w-1/2 px-2">
+          <div className="w-full md:w-1/2 px-2 py-2">
             <Field name="telefono">
               {({ field, form }) => (
                 <Input
                   {...field}
                   label="Teléfono"
-                  color="secondary"
+                  color="primary"
                   variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
@@ -197,7 +200,7 @@ function RegistroForm() {
                 <Input
                   {...field}
                   label="Nombre de usuario"
-                  color="secondary"
+                  color="primary"
                   variant="underlined"
                   onChange={(event) =>
                     form.setFieldValue(field.name, event.target.value)
@@ -208,7 +211,7 @@ function RegistroForm() {
             <ErrorMessage name="login" component="div" className="text-red-500" />
             <div id='LoginRegistrado' className="hidden text-red-500">*Login ya registrado</div>
           </div>
-          <div className="w-full md:w-1/2 px-2">
+          <div className="w-full md:w-1/2 px-2 py-2">
             <Field name="fechaNacimiento">
               {({ field, form }) => (
                 
@@ -254,7 +257,7 @@ function RegistroForm() {
                 <label htmlFor="terminosYCondiciones">
                   Acepto los términos y condiciones
                   <Checkbox
-                    color="secondary"
+                    color="primary"
                     onChange={(event) =>
                       form.setFieldValue(field.name, event.target.value)
                     }
@@ -265,13 +268,13 @@ function RegistroForm() {
             <ErrorMessage name="terminosYCondiciones" component="div" />
           </div>
           <div className="w-full md:w-1/2 px-2 py-2">
-            <Button color="secondary" type="submit" disabled={!isValid}>
+            <Button color="primary" type="submit" disabled={!isValid}>
               Registrarse
             </Button>
           </div>
         </div>
       </Form>
-    </>
+    </div>
   );
 }
 export default RegistroForm;

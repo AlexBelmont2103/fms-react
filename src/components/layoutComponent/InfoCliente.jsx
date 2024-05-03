@@ -56,7 +56,15 @@ function InfoCliente() {
         {clienteLogged == null && (
           <>
             <div className="py-2">
-              <Popover placement="left" showArrow={true}>
+              <Popover
+                placement="left"
+                showArrow={true}
+                className={
+                  darkMode
+                    ? "purple-light bg-white text-black container flex "
+                    : "purple-dark bg-gray-800 text-white container flex "
+                }
+              >
                 <PopoverTrigger>
                   <Button color="primary" variant="shadow">
                     Login
