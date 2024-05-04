@@ -17,7 +17,7 @@ import {
 } from "@nextui-org/react";
 import BannerDark from "../../assets/images/FullMetalStoreDark.png";
 import BannerLight from "../../assets/images/FullMetalStoreLight.png";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useLocation } from "react-router-dom";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import CartIcon from "../../uiComponents/CartIcon";
@@ -30,15 +30,21 @@ function BarraNavegacion() {
   const generos = respuestaserver.datosgeneros;
   const [totalItemsCarro, setTotalItemsCarro] = useState(0);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const _location = useLocation();
   useEffect(() => {
     setTotalItemsCarro(
       itemsCarro.reduce((total, item) => total + item.cantidad, 0)
     );
-    if (totalItemsCarro === 0) {
-      setIsInvisible(true);
-    } else {
+    if (
+      totalItemsCarro !== 0 &&
+      _location.pathname === "/Pedido/MostrarPedido"
+    ) {
+      setIsInvisible(false);
+    } else if (totalItemsCarro !== 0) {
       setIsInvisible(false);
       onOpen();
+    } else {
+      setIsInvisible(true);
     }
   }, [itemsCarro, totalItemsCarro]);
   return (
@@ -97,7 +103,7 @@ function BarraNavegacion() {
             </Dropdown>
           </NavbarItem>
           <NavbarItem className="px-5">
-            <button  onClick={onOpen}>
+            <button onClick={onOpen}>
               <Badge
                 color="danger"
                 content={totalItemsCarro}

@@ -24,11 +24,11 @@ function itemsCarroReducer(state, action) {
       return carrito;
     case "RESTAR_CANTIDAD_ALBUM":
       itemEncontrado = carrito.find(
-        (album) => album._id === action.payload._id
+        (item) => item.album._id === action.payload._id
       );
 
-      if (itemEncontrado && itemEncontrado.cantidad > 0) {
-        itemEncontrado.cantidad--;
+      if (itemEncontrado && itemEncontrado.cantidad > 1) {
+        itemEncontrado.cantidad= itemEncontrado.cantidad - 0.5;
       } else {
         carrito = carrito.filter((album) => album._id !== action.payload._id);
       }

@@ -7,8 +7,6 @@ import { useDarkMode } from "../../contextProviders/darkModeContext";
 function Layout() {
   const { clienteLogged } = useClienteLoggedContext();
   const { darkMode } = useDarkMode();
-  //let _listaCategorias = useLoaderData();
-  //console.log("_listaCategorias: ", _listaCategorias);
   let _location = useLocation();
   return (
     <div className={darkMode ? "bg-white" : "bg-gray-800"}>
