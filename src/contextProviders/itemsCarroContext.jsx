@@ -30,7 +30,7 @@ function itemsCarroReducer(state, action) {
       if (itemEncontrado && itemEncontrado.cantidad > 1) {
         itemEncontrado.cantidad= itemEncontrado.cantidad - 0.5;
       } else {
-        carrito = carrito.filter((album) => album._id !== action.payload._id);
+        carrito = carrito.filter((item) => item.album._id !== action.payload._id);
       }
 
       return carrito;

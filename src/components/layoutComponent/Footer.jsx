@@ -1,8 +1,12 @@
+import { useDarkMode } from "../../contextProviders/darkModeContext";
+
+
 function Footer() {
+  const { darkMode } = useDarkMode();
   return (
     <footer id="pieFicha">
-      <div className="container flex mx-auto px-0 h-19 bg-gray">
-        <div className="col-link text-muted">
+      <div className="container mx-auto px-2 bg-gray">
+        <div className={darkMode ? "text-black":"text-white"}>
           <p>
             Este es un trabajo de Alejandro Muñoz García para el segundo curso
             de DAW 2023-2024 en I.E.S Alonso de Avellaneda

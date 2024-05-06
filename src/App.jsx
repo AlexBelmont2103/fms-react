@@ -2,7 +2,7 @@ import {
   RouterProvider,
   createBrowserRouter,
   Navigate,
-  useLocation
+  useLocation,
 } from "react-router-dom";
 import { ClienteLoggedProvider } from "./contextProviders/clienteLoggedContext";
 import { ItemsCarroProvider } from "./contextProviders/itemsCarroContext";
@@ -22,10 +22,14 @@ const routerObjects = createBrowserRouter([
     element: <Layout />,
     loader: tiendaRESTService.RecuperarGeneros,
     children: [
-      {path: "/", element: <Navigate to="/Tienda/Albumes" />},
-      {path: "/Tienda/Albumes", element: <Albumes />},
+      { path: "/", element: <Navigate to="/Tienda/Albumes" /> },
+      { path: "/Tienda/Albumes", element: <Albumes /> },
       { path: "/Cliente/RegistroOk/:email", element: <RegistroOk /> },
-      {path:"/Pedido/MostrarPedido",element:<PedidoForm/>, loader: pedidoRESTService.recuperarProvincias},
+      {
+        path: "/Pedido/MostrarPedido",
+        element: <PedidoForm />,
+        loader: pedidoRESTService.recuperarProvincias,
+      },
     ],
   },
 ]);
@@ -38,9 +42,16 @@ function App() {
 }
 
 function AppContent() {
-  const {darkMode} = useDarkMode();
+  const { darkMode } = useDarkMode();
   return (
-    <div id='contenedor'className={darkMode ? "purple-light": "purple-dark"}>
+    <div
+      id="contenedor"
+      className={
+        darkMode
+          ? "purple-light w-full h-full flex flex-col min-h-screen"
+          : "purple-dark w-full h-full flex flex-col min-h-screen"
+      }
+    >
       <ClienteLoggedProvider>
         <ItemsCarroProvider>
           <RouterProvider router={routerObjects} />

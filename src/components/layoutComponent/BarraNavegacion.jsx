@@ -89,7 +89,7 @@ function BarraNavegacion() {
           <NavbarItem className="px-5">
             <Dropdown>
               <DropdownTrigger>
-                <Button color="primary">Categorías</Button>
+                <Button color="primary" variant="shadow">Categorías</Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Dynamic Actions" items={generos}>
                 {(genero) => (

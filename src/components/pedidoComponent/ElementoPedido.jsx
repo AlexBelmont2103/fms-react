@@ -37,12 +37,12 @@ function ElementoPedido(props) {
           <Image
             alt={album.nombre}
             height={40}
-            radius="sm"
+            radius="md"
             src={album.imagenPortada}
             width={40}
           />
           <div className="flex flex-col">
-            <p className="text-sm">
+            <p className="text-xs">
               {album.nombre} X {cantidad}
             </p>
             <p className="text-small text-red-500">{subtotalAlbum()} €</p>
