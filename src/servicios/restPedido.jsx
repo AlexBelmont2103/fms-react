@@ -15,9 +15,27 @@ let pedidoRESTService = {
       return municipios;
     } catch (error) {
       console.log(error);
-      return [];
+      return {};
     }
   },
+  finalizarPedido: async function (pedido,token) { 
+    try {
+      const respuesta = await fetch('http://localhost:5000/api/Pedido/FinalizarPedido', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(pedido)
+      });
+      const pedidoFinalizado = await respuesta.json();
+      console.log(pedidoFinalizado);
+      return pedidoFinalizado;
+    } catch (error) {
+      console.log(error);
+      return {};
+    }
+  }
 };
 
 export default pedidoRESTService;

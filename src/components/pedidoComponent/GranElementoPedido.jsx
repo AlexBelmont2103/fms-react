@@ -8,30 +8,25 @@ import {
   Button,
 } from "@nextui-org/react";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
-import { useEffect } from "react";
 function GranElementoPedido(props) {
   const { album, cantidad } = props.item;
-  console.log(props.item);
   const { dispatch } = useItemsCarroContext();
   function subtotalAlbum() {
     return (album.precio * cantidad).toFixed(2);
   }
   function sumarElementoPedido() {
-    console.log("Sumando elemento pedido:" + album.nombre);
     dispatch({
       type: "ADD_NUEVO_ALBUM",
       payload: { album: album },
     });
   }
   function restarElementoPedido() {
-    console.log("Restando elemento pedido:" + album.nombre);
     dispatch({
       type: "RESTAR_CANTIDAD_ALBUM",
       payload: { _id: album._id },
     });
   }
   function eliminarElementoPedido() {
-    console.log("Eliminando elemento pedido:" + album.nombre);
     dispatch({
       type: "ELIMINAR_ALBUM",
       payload: { _id: album._id },

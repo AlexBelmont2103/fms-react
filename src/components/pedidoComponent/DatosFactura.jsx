@@ -10,12 +10,11 @@ import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedCon
 import { useFormikContext, Field, ErrorMessage } from "formik";
 import pedidoRESTService from "../../servicios/restPedido";
 import { useLoaderData } from "react-router-dom";
-function DatosFactura({ values }) {
+function DatosFactura({ pedido, setPedido, onChange }) {
   //#region Variables de estado
   const { clienteLogged } = useClienteLoggedContext();
   const provincias = useLoaderData();
   const [municipios, setMunicipios] = useState({});
-
   const [mismosDatos, setMismosDatos] = useState(true);
   const direccionPrincipal = clienteLogged.datoscliente.direcciones.find(
     (dir) => dir.esPrincipal
@@ -28,22 +27,56 @@ function DatosFactura({ values }) {
   //#region Funciones
   function cambiarDatosFactura(ev) {
     setMismosDatos(!mismosDatos);
+    if (mismosDatos) {
+      //Tengo que poner los mismos datos que en el envio
+      setPedido({
+        ...pedido,
+        direccionFactura: pedido.direccionEnvio,
+        nombreFactura: pedido.nombreEnvio,
+        apellidosFactura: pedido.apellidosEnvio,
+      });
+    } else {
+      //Tengo que poner otros datos
+      setPedido({
+        ...pedido,
+        direccionFactura: {
+          calle: "",
+          cp: "",
+          pais: "",
+          provincia: {
+            CCOM: "",
+            CPRO: "",
+            PRO: "",
+          },
+          municipio: {
+            CMUM: "",
+            CPRO: "",
+            CUN: "",
+            DMUN50: "",
+          },
+        },
+        nombreFactura: "",
+        apellidosFactura: "",
+      });
+    }
   }
   //#endregion
 
   //#region Efectos
   useEffect(() => {
-    if (values.provinciaFactura) {
-      pedidoRESTService.recuperarMunicipios(values.provinciaFactura.CPRO).then(
-        (data) => {
-          setMunicipios(data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    if (pedido.direccionFactura.provinciaFactura) {
+      pedidoRESTService
+        .recuperarMunicipios(pedido.direccionFactura.provinciaFactura.CPRO)
+        .then(
+          (data) => {
+            setMunicipios(data);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
     }
-  }, [values.provinciaFactura]);
+  }, [pedido.direccionFactura.provinciaFactura]);
   //#endregion
   return (
     <>
@@ -66,198 +99,162 @@ function DatosFactura({ values }) {
         <div className="p-2">
           <div className="flex flex-row">
             <div className="w-full py-2 px-2">
-              <Field name="nombreFactura">
-                {({ field, form }) => (
-                  <div className="py-2">
-                    <Input
-                      {...field}
-                      variant="underlined"
-                      color="primary"
-                      label="Nombre"
-                      placeholder="Nombre"
-                      width="100%"
-                      onChange={(event) =>
-                        form.setFieldValue(field.name, event.target.value)
-                      }
-                    />
-                  </div>
-                )}
-              </Field>
-              <ErrorMessage
-                name="nombreFactura"
-                component="div"
-                className="text-red-500 px-3"
-              />
+              <div className="py-2">
+                <Input
+                  name="nombreFactura"
+                  variant="underlined"
+                  color="primary"
+                  label="Nombre"
+                  placeholder="Nombre"
+                  width="100%"
+                  onChange={onChange}
+                />
+              </div>
             </div>
             <div className="w-full py-2 px-2">
-              <Field name="apellidosFactura">
-                {({ field, form }) => (
-                  <div className="py-2">
-                    <Input
-                      {...field}
-                      variant="underlined"
-                      color="primary"
-                      label="Apellidos"
-                      placeholder="Apellidos"
-                      width="100%"
-                      onChange={(event) =>
-                        form.setFieldValue(field.name, event.target.value)
-                      }
-                    />
-                  </div>
-                )}
-              </Field>
-              <ErrorMessage
-                name="apellidosFactura"
-                component="div"
-                className="text-red-500 px-3"
-              />
+              <div className="py-2">
+                <Input
+                  name="apellidosFactura"
+                  variant="underlined"
+                  color="primary"
+                  label="Apellidos"
+                  placeholder="Apellidos"
+                  width="100%"
+                  onChange={onChange}
+                />
+              </div>
             </div>
           </div>
           <div className="flex flex-row">
             <div className="w-full py-2 px-2">
-              <Field name="calleFactura">
-                {({ field, form }) => (
-                  <div className="py-2">
-                    <Input
-                      {...field}
-                      variant="underlined"
-                      color="primary"
-                      label="Calle"
-                      placeholder="C// Falsa 123"
-                      width="100%"
-                      onChange={(event) =>
-                        form.setFieldValue(field.name, event.target.value)
-                      }
-                    />
-                  </div>
-                )}
-              </Field>
-              <ErrorMessage
-                name="calleFactura"
-                component="div"
-                className="text-red-500 px-3"
-              />
+              <div className="py-2">
+                <Input
+                  name="calleFactura"
+                  variant="underlined"
+                  color="primary"
+                  label="Calle"
+                  placeholder="C// Falsa 123"
+                  width="100%"
+                  value={pedido.direccionFactura.calle}
+                  onChange={(event) => {
+                    setPedido((prevPedido) => ({
+                      ...prevPedido,
+                      direccionFactura: {
+                        ...prevPedido.direccionFactura,
+                        calle: event.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </div>
             </div>
           </div>
           <div className="flex flex-row">
             <div className="w-full py-2 px-2">
-              <Field name="cpFactura">
-                {({ field, form }) => (
-                  <div className="py-2">
-                    <Input
-                      {...field}
-                      variant="underlined"
-                      color="primary"
-                      label="Código Postal"
-                      placeholder="12345"
-                      width="100%"
-                      onChange={(event) =>
-                        form.setFieldValue(field.name, event.target.value)
-                      }
-                    />
-                  </div>
-                )}
-              </Field>
-              <ErrorMessage
-                name="cpFactura"
-                component="div"
-                className="text-red-500 px-3"
-              />
+              <div className="py-2">
+                <Input
+                  name="cpFactura"
+                  variant="underlined"
+                  color="primary"
+                  label="Código Postal"
+                  placeholder="12345"
+                  width="100%"
+                  value={pedido.direccionFactura.cp}
+                  onChange={(event) => {
+                    setPedido((prevPedido) => ({
+                      ...prevPedido,
+                      direccionFactura: {
+                        ...prevPedido.direccionFactura,
+                        cp: event.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </div>
             </div>
             <div className="w-full py-2 px-2">
-              <Field name="paisFactura">
-                {({ field, form }) => (
-                  <div className="py-2">
-                    <Input
-                      {...field}
-                      variant="underlined"
-                      color="primary"
-                      label="País"
-                      placeholder="España"
-                      width="100%"
-                      onChange={(event) =>
-                        form.setFieldValue(field.name, event.target.value)
-                      }
-                    />
-                  </div>
-                )}
-              </Field>
-              <ErrorMessage
-                name="paisFactura"
-                component="div"
-                className="text-red-500 px-3"
-              />
+              <div className="py-2">
+                <Input
+                  name="paisFactura"
+                  variant="underlined"
+                  color="primary"
+                  label="País"
+                  placeholder="España"
+                  width="100%"
+                  value={pedido.direccionFactura.pais}
+                  onChange={(event) => {
+                    setPedido((prevPedido) => ({
+                      ...prevPedido,
+                      direccionFactura: {
+                        ...prevPedido.direccionFactura,
+                        pais: event.target.value,
+                      },
+                    }));
+                  }}
+                />
+              </div>
             </div>
           </div>
           <div className="flex flex-row">
             <div className="w-full py-2 px-2">
-              <Field name="provinciaFactura">
-                {({ field, form }) => (
-                  <div className="py-2">
-                    <Select
-                      {...field}
-                      color="primary"
-                      label="Provincia"
-                      placeholder="Seleccione una provincia"
-                      size="lg"
-                      onChange={(event) => {
-                        console.log("Buscando provincia:", event.target.value);
-                        const selectedProv = provincias.provincias.find(
-                          (prov) => prov.CPRO === event.target.value
-                        );
-                        form.setFieldValue(field.name, selectedProv.CPRO); // Aquí está el cambio
-                      }}
-                    >
-                      {provincias.provincias.map((prov) => (
-                        <SelectItem key={prov.CPRO} value={prov.CPRO}>
-                          {prov.PRO}
-                        </SelectItem>
-                      ))}
-                    </Select>
-                  </div>
-                )}
-              </Field>
-              <ErrorMessage
-                name="provincia"
-                component="div"
-                className="text-red-500 px-3"
-              />
+              <div className="py-2">
+                <Select
+                  name="provinciaFactura"
+                  color="primary"
+                  label="Provincia"
+                  placeholder="Seleccione una provincia"
+                  size="lg"
+                  onChange={(event) => {
+                    const selectedProv = provincias.provincias.find(
+                      (prov) => prov.CPRO === event.target.value
+                    );
+                    setPedido((prevPedido) => ({
+                      ...prevPedido,
+                      direccionFactura: {
+                        ...prevPedido.direccionFactura,
+                        provinciaFactura: selectedProv,
+                      },
+                    }));
+                  }}
+                >
+                  {provincias.provincias.map((prov) => (
+                    <SelectItem key={prov.CPRO} value={prov.CPRO}>
+                      {prov.PRO}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
             </div>
             <div className="w-full py-2 px-2">
-              <Field name="municipioFactura">
-                {({ field, form }) => (
-                  <div className="py-2">
-                    <Select
-                      {...field}
-                      color="primary"
-                      label="Municipio"
-                      placeholder="Seleccione un municipio"
-                      size="lg"
-                      onChange={(event) => {
-                        console.log("Buscando Municipio:", event.target.value);
-                        const selectedMuni = municipios.municipios.find(
-                          (muni) => muni.CMUM === event.target.value
-                        );
-                        form.setFieldValue(field.name, selectedMuni);
-                      }}
-                    >
-                      {/*Si municipios no es undefined o null */}
-                      {municipios.municipios &&
-                        municipios.municipios.map((mun) => (
-                          <SelectItem key={mun.CMUM} value={mun.CMUM}>
-                            {mun.DMUN50}
-                          </SelectItem>
-                        ))}
-                    </Select>
-                  </div>
-                )}
-              </Field>
-              <ErrorMessage
-                name="municipio"
-                component="div"
-                className="text-red-500 px-3"
-              />
+              <div className="py-2">
+                <Select
+                  name="municipioFactura"
+                  color="primary"
+                  label="Municipio"
+                  placeholder="Seleccione un municipio"
+                  size="lg"
+                  onChange={(event) => {
+                    const selectedMuni = municipios.municipios.find(
+                      (muni) => muni.CMUM === event.target.value
+                    );
+                    setPedido((prevPedido) => ({
+                      ...prevPedido,
+                      direccionFactura: {
+                        ...prevPedido.direccionFactura,
+                        municipioFactura: selectedMuni,
+                      },
+                    }));
+                  }}
+                >
+                  {/*Si municipios no es undefined o null */}
+                  {municipios.municipios &&
+                    municipios.municipios.map((mun) => (
+                      <SelectItem key={mun.CMUM} value={mun.CMUM}>
+                        {mun.DMUN50}
+                      </SelectItem>
+                    ))}
+                </Select>
+              </div>
             </div>
           </div>
         </div>

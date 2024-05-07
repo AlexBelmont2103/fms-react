@@ -5,22 +5,17 @@ const itemsCarroContext = createContext();
 function itemsCarroReducer(state, action) {
   let carrito = [...state];
   let itemEncontrado;
-  console.log(action);
-  console.log(state);
   switch (action.type) {
     case "ADD_NUEVO_ALBUM":
       itemEncontrado = carrito.find(
         (item) => item.album._id === action.payload.album._id
       );
-      console.log("Item encontrado", itemEncontrado);
       if (itemEncontrado) {
         let nuevaCantidad = itemEncontrado.cantidad;
-        console.log(nuevaCantidad);
         itemEncontrado.cantidad = nuevaCantidad + 0.5;
       } else {
         carrito.push({ album: action.payload.album, cantidad: 1 });
       }
-      console.log("Carrito", carrito);
       return carrito;
     case "RESTAR_CANTIDAD_ALBUM":
       itemEncontrado = carrito.find(
@@ -28,15 +23,16 @@ function itemsCarroReducer(state, action) {
       );
 
       if (itemEncontrado && itemEncontrado.cantidad > 1) {
-        itemEncontrado.cantidad= itemEncontrado.cantidad - 0.5;
+        itemEncontrado.cantidad = itemEncontrado.cantidad - 0.5;
       } else {
-        carrito = carrito.filter((item) => item.album._id !== action.payload._id);
+        carrito = carrito.filter(
+          (item) => item.album._id !== action.payload._id
+        );
       }
 
       return carrito;
     case "ELIMINAR_ALBUM":
       carrito = carrito.filter((item) => item.album._id !== action.payload._id);
-      console.log("Carrito", carrito);
       return carrito;
     case "VACIAR_CARRITO":
       return [];
