@@ -16,6 +16,7 @@ import {
 import tiendaRESTService from "./servicios/restTienda";
 import pedidoRESTService from "./servicios/restPedido";
 import PedidoForm from "./components/pedidoComponent/PedidoForm";
+import PedidoFinalizado from "./components/pedidoComponent/PedidoFinalizado";
 
 const routerObjects = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const routerObjects = createBrowserRouter([
         element: <PedidoForm />,
         loader: pedidoRESTService.recuperarProvincias,
       },
+      {path:"/Pedido/PedidoFinalizado",element:<PedidoFinalizado/>}
     ],
   },
 ]);

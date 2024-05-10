@@ -17,7 +17,6 @@ let clienteRESTService = {
         }
     },
     comprobarEmail: async function (email) {
-        console.log('email recibido en el cliente...',email)
         try {
             let response = await fetch('http://localhost:5000/api/Cliente/ComprobarEmail', {
                 method: 'POST',
@@ -32,7 +31,6 @@ let clienteRESTService = {
         }
     },
     comprobarLogin: async function (login) {
-        console.log('login recibido en el cliente...',login)
         try {
             let response = await fetch('http://localhost:5000/api/Cliente/ComprobarLogin', {
                 method: 'POST',
@@ -47,7 +45,6 @@ let clienteRESTService = {
         }
     },
     login: async function (credenciales) {
-        console.log('credenciales recibidos en el cliente...',credenciales)
         try {
             let response = await fetch('http://localhost:5000/api/Cliente/Login', {
                 method: 'POST',
@@ -61,6 +58,14 @@ let clienteRESTService = {
             console.log('Error al intentar loguear cliente...',error);
         }
     },
+    recuperarCliente(id){
+        try {
+            let response = fetch('http://localhost:5000/api/Cliente/RecuperarCliente/'+id);
+            return response;
+        }catch(error){
+            console.log('Error al intentar recuperar cliente...',error);
+        }
+    }
 };
 
 export default clienteRESTService;

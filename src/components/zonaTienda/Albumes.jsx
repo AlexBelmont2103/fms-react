@@ -26,7 +26,7 @@ function Albumes() {
     busquedaValor = busqueda.get("genero");
   }
   const [albumes, setAlbumes] = useState([]);
-  const { dispatch } = useItemsCarroContext();
+  const { itemsCarro, dispatch } = useItemsCarroContext();
 
   useEffect(() => {
     tiendaRESTService
@@ -36,10 +36,20 @@ function Albumes() {
       });
   }, [operacion, busquedaValor]);
   function añadirAlbumCarro(album) {
-    dispatch({
-      type: "ADD_NUEVO_ALBUM",
-      payload: { album },
-    });
+    // Buscar el álbum en el carrito
+    const itemCarro = itemsCarro.find((item) => item.album.id === album.id);
+    const cantidadEnCarro = itemCarro ? itemCarro.cantidad : 0;
+
+    if (album.stock > cantidadEnCarro) {
+      // Si hay stock disponible, añadir el álbum al carrito
+      dispatch({
+        type: "ADD_NUEVO_ALBUM",
+        payload: { album },
+      });
+    } else {
+      // Si no hay stock disponible, mostrar una alerta
+      alert("No puedes añadir este álbum al carrito. No hay stock disponible.");
+    }
   }
   return (
     <div className={darkMode ? "purple-light" : "purple-dark"}>

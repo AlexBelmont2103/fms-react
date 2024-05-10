@@ -16,6 +16,7 @@ function DatosPago({ pedido, setPedido, onChange }) {
     if(ev.target.value === "pagoPaypal"){
       setPedido({
         ...pedido,
+        tipoPago: ev.target.value,
         numerocard: "4242424242424242",
         mescard: "01",
         aniocard: "99",

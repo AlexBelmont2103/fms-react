@@ -15,10 +15,14 @@ function GranElementoPedido(props) {
     return (album.precio * cantidad).toFixed(2);
   }
   function sumarElementoPedido() {
-    dispatch({
-      type: "ADD_NUEVO_ALBUM",
-      payload: { album: album },
-    });
+    if (cantidad < album.stock) {
+      dispatch({
+        type: "ADD_NUEVO_ALBUM",
+        payload: { album: album },
+      });
+    } else {
+      alert("No puedes añadir más álbumes. No hay suficiente stock.");
+    }
   }
   function restarElementoPedido() {
     dispatch({
@@ -57,6 +61,7 @@ function GranElementoPedido(props) {
               color="primary"
               size="lg"
               variant="shadow"
+              disabled={cantidad === album.stock}
               onClick={sumarElementoPedido}
             >
               +

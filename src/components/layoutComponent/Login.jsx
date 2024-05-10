@@ -26,7 +26,7 @@ function Login() {
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={validationSchema}
-          onSubmit={async (values, { setSubmitting }) => {
+          onSubmit={async (values,) => {
             let _resp = await clienteRESTService.login(values);
             if (_resp.codigo === 0) {
               let payload = {
@@ -34,6 +34,10 @@ function Login() {
                 tokensesion: _resp.tokensesion,
               };
               dispatch({ type: "CLIENTE_LOGIN", payload: payload });
+              //Guardamos el id en el session storage
+              //Habría que codificarlo para mayor seguridad
+              let idCodificado = btoa(_resp.datoscliente._id);
+              sessionStorage.setItem("idCliente", idCodificado);
             } else {
               document.getElementById("errorLogin").classList.remove("hidden");
             }

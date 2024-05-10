@@ -79,7 +79,9 @@ function PedidoForm() {
     cvv: Yup.string()
       .length(3, "Debe tener 3 dígitos")
       .required("Campo requerido: CVV"),
-    nombrebancocard: Yup.string().required("Campo requerido: Nombre de tarjeta"),
+    nombrebancocard: Yup.string().required(
+      "Campo requerido: Nombre de tarjeta"
+    ),
     subTotal: Yup.number().required("Campo requerido: Subtotal"),
     gastosEnvio: Yup.number().required("Campo requerido: Gastos de envío"),
     total: Yup.number().required("Campo requerido: Total"),
@@ -148,8 +150,11 @@ function PedidoForm() {
       // proceder con la finalización del pedido...
       console.log("Pedido validado");
       const token = clienteLogged.tokensesion;
-      console.log(token);
       const _respuesta = await pedidoRESTService.finalizarPedido(pedido, token);
+      console.log(_respuesta.return_url);
+      // Aquí puedes manejar los datos
+      dispatch({ type: "VACIAR_CARRITO" });
+      navigate(_respuesta.return_url);
     } catch (error) {
       console.log(error);
       // manejar el error...

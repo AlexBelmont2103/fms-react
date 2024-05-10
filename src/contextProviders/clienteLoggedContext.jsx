@@ -3,7 +3,6 @@ import { createContext, useContext, useReducer } from "react";
 const clienteLoggedContext = createContext();
 
 function clienteLoggedReducer(state, action) {
-  console.log("payload recibido en reducer: ", action.payload);
   switch (action.type) {
     case "CLIENTE_LOGIN":
     case "CLIENTE_UPDATE":

@@ -9,10 +9,14 @@ function ElementoPedido(props) {
     return (album.precio * cantidad).toFixed(2);
   }
   function sumarElementoPedido() {
-    dispatch({
-      type: "ADD_NUEVO_ALBUM",
-      payload: { album: album },
-    });
+    if (cantidad < album.stock) {
+      dispatch({
+        type: "ADD_NUEVO_ALBUM",
+        payload: { album: album },
+      });
+    } else {
+      alert("No puedes añadir más álbumes. No hay suficiente stock.");
+    }
   }
   function restarElementoPedido() {
     dispatch({
@@ -26,7 +30,7 @@ function ElementoPedido(props) {
       payload: { _id: album._id },
     });
   }
-  
+
   return (
     <div className="px-5 py-2">
       <Card className="max-w-[400px]">
@@ -51,6 +55,7 @@ function ElementoPedido(props) {
                 color="primary"
                 size="sm"
                 variant="shadow"
+                disabled={cantidad === album.stock}
                 onClick={sumarElementoPedido}
               >
                 +

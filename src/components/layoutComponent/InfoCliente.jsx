@@ -9,6 +9,7 @@ import {
   useDisclosure,
   Modal,
   ModalContent,
+  Chip,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
@@ -34,23 +35,37 @@ function InfoCliente() {
         }
       >
         {clienteLogged != null && (
-          <div className="py-2 px-2">
-            <User
-              className="text-white"
-              name={
-                clienteLogged.datoscliente.nombre +
-                " " +
-                clienteLogged.datoscliente.apellidos
-              }
-              description={
-                <Link href="/Cliente/Panel" size="sm">
-                  {clienteLogged.datoscliente.cuenta.email}
-                </Link>
-              }
-              avatarProps={{
-                src: `${clienteLogged.datoscliente.cuenta.imagenAvatar}`,
-              }}
-            />
+          <div className="flex">
+            <div className="py-2 px-2">
+              <User
+                className="text-white"
+                name={
+                  clienteLogged.datoscliente.nombre +
+                  " " +
+                  clienteLogged.datoscliente.apellidos
+                }
+                description={
+                  <Link href="/Cliente/Panel" size="sm">
+                    {clienteLogged.datoscliente.cuenta.email}
+                  </Link>
+                }
+                avatarProps={{
+                  src: `${clienteLogged.datoscliente.cuenta.imagenAvatar}`,
+                }}
+              />
+            </div>
+            <div className="py-4">
+              <Chip
+                as={Button}
+                color="danger"
+                onPress={() =>{
+                  dispatch({ type: "CLIENTE_LOGOUT" });
+                  sessionStorage.removeItem("idCliente");
+                }}
+              >
+                Logout
+              </Chip>
+            </div>
           </div>
         )}
         {clienteLogged == null && (
