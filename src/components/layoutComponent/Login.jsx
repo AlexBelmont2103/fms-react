@@ -37,7 +37,7 @@ function Login() {
               //Guardamos el id en el session storage
               //Habría que codificarlo para mayor seguridad
               let idCodificado = btoa(_resp.datoscliente._id);
-              sessionStorage.setItem("idCliente", idCodificado);
+              localStorage.setItem("idCliente", idCodificado);
             } else {
               document.getElementById("errorLogin").classList.remove("hidden");
             }

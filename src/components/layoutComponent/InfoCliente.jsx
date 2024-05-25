@@ -60,7 +60,7 @@ function InfoCliente() {
                 color="danger"
                 onPress={() =>{
                   dispatch({ type: "CLIENTE_LOGOUT" });
-                  sessionStorage.removeItem("idCliente");
+                  localStorage.removeItem("idCliente");
                 }}
               >
                 Logout

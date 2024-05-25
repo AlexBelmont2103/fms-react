@@ -6,6 +6,7 @@ function PedidoFinalizado() {
   //#region Variables de estado
   const [pedido, setPedido] = useState({});
   const location = useLocation();
+  console.log("Location", location);
   //#endregion
 
   //#region Efectos

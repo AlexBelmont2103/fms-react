@@ -57,7 +57,7 @@ function Layout() {
           console.log(`Error: ${response.status}`);
         }
       };
-      let idCodificado = sessionStorage.getItem("idCliente");
+      let idCodificado = localStorage.getItem("idCliente");
       if (idCodificado) {
         let id = atob(idCodificado);
         recuperarCliente(id);

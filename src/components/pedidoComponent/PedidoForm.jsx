@@ -147,14 +147,20 @@ function PedidoForm() {
     console.log(pedido);
     try {
       await validationSchema.validate(pedido);
-      // proceder con la finalización del pedido...
-      console.log("Pedido validado");
       const token = clienteLogged.tokensesion;
-      const _respuesta = await pedidoRESTService.finalizarPedido(pedido, token);
-      console.log(_respuesta.return_url);
-      // Aquí puedes manejar los datos
-      dispatch({ type: "VACIAR_CARRITO" });
-      navigate(_respuesta.return_url);
+      if(pedido.tipoPago === "pagoPaypal"){
+        const _respuesta = await pedidoRESTService.finalizarPedido(pedido, token);
+        console.log(_respuesta.approval_url);
+        dispatch({ type: "VACIAR_CARRITO" });
+        window.open(_respuesta.approval_url, "_blank");
+      }else{
+        const _respuesta = await pedidoRESTService.finalizarPedido(pedido, token);
+        console.log(_respuesta.return_url);
+        // Aquí puedes manejar los datos
+        dispatch({ type: "VACIAR_CARRITO" });
+        navigate(_respuesta.return_url);
+      }
+
     } catch (error) {
       console.log(error);
       // manejar el error...
