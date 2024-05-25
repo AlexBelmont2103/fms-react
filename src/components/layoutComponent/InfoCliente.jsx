@@ -15,17 +15,22 @@ import { Link } from "react-router-dom";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 import ModalRegistro from "./ModalRegistro";
+import Juego from "./Juego";
 
 function InfoCliente() {
   const { darkMode } = useDarkMode();
   const { clienteLogged, dispatch } = useClienteLoggedContext();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   return (
     <div className="container bg-black flex mx-auto px-0 h-19 ">
       <div className="container flex gap-4 px-7 justify-start">
         <div className="py-4 px-5">
           <BotonDarkMode />
         </div>
+      </div>
+      <div className="container flex gap-4 px-7 py-3 justify-center">
+        <Juego/>
       </div>
       <div
         className={
@@ -58,7 +63,7 @@ function InfoCliente() {
               <Chip
                 as={Button}
                 color="danger"
-                onPress={() =>{
+                onPress={() => {
                   dispatch({ type: "CLIENTE_LOGOUT" });
                   localStorage.removeItem("idCliente");
                 }}
