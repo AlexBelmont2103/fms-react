@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 import pedidoRESTService from "../../servicios/restPedido";
 
 function PedidoFinalizado() {
@@ -7,6 +8,7 @@ function PedidoFinalizado() {
   const [pedido, setPedido] = useState({});
   const location = useLocation();
   console.log("Location", location);
+  const { clienteLogged, dispatch } = useClienteLoggedContext();
   //#endregion
 
   //#region Efectos
@@ -23,6 +25,11 @@ function PedidoFinalizado() {
         console.log("Pedido recuperado", respuesta);
         setPedido(respuesta.pedido);
         console.log("Pedido", pedido);
+        dispatch({
+          type: "CLIENTE_UPDATE",
+          payload: { datoscliente: respuesta.datoscliente, tokensesion: respuesta.tokensesion },
+        });
+        console.log("Cliente actualizado", clienteLogged);
       } catch (error) {
         console.log("Error al intentar recuperar el pedido", error);
       }

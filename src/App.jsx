@@ -15,8 +15,10 @@ import {
 } from "./contextProviders/darkModeContext";
 import tiendaRESTService from "./servicios/restTienda";
 import pedidoRESTService from "./servicios/restPedido";
+import adminRESTService from "./servicios/restAdmin";
 import PedidoForm from "./components/pedidoComponent/PedidoForm";
 import PedidoFinalizado from "./components/pedidoComponent/PedidoFinalizado";
+import PanelAdmin from "./components/panelAdminComponent/PanelAdmin";
 
 const routerObjects = createBrowserRouter([
   {
@@ -34,7 +36,9 @@ const routerObjects = createBrowserRouter([
       {path:"/Pedido/PedidoFinalizado",element:<PedidoFinalizado/>}
     ],
   },
-]);
+  {element:<PanelAdmin/>,loader:adminRESTService.recuperarColecciones,path:"/Admin/PanelAdmin"}
+]
+);
 function App() {
   return (
     <DarkModeProvider>

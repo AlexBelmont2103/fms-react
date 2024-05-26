@@ -18,6 +18,7 @@ function PedidoForm() {
   const [subTotalPedido, setSubTotalPedido] = useState(0);
   const [gastosEnvio, setGastosEnvio] = useState(0);
   const [totalPedido, setTotalPedido] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
     nombreEnvio: Yup.string().required("Campo requerido: Nombre"),
@@ -143,24 +144,31 @@ function PedidoForm() {
     });
   }
   const finalizarPedido = async (ev) => {
+    setIsDisabled(true);
     ev.preventDefault();
     console.log(pedido);
     try {
       await validationSchema.validate(pedido);
       const token = clienteLogged.tokensesion;
-      if(pedido.tipoPago === "pagoPaypal"){
-        const _respuesta = await pedidoRESTService.finalizarPedido(pedido, token);
+      if (pedido.tipoPago === "pagoPaypal") {
+        const _respuesta = await pedidoRESTService.finalizarPedido(
+          pedido,
+          token
+        );
         console.log(_respuesta.approval_url);
         dispatch({ type: "VACIAR_CARRITO" });
         window.open(_respuesta.approval_url, "_blank");
-      }else{
-        const _respuesta = await pedidoRESTService.finalizarPedido(pedido, token);
-        console.log(_respuesta.return_url);
-        // Aquí puedes manejar los datos
-        dispatch({ type: "VACIAR_CARRITO" });
-        navigate(_respuesta.return_url);
+      } else {
+        const _respuesta = await pedidoRESTService.finalizarPedido(
+          pedido,
+          token
+        );
+        console.log(_respuesta);
+        if (_respuesta.status === "succeeded") {
+          dispatch({ type: "VACIAR_CARRITO" });
+          navigate(_respuesta.return_url);
+        }
       }
-
     } catch (error) {
       console.log(error);
       // manejar el error...
@@ -200,6 +208,9 @@ function PedidoForm() {
   };
   //#endregion
   //#region Efectos
+  useEffect(() => {
+    setIsDisabled(false);
+  }, []);
   useEffect(() => {
     const calcularValores = async () => {
       const subTotal = Number(await calcularSubTotal());
@@ -275,7 +286,7 @@ function PedidoForm() {
                       onChange={handleChange}
                     />
                     <div className="p-2">
-                      <Button color="primary" variant="shadow" type="submit">
+                      <Button color="primary" variant="shadow" type="submit" disabled={isDisabled}>
                         Finalizar Pedido
                       </Button>
                     </div>

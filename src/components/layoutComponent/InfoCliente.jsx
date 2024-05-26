@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import BotonDarkMode from "./BotonDarkMode";
 import Login from "./Login";
 import {
@@ -18,10 +19,30 @@ import ModalRegistro from "./ModalRegistro";
 import Juego from "./Juego";
 
 function InfoCliente() {
+  //#region variables de estado
   const { darkMode } = useDarkMode();
   const { clienteLogged, dispatch } = useClienteLoggedContext();
+  const [isAdmin, setIsAdmin] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  //#endregion
+  //#region funciones
 
+  //#endregion
+
+  //#region efectos
+  useEffect(() => {
+    if (clienteLogged != null) {
+      if (
+        clienteLogged.datoscliente.cuenta.email === "admin@fullmetalstore.es"
+      ) {
+        setIsAdmin(true);
+      }else{
+        setIsAdmin(false);
+      
+      }
+    }
+  }, [clienteLogged]);
+  //#endregion
   return (
     <div className="container bg-black flex mx-auto px-0 h-19 ">
       <div className="container flex gap-4 px-7 justify-start">
@@ -30,7 +51,7 @@ function InfoCliente() {
         </div>
       </div>
       <div className="container flex gap-4 px-7 py-3 justify-center">
-        <Juego/>
+        <Juego />
       </div>
       <div
         className={
@@ -59,7 +80,7 @@ function InfoCliente() {
                 }}
               />
             </div>
-            <div className="py-4">
+            <div className="py-4 px-2">
               <Chip
                 as={Button}
                 color="danger"
@@ -71,6 +92,18 @@ function InfoCliente() {
                 Logout
               </Chip>
             </div>
+            {isAdmin && (
+              <div className={darkMode ? "purple-light py-4" : "purple-dark py-4"}>
+                <Chip
+                  as={Link}
+                  color="success"
+                  to="/Admin/PanelAdmin"
+                  variant="shadow"
+                >
+                  Admin
+                </Chip>
+              </div>
+            )}
           </div>
         )}
         {clienteLogged == null && (
