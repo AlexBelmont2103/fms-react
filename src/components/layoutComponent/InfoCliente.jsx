@@ -11,6 +11,7 @@ import {
   Modal,
   ModalContent,
   Chip,
+  image,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
@@ -22,6 +23,7 @@ function InfoCliente() {
   //#region variables de estado
   const { darkMode } = useDarkMode();
   const { clienteLogged, dispatch } = useClienteLoggedContext();
+  const [imagenAvatar, setImagenAvatar] = useState(null); //clienteLogged.datoscliente.cuenta.imagenAvatar
   const [isAdmin, setIsAdmin] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   //#endregion
@@ -36,12 +38,28 @@ function InfoCliente() {
         clienteLogged.datoscliente.cuenta.email === "admin@fullmetalstore.es"
       ) {
         setIsAdmin(true);
-      }else{
+      } else {
         setIsAdmin(false);
-      
       }
     }
   }, [clienteLogged]);
+  //Efecto para actualizar la imagen de avatar
+  useEffect(() => {
+    console.log("Cambió el clienteLogged");
+    if (clienteLogged != null) {
+      const urlImagen = clienteLogged.datoscliente.cuenta.imagenAvatar;
+      localStorage.removeItem("imagenAvatar");
+      localStorage.setItem("imagenAvatar", urlImagen);
+      setImagenAvatar(urlImagen);
+    }
+  }, [clienteLogged]);
+
+  useEffect(() => {
+    const urlImagen = localStorage.getItem("imagenAvatar");
+    if (urlImagen) {
+      setImagenAvatar(urlImagen);
+    }
+  }, []);
   //#endregion
   return (
     <div className="container bg-black flex mx-auto px-0 h-19 ">
@@ -76,7 +94,7 @@ function InfoCliente() {
                   </Link>
                 }
                 avatarProps={{
-                  src: `${clienteLogged.datoscliente.cuenta.imagenAvatar}`,
+                  src: imagenAvatar,
                 }}
               />
             </div>
@@ -93,7 +111,9 @@ function InfoCliente() {
               </Chip>
             </div>
             {isAdmin && (
-              <div className={darkMode ? "purple-light py-4" : "purple-dark py-4"}>
+              <div
+                className={darkMode ? "purple-light py-4" : "purple-dark py-4"}
+              >
                 <Chip
                   as={Link}
                   color="success"

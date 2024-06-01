@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-function PedidosCliente() {
+function PedidosCliente({ pedidos }) {
   //#region variables de estado
-  const [pedidos, setPedidos] = useState([]);
+  
   //#endregion
 
   //#region funciones

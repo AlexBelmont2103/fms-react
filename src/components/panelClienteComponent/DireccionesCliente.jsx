@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-function DireccionesCliente() {
+function DireccionesCliente({direcciones}) {
   //#region variables de estado
-  const [direcciones, setDirecciones] = useState([]);
+
   //#endregion
 
   //#region funciones

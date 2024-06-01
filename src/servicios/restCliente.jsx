@@ -1,3 +1,4 @@
+
 let clienteRESTService = {
     registro: async function (datosCliente) {
         const formData = new FormData();
@@ -65,7 +66,39 @@ let clienteRESTService = {
         }catch(error){
             console.log('Error al intentar recuperar cliente...',error);
         }
+    },
+    cambiarImagenAvatar: async function (formData, tokensesion){
+        console.log('Valor del formData...',formData);
+        try{
+            let response = await fetch('http://localhost:5000/api/Cliente/ActualizarAvatar/',{
+                method: 'POST',
+                body: formData,
+                headers: {
+                    "authorization": "Bearer "+tokensesion
+                },
+            });
+            return await response.json();
+        }catch(error){
+            console.log('Error al intentar cambiar imagen avatar...',error);
+        }
+    },
+    actualizarDatosCliente: async function (values, tokensesion){
+        try {
+            console.log('Valor de datosCliente...',values);
+            let response = await fetch('http://localhost:5000/api/Cliente/ActualizarDatosCliente', {
+                method: 'POST',
+                body: JSON.stringify(values),
+                headers: {
+                    'Content-Type': 'application/json',
+                    "authorization": "Bearer "+tokensesion
+                },
+            });
+            return await response.json();
+        }catch(error){
+            console.log('Error al intentar actualizar datos cliente...',error);
+        }
     }
+    
 };
 
 export default clienteRESTService;
