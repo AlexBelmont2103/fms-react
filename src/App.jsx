@@ -18,6 +18,10 @@ import pedidoRESTService from "./servicios/restPedido";
 import adminRESTService from "./servicios/restAdmin";
 import PedidoForm from "./components/pedidoComponent/PedidoForm";
 import PedidoFinalizado from "./components/pedidoComponent/PedidoFinalizado";
+import InicioPanel from "./components/panelClienteComponent/InicioPanel";
+import DatosCliente from "./components/panelClienteComponent/DatosCliente";
+import DireccionesCliente from "./components/panelClienteComponent/DireccionesCliente";
+import PedidosCliente from "./components/panelClienteComponent/PedidosCliente";
 import PanelAdmin from "./components/panelAdminComponent/PanelAdmin";
 
 const routerObjects = createBrowserRouter([
@@ -33,7 +37,11 @@ const routerObjects = createBrowserRouter([
         element: <PedidoForm />,
         loader: pedidoRESTService.recuperarProvincias,
       },
-      {path:"/Pedido/PedidoFinalizado",element:<PedidoFinalizado/>}
+      {path:"/Pedido/PedidoFinalizado",element:<PedidoFinalizado/>},
+      {path:"/Cliente/Panel/InicioPanel",element:<InicioPanel/>},
+      {path:"/Cliente/Panel/DatosCliente",element:<DatosCliente/>},
+      {path:"/Cliente/Panel/DireccionesCliente",element:<DireccionesCliente/>},
+      {path:"/Cliente/Panel/PedidosCliente",element:<PedidosCliente/>},
     ],
   },
   {element:<PanelAdmin/>,loader:adminRESTService.recuperarColecciones,path:"/Admin/PanelAdmin"}

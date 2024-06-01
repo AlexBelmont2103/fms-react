@@ -71,7 +71,7 @@ function InfoCliente() {
                   clienteLogged.datoscliente.apellidos
                 }
                 description={
-                  <Link href="/Cliente/Panel" size="sm">
+                  <Link to="/Cliente/Panel/InicioPanel" size="sm">
                     {clienteLogged.datoscliente.cuenta.email}
                   </Link>
                 }
