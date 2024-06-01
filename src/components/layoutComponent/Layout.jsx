@@ -68,13 +68,13 @@ function Layout() {
   return (
     <div
       className={`flex flex-col min-h-screen ${
-        darkMode ? "bg-white" : "bg-gray-800"
+        darkMode ? "bg-blue-100" : "bg-gray-800"
       }`}
     >
       <Header />
       <div className="container mx-auto flex-grow">
         <div className="flex flex-wrap h-full">
-          <div className="w-full h-full">
+          <div className="w-full h-full px-1">
             <Outlet></Outlet>
           </div>
         </div>

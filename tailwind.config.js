@@ -131,6 +131,7 @@ export default {
           extend: "light",
           colors: {
             background:"#254EDB",
+            foreground: "#102A43",
             primary: {
               100: "#D6E4FF",
               200: "#ADC8FF",
