@@ -21,25 +21,9 @@ function Layout() {
   //#endregion
 
   //#region Efectos
+  //Efecto para que si el clientelogged es null, busque en el local storage
   useEffect(() => {
-    if (
-      clienteLogged === null &&
-      _location.pathname === "/Pedido/MostrarPedido"
-    ) {
-      navigate("/");
-    }
-  }, [clienteLogged]);
-  useEffect(() => {
-    //Si el carrito está vacío y se intenta acceder a la página de pedido, redirigir a la página principal
-    if (
-      itemsCarro.length === 0 &&
-      _location.pathname === "/Pedido/MostrarPedido"
-    ) {
-      navigate("/");
-    }
-  }, [itemsCarro]);
-  //Efecto para que si el clientelogged es null, busque en el session storage
-  useEffect(() => {
+    console.log("Recuperando cliente desde el Layout");
     if (clienteLogged === null) {
       const recuperarCliente = async (id) => {
         let response = await clienteRESTService.recuperarCliente(id);
@@ -60,15 +44,17 @@ function Layout() {
       let idCodificado = localStorage.getItem("idCliente");
       if (idCodificado) {
         let id = atob(idCodificado);
+        console.log("Id recuperado", id);
         recuperarCliente(id);
+        console.log("Cliente recuperado desde el local storage", clienteLogged);
       }
     }
-  }, [clienteLogged]);
+  }, []);
   //#endregion
   return (
     <div
       className={`flex flex-col min-h-screen ${
-        darkMode ? "bg-blue-200" : "bg-purple-200"
+        darkMode ? "bg-blue-300" : "bg-gray-800"
       }`}
     >
       <Header />
@@ -79,7 +65,9 @@ function Layout() {
           </div>
         </div>
       </div>
-      <Footer />
+      <div className="py-2">
+        <Footer />
+      </div>
     </div>
   );
 }

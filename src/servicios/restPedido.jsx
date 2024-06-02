@@ -46,6 +46,7 @@ let pedidoRESTService = {
         `http://localhost:5000/api/Pedido/ActualizarPedido/${idPedido}`
       );
       const pedido = await respuesta.json();
+      console.log("Pedido recuperado", pedido);
       return pedido;
     } catch (error) {
       console.log(error);

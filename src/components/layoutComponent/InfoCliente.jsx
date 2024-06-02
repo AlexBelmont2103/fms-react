@@ -11,11 +11,11 @@ import {
   Modal,
   ModalContent,
   Chip,
-  image,
 } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
+import clienteRESTService from "../../servicios/restCliente";
 import ModalRegistro from "./ModalRegistro";
 import Juego from "./Juego";
 
@@ -26,12 +26,42 @@ function InfoCliente() {
   const [imagenAvatar, setImagenAvatar] = useState(null); //clienteLogged.datoscliente.cuenta.imagenAvatar
   const [isAdmin, setIsAdmin] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [cargando, setCargando] = useState(true);
+
   //#endregion
   //#region funciones
 
   //#endregion
 
   //#region efectos
+  //Efecto para buscar en el local storage si hay un cliente logueado
+  useEffect(() => {
+    console.log("Recuperando cliente desde el InfoCliente");
+    const recuperarCliente = async (id) => {
+      let response = await clienteRESTService.recuperarCliente(id);
+      console.log("Valor de response...", response);
+      if (response.codigo === 0) {
+        // Aquí puedes manejar los datos
+        dispatch({
+          type: "CLIENTE_LOGIN",
+          payload: {
+            datoscliente: response.datoscliente,
+            tokensesion: response.tokensesion,
+          },
+        });
+        setCargando(false);
+      } else {
+        console.log(`Error: ${response.status}`);
+        setCargando(false);
+      }
+    };
+    let idCodificado = localStorage.getItem("idCliente");
+    if (idCodificado && !clienteLogged) {
+      let id = atob(idCodificado);
+      recuperarCliente(id);
+    }
+  }, [clienteLogged, dispatch]);
+  //Efecto para comprobar si el cliente es admin
   useEffect(() => {
     if (clienteLogged != null) {
       if (
@@ -45,7 +75,6 @@ function InfoCliente() {
   }, [clienteLogged]);
   //Efecto para actualizar la imagen de avatar
   useEffect(() => {
-    console.log("Cambió el clienteLogged");
     if (clienteLogged != null) {
       const urlImagen = clienteLogged.datoscliente.cuenta.imagenAvatar;
       localStorage.removeItem("imagenAvatar");
@@ -61,6 +90,7 @@ function InfoCliente() {
     }
   }, []);
   //#endregion
+  
   return (
     <div className="container bg-black flex mx-auto px-0 h-19 ">
       <div className="container flex gap-4 px-7 justify-start">
@@ -78,7 +108,7 @@ function InfoCliente() {
             : "purple-dark container bg-black flex justify-end gap-8"
         }
       >
-        {clienteLogged != null && (
+        {clienteLogged != null ? (
           <div className="flex">
             <div className="py-2 px-2">
               <User
@@ -125,8 +155,7 @@ function InfoCliente() {
               </div>
             )}
           </div>
-        )}
-        {clienteLogged == null && (
+        ) : (
           <>
             <div className="py-2">
               <Popover

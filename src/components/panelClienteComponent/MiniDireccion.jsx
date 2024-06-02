@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardHeader, Button, Chip } from "@nextui-org/react";
 
-function MiniDireccion({ direccion }) {
+function MiniDireccion({ direccion, setDireccionModal, setOperacion, onOpenChange}) {
   //#region variables de estado
   //#endregion
 
@@ -23,8 +23,20 @@ function MiniDireccion({ direccion }) {
           </p>
         </div>
         <div className="flex flex-col gap-2">
-          <Chip color="primary" className="w-full">Modificar direccion</Chip>
-          <Chip color="danger" className="w-full">Eliminar direccion</Chip>
+          <div className="w-full flex">
+            <div className="flex-grow">
+              <Chip color="primary" as={Button} onPress={()=>{
+                setDireccionModal(direccion);
+                setOperacion("Modificar");
+                onOpenChange();
+              }}>Modificar direccion</Chip>
+            </div>
+          </div>
+          <div className="w-full flex">
+            <div className="flex-grow">
+              <Chip color="danger" as={Button}>Eliminar direccion</Chip>
+            </div>
+          </div>
         </div>
       </CardHeader>
     </Card>

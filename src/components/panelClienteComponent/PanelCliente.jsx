@@ -26,7 +26,7 @@ function PanelCliente() {
     setPedidos(cliente.pedidos);
   }, [clienteLogged]);
   //#endregion
-  
+  console.log("cliente", cliente);
   return (
     <div className={darkMode ? "mt-4 text-black":"mt-4 text-white"}>
       {clienteLogged != null && (

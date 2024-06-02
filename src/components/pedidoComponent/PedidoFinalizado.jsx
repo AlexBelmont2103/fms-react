@@ -25,11 +25,7 @@ function PedidoFinalizado() {
         console.log("Pedido recuperado", respuesta);
         setPedido(respuesta.pedido);
         console.log("Pedido", pedido);
-        dispatch({
-          type: "CLIENTE_UPDATE",
-          payload: { datoscliente: respuesta.datoscliente, tokensesion: respuesta.tokensesion },
-        });
-        console.log("Cliente actualizado", clienteLogged);
+        console.log("Info del cliente", clienteLogged);
       } catch (error) {
         console.log("Error al intentar recuperar el pedido", error);
       }

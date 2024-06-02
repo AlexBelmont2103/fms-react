@@ -166,12 +166,11 @@ function PedidoForm() {
         console.log(_respuesta);
         if (_respuesta.status === "succeeded") {
           dispatch({ type: "VACIAR_CARRITO" });
-          navigate(_respuesta.return_url);
+          navigate("/Pedido/PedidoFinalizado?idPedido=" + _respuesta.idPedido);
         }
       }
     } catch (error) {
       console.log(error);
-      // manejar el error...
     }
   };
   const calcularSubTotal = async () => {
@@ -286,7 +285,12 @@ function PedidoForm() {
                       onChange={handleChange}
                     />
                     <div className="p-2">
-                      <Button color="primary" variant="shadow" type="submit" disabled={isDisabled}>
+                      <Button
+                        color="primary"
+                        variant="shadow"
+                        type="submit"
+                        disabled={isDisabled}
+                      >
                         Finalizar Pedido
                       </Button>
                     </div>
