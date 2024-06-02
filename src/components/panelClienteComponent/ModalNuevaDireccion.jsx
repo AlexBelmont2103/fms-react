@@ -22,12 +22,13 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
   const { darkMode } = useDarkMode();
   const [provincias, setProvincias] = useState([]);
   const [municipios, setMunicipios] = useState([]);
+  const [selectedProvincia, setSelectedProvincia] = useState({});
+  const [selectedMunicipio, setSelectedMunicipio] = useState({});
   //#endregion
 
   //#region funciones
   const validationSchema = Yup.object({
     calle: Yup.string().required("La calle es requerida"),
-    numero: Yup.string().required("El número es requerido"),
     municipio: Yup.object()
       .shape({
         CMUM: Yup.string().required("Campo requerido: CMUM"),
@@ -51,11 +52,24 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
     });
     if (operacion === "Añadir") {
       guardarDireccion();
-    }else if(operacion === "Modificar"){
+    } else if (operacion === "Modificar") {
       modificarDireccion();
     }
   }
-  async function guardarDireccion() {}
+  async function guardarDireccion() {
+    let response = await clienteRESTService.añadirDireccion(
+      {
+        ...direccionForm,
+        idCliente: clienteLogged.idCliente,
+      },
+      clienteLogged.tokenSesion
+    );
+    if (response) {
+      console.log(response);
+      
+      onOpenChange();
+    }
+  }
   async function modificarDireccion() {}
   //#endregion
 
@@ -64,14 +78,12 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
   useEffect(() => {
     async function cargarProvincias() {
       let response = await pedidoRESTService.recuperarProvincias();
-
       setProvincias(response.provincias);
     }
     cargarProvincias();
   }, []);
   //Efecto para cargar los municipios
   useEffect(() => {
-    setDireccionForm({ ...direccionForm, municipio: {} });
     setMunicipios([]);
     setTimeout(() => {
       async function cargarMunicipios() {
@@ -87,8 +99,6 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
     }, 2000);
   }, [direccionForm.provincia]);
   //#endregion
-  console.log(direccion);
-  console.log(direccionForm);
   return (
     <div
       className={
@@ -145,18 +155,17 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
             <div>
               <Select
                 label="Provincia"
-                placeholder="Provincia"
+                selectionMode="single"
+                placeholder={direccionForm.provincia.PRO ? direccionForm.provincia.PRO : "Provincia"}
                 width="100%"
                 color="primary"
                 variant="underlined"
-                value={direccionForm.provincia.CPRO}
+                items={provincias}
                 onChange={(e) => {
                   console.log(e.target.value);
                   const selectedProvincia = provincias.find(
                     (provincia) => provincia.CPRO === e.target.value
                   );
-                  console.log(selectedProvincia);
-
                   setDireccionForm({
                     ...direccionForm,
                     provincia: selectedProvincia,
@@ -164,11 +173,7 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
                 }}
               >
                 {provincias.map((provincia) => (
-                  <SelectItem
-                    key={provincia.CPRO}
-                    value={provincia}
-                    label={provincia.PRO}
-                  >
+                  <SelectItem key={provincia.CPRO} value={provincia.CPRO}>
                     {provincia.PRO}
                   </SelectItem>
                 ))}
@@ -177,17 +182,16 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
             <div>
               <Select
                 label="Municipio"
-                placeholder="Municipio"
+                placeholder={direccionForm.municipio.DMUN50 ? direccionForm.municipio.DMUN50 : "Municipio"}
+                selectionMode="single"
                 width="100%"
                 color="primary"
                 variant="underlined"
-                value={direccionForm.municipio.CMUM}
                 onChange={(e) => {
                   console.log(e.target.value);
                   const selectedMunicipio = municipios.find(
                     (municipio) => municipio.CMUM === e.target.value
                   );
-                  console.log(selectedMunicipio);
                   setDireccionForm({
                     ...direccionForm,
                     municipio: selectedMunicipio,

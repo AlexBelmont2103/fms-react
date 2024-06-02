@@ -111,6 +111,24 @@ let clienteRESTService = {
       console.log("Error al intentar actualizar datos cliente...", error);
     }
   },
+  agregarDireccion: async function (values, tokensesion) {
+    try {
+      let response = await fetch(
+        "http://localhost:5000/api/Cliente/AgregarDireccion",
+        {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + tokensesion,
+          },
+        }
+      );
+      return await response.json();
+    } catch (error) {
+      console.log("Error al intentar añadir dirección...", error);
+    }
+  },
 };
 
 export default clienteRESTService;
