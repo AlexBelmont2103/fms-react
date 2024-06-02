@@ -25,7 +25,14 @@ function PedidoFinalizado() {
         console.log("Pedido recuperado", respuesta);
         setPedido(respuesta.pedido);
         console.log("Pedido", pedido);
-        console.log("Info del cliente", clienteLogged);
+        //Actualizar el cliente logueado
+        dispatch({
+          type: "CLIENTE_LOGIN",
+          payload: {
+            datoscliente: respuesta.datoscliente,
+            tokensesion: respuesta.tokensesion,
+          },
+        });
       } catch (error) {
         console.log("Error al intentar recuperar el pedido", error);
       }
