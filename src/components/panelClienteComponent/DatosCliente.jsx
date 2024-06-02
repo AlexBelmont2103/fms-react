@@ -70,42 +70,56 @@ function DatosCliente({ cliente }) {
           : "container flex justify-around text-white"
       }
     >
-      <div >
-        <h2 className="py-2">Mi foto de perfil</h2>
-        <Card isFooterBlurred radius="lg" className="border-none">
-          <Image
-            alt="Imagen avatar"
-            className="object-cover"
-            height={200}
-            src={imagenAvatar}
-            width={200}
-            onClick={handleImageClick}
-          />
-          <input
-            type="file"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-          <CardFooter className="overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
-            <Button
-              className="text-tiny"
-              variant="shadow"
-              color="primary"
+      <div className="w-full flex flex-row justify-center">
+        <div className="">
+          <div className="py-4 px-4">
+            <h2>Mi foto de perfil</h2>
+          </div>
+
+          <div className="w-60 h-80 ">
+            <Card
+              isFooterBlurred
               radius="lg"
-              size="sm"
-              disabled={isSubirImagenDisabled}
-              onClick={subirImagen}
+              className="border-none  w-full h-full"
+              fullWidth={true}
             >
-              Cambiar foto de perfil
-            </Button>
-          </CardFooter>
-        </Card>
+              <div className="w-full h-full">
+                <Image
+                  alt="Imagen avatar"
+                  className="object-cover"
+                  height={200}
+                  width={300}
+                  src={imagenAvatar}
+                  onClick={handleImageClick}
+                />
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <CardFooter className="overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                <Button
+                  className="text-tiny w-full"
+                  variant="shadow"
+                  color="primary"
+                  radius="lg"
+                  size="sm"
+                  disabled={isSubirImagenDisabled}
+                  onClick={subirImagen}
+                >
+                  Cambiar foto de perfil
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+        </div>
       </div>
-      <div className="px-4">
+      <div className="w-30 px-2">
         <Divider orientation="vertical" />
       </div>
-      <div >
+      <div className="w-full px-4">
         <h2 className="py-2">Mis datos personales</h2>
         <FormDatosCliente cliente={cliente} />
       </div>

@@ -68,7 +68,7 @@ function Layout() {
   return (
     <div
       className={`flex flex-col min-h-screen ${
-        darkMode ? "bg-blue-100" : "bg-gray-800"
+        darkMode ? "bg-blue-200" : "bg-purple-200"
       }`}
     >
       <Header />

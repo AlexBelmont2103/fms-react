@@ -26,10 +26,11 @@ function PanelCliente() {
     setPedidos(cliente.pedidos);
   }, [clienteLogged]);
   //#endregion
+  
   return (
-    <div className="mt-4">
+    <div className={darkMode ? "mt-4 text-black":"mt-4 text-white"}>
       {clienteLogged != null && (
-              <Accordion defaultExpandedKeys={["1"]} variant="splitted">
+              <Accordion defaultExpandedKeys={["1"]} variant="splitted" selectionBehavior="replace">
               <AccordionItem key="1" aria-label="Accordion 1" title="Mis datos">
                 <DatosCliente cliente={cliente} />
               </AccordionItem>

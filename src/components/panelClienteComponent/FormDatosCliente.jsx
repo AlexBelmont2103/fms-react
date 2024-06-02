@@ -23,6 +23,7 @@ function FormDatosCliente({ cliente }) {
     confirmEmail: Yup.string()
       .oneOf([Yup.ref("email"), null], "Los emails deben coincidir")
       .required("La confirmación del email es requerida"),
+    fechaNacimiento: Yup.date().required("La fecha de nacimiento es requerida"),
   });
   async function actualizarCliente(values) {
     let response = await clienteRESTService.actualizarDatosCliente(
@@ -49,6 +50,7 @@ function FormDatosCliente({ cliente }) {
           apellidos: cliente.apellidos || "",
           email: cliente.cuenta.email || "",
           confirmEmail: cliente.cuenta.email || "",
+          fechaNacimiento: cliente.fechaNacimiento.split("T")[0] || "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -58,9 +60,9 @@ function FormDatosCliente({ cliente }) {
           setSubmitting(false);
         }}
       >
-        <Form className="flex flex-wrap -mx-3">
-          <div className="w-full md:w-1/2 px-3 py-2 mb-6 md:mb-0">
-            <div>
+        <Form >
+          <div className="flex flex-wrap">
+            <div className="w-60 md:w-1/2 px-2 py-2">
               <Field name="email">
                 {({ field, form }) => (
                   <Input
@@ -68,33 +70,22 @@ function FormDatosCliente({ cliente }) {
                     label="Email"
                     color="primary"
                     variant="underlined"
+                    className="w-50 px-3 py-2 rounded-md"
                     onChange={(event) =>
                       form.setFieldValue(field.name, event.target.value)
                     }
                   />
                 )}
               </Field>
-              <ErrorMessage name="email" component="div" />
+              <div className="px-5">
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-500"
+                />
+              </div>
             </div>
-            <div>
-              <Field name="nombre">
-                {({ field, form }) => (
-                  <Input
-                    {...field}
-                    label="Nombre"
-                    color="primary"
-                    variant="underlined"
-                    onChange={(event) =>
-                      form.setFieldValue(field.name, event.target.value)
-                    }
-                  />
-                )}
-              </Field>
-              <ErrorMessage name="nombre" component="div" />
-            </div>
-          </div>
-          <div className="w-full md:w-1/2 px-3 py-2 mb-6 md:mb-0">
-            <div>
+            <div className="w-60 md:w-1/2 px-2 py-2">
               <Field name="confirmEmail">
                 {({ field, form }) => (
                   <Input
@@ -102,15 +93,45 @@ function FormDatosCliente({ cliente }) {
                     label="Confirmar Email"
                     color="primary"
                     variant="underlined"
+                    className="w-50 px-3 py-2 rounded-md"
                     onChange={(event) =>
                       form.setFieldValue(field.name, event.target.value)
                     }
                   />
                 )}
               </Field>
-              <ErrorMessage name="confirmEmail" component="div" />
+              <div className="px-5">
+                <ErrorMessage
+                  name="confirmEmail"
+                  component="div"
+                  className="text-red-500"
+                />
+              </div>
             </div>
-            <div>
+            <div className="w-60 md:w-1/2 px-2 py-2">
+              <Field name="nombre">
+                {({ field, form }) => (
+                  <Input
+                    {...field}
+                    label="Nombre"
+                    color="primary"
+                    variant="underlined"
+                    className="w-50 px-3 py-2 rounded-md"
+                    onChange={(event) =>
+                      form.setFieldValue(field.name, event.target.value)
+                    }
+                  />
+                )}
+              </Field>
+              <div className="px-5">
+                <ErrorMessage
+                  name="nombre"
+                  component="div"
+                  className="text-red-500"
+                />
+              </div>
+            </div>
+            <div className="w-60 md:w-1/2 px-2 py-2">
               <Field name="apellidos">
                 {({ field, form }) => (
                   <Input
@@ -118,23 +139,54 @@ function FormDatosCliente({ cliente }) {
                     label="Apellidos"
                     color="primary"
                     variant="underlined"
+                    className="w-50 px-3 py-2 rounded-md"
                     onChange={(event) =>
                       form.setFieldValue(field.name, event.target.value)
                     }
                   />
                 )}
               </Field>
-              <ErrorMessage name="apellidos" component="div" />
+              <div className="px-5">
+                <ErrorMessage
+                  name="apellidos"
+                  component="div"
+                  className="text-red-500"
+                />
+              </div>
             </div>
-          </div>
-          <div className="w-full px-3 py-2 mt-6">
-            <Divider />
-          </div>
-
-          <div className="w-full px-3 py-2 mt-6">
-            <Button variant="shadow" color="primary" type="submit">
-              Actualizar
-            </Button>
+            <div className="w-60 md:w-1/2 px-5 py-2">
+              <Field name="fechaNacimiento">
+                {({ field, form }) => (
+                  <label htmlFor="fechaNacimiento" className="text-small">
+                    Fecha de nacimiento
+                    <br />
+                    <input
+                      {...field}
+                      type="date"
+                      className="w-50 px-3 py-2 border border-gray-300 rounded-md"
+                      onChange={(event) =>
+                        form.setFieldValue(field.name, event.target.value)
+                      }
+                    />
+                  </label>
+                )}
+              </Field>
+              <div className="px-5">
+                <ErrorMessage
+                  name="fechaNacimiento"
+                  component="div"
+                  className="text-danger-500"
+                />
+              </div>
+            </div>
+            <div className="w-full px-3 py-2 mt-6">
+              <Divider />
+            </div>
+            <div className="w-full px-3 py-2 mt-6">
+              <Button variant="shadow" color="primary" type="submit">
+                Actualizar
+              </Button>
+            </div>
           </div>
         </Form>
       </Formik>

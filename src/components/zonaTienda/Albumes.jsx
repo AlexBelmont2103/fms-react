@@ -56,7 +56,7 @@ function Albumes() {
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {albumes.map((album) => (
           <div key={album._id}>
-            <Card className="py-4">
+            <Card className="py-4" isFooterBlurred>
               <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                 <p className="text-tiny uppercase font-bold">{album.nombre}</p>
                 <small className="text-default-500">
@@ -82,7 +82,7 @@ function Albumes() {
               <CardFooter className="overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
                 {album.stock > 0 ? (
                   <Button
-                    className="text-tiny"
+                    className="w-full text-large"
                     variant="shadow"
                     color="primary"
                     radius="lg"
@@ -94,7 +94,7 @@ function Albumes() {
                 ) : (
                   <Button
                     disabled
-                    className="text-tiny"
+                    className="w-full text-large"
                     variant="shadow"
                     color="danger"
                     radius="lg"
