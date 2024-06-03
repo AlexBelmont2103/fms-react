@@ -111,13 +111,13 @@ let clienteRESTService = {
       console.log("Error al intentar actualizar datos cliente...", error);
     }
   },
-  agregarDireccion: async function (values, tokensesion) {
+  agregarDireccion: async function (direccionForm, tokensesion) {
     try {
       let response = await fetch(
         "http://localhost:5000/api/Cliente/AgregarDireccion",
         {
           method: "POST",
-          body: JSON.stringify(values),
+          body: JSON.stringify(direccionForm),
           headers: {
             "Content-Type": "application/json",
             authorization: "Bearer " + tokensesion,
@@ -127,6 +127,42 @@ let clienteRESTService = {
       return await response.json();
     } catch (error) {
       console.log("Error al intentar añadir dirección...", error);
+    }
+  },
+  modificarDireccion: async function (direccionForm, tokensesion) {
+    try {
+      let response = await fetch(
+        "http://localhost:5000/api/Cliente/ModificarDireccion",
+        {
+          method: "POST",
+          body: JSON.stringify(direccionForm),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + tokensesion,
+          },
+        }
+      );
+      return await response.json();
+    } catch (error) {
+      console.log("Error al intentar modificar dirección...", error);
+    }
+  },
+  eliminarDireccion: async function (idDireccion, tokensesion) {
+    try {
+      let response = await fetch(
+        "http://localhost:5000/api/Cliente/EliminarDireccion",
+        {
+          method: "POST",
+          body: JSON.stringify({ idDireccion: idDireccion }),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + tokensesion,
+          },
+        }
+      );
+      return await response.json();
+    } catch (error) {
+      console.log("Error al intentar eliminar dirección...", error);
     }
   },
 };

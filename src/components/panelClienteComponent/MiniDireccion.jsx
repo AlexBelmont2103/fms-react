@@ -1,12 +1,30 @@
 import { useState } from "react";
 import { Card, CardHeader, Button, Chip } from "@nextui-org/react";
+import clienteRESTService from "../../servicios/restCliente";
+import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 
 function MiniDireccion({ direccion, setDireccionModal, setOperacion, onOpenChange}) {
   //#region variables de estado
+  const { clienteLogged, dispatch } = useClienteLoggedContext();
   //#endregion
 
   //#region funciones
-
+  async function eliminarDireccion() {
+    console.log("Eliminar direccion", direccion._id);
+    let response = await clienteRESTService.eliminarDireccion(direccion._id,clienteLogged.tokensesion);
+    if (response.codigo === 0) {
+      console.log("Direccion eliminada correctamente...");
+      dispatch({
+        type: "CLIENTE_LOGIN",
+        payload: {
+          datoscliente: response.datoscliente,
+          tokensesion: clienteLogged.tokensesion,
+        }
+      });
+    } else {
+      console.log("Error al intentar eliminar direccion...",response.error);
+    }
+  }
   //#endregion
 
   //#region efectos
@@ -34,7 +52,7 @@ function MiniDireccion({ direccion, setDireccionModal, setOperacion, onOpenChang
           </div>
           <div className="w-full flex">
             <div className="flex-grow">
-              <Chip color="danger" as={Button}>Eliminar direccion</Chip>
+              <Chip color="danger" as={Button} onPress={eliminarDireccion}>Eliminar direccion</Chip>
             </div>
           </div>
         </div>

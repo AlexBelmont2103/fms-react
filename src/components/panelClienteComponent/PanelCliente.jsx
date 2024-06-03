@@ -11,8 +11,8 @@ function PanelCliente() {
   const { darkMode } = useDarkMode();
   const { clienteLogged } = useClienteLoggedContext();
   const [cliente, setCliente] = useState(clienteLogged.datoscliente);
-  const [direcciones, setDirecciones] = useState(cliente.direcciones);
-  const [pedidos, setPedidos] = useState(cliente.pedidos);
+  const [direcciones, setDirecciones] = useState(clienteLogged.datoscliente.direcciones);
+  const [pedidos, setPedidos] = useState(clienteLogged.datoscliente.pedidos);
   //#endregion
 
   //#region funciones
@@ -22,8 +22,8 @@ function PanelCliente() {
   //#region efectos
   useEffect(() => {
     setCliente(clienteLogged.datoscliente);
-    setDirecciones(cliente.direcciones);
-    setPedidos(cliente.pedidos);
+    setDirecciones(clienteLogged.datoscliente.direcciones);
+    setPedidos(clienteLogged.datoscliente.pedidos);
   }, [clienteLogged]);
   //#endregion
   console.log("cliente", cliente);

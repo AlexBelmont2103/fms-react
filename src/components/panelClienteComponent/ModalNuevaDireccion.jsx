@@ -57,20 +57,39 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
     }
   }
   async function guardarDireccion() {
-    let response = await clienteRESTService.añadirDireccion(
-      {
-        ...direccionForm,
-        idCliente: clienteLogged.idCliente,
-      },
-      clienteLogged.tokenSesion
+    let response = await clienteRESTService.agregarDireccion(
+      direccionForm,
+      clienteLogged.tokensesion
     );
     if (response) {
       console.log(response);
-      
+      dispatch({
+        type: "CLIENTE_LOGIN",
+        payload: {
+          datoscliente: response.datoscliente,
+          tokensesion: response.tokensesion,
+        },
+      });
       onOpenChange();
     }
   }
-  async function modificarDireccion() {}
+  async function modificarDireccion() {
+    let response = await clienteRESTService.modificarDireccion(
+      direccionForm,
+      clienteLogged.tokensesion
+    );
+    if (response) {
+      console.log(response);
+      dispatch({
+        type: "CLIENTE_LOGIN",
+        payload: {
+          datoscliente: response.datoscliente,
+          tokensesion: response.tokensesion,
+        },
+      });
+      onOpenChange();
+    }
+  }
   //#endregion
 
   //#region efectos
@@ -156,7 +175,11 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
               <Select
                 label="Provincia"
                 selectionMode="single"
-                placeholder={direccionForm.provincia.PRO ? direccionForm.provincia.PRO : "Provincia"}
+                placeholder={
+                  direccionForm.provincia.PRO
+                    ? direccionForm.provincia.PRO
+                    : "Provincia"
+                }
                 width="100%"
                 color="primary"
                 variant="underlined"
@@ -182,7 +205,11 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
             <div>
               <Select
                 label="Municipio"
-                placeholder={direccionForm.municipio.DMUN50 ? direccionForm.municipio.DMUN50 : "Municipio"}
+                placeholder={
+                  direccionForm.municipio.DMUN50
+                    ? direccionForm.municipio.DMUN50
+                    : "Municipio"
+                }
                 selectionMode="single"
                 width="100%"
                 color="primary"
