@@ -58,6 +58,7 @@ function Layout() {
       }`}
     >
       <Header />
+
       <div className="container mx-auto flex-grow">
         <div className="flex flex-wrap h-full">
           <div className="w-full h-full px-1">

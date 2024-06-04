@@ -26,7 +26,7 @@ function DireccionesCliente({ direcciones }) {
 
   return (
     <div>
-      <div>
+      <div className="flex flex-wrap gap-2">
         {direcciones.map((direccion) => (
           <div key={direccion._id} className="flex flex-col">
             <MiniDireccion

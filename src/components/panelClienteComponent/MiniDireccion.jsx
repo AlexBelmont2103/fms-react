@@ -18,7 +18,7 @@ function MiniDireccion({ direccion, setDireccionModal, setOperacion, onOpenChang
         type: "CLIENTE_LOGIN",
         payload: {
           datoscliente: response.datoscliente,
-          tokensesion: clienteLogged.tokensesion,
+          tokensesion: response.tokensesion,
         }
       });
     } else {

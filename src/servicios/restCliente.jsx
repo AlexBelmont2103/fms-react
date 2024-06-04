@@ -165,6 +165,24 @@ let clienteRESTService = {
       console.log("Error al intentar eliminar dirección...", error);
     }
   },
+  cancelarPedido: async function (idPedido, tokensesion) {
+    try {
+      let response = await fetch(
+        "http://localhost:5000/api/Cliente/CancelarPedido",
+        {
+          method: "POST",
+          body: JSON.stringify({ idPedido: idPedido }),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + tokensesion,
+          },
+        }
+      );
+      return await response.json();
+    } catch (error) {
+      console.log("Error al intentar cancelar pedido...", error);
+    }
+  },
 };
 
 export default clienteRESTService;
