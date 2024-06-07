@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody, Button } from "@nextui-org/react";
 import adminRESTService from "../../servicios/restAdmin";
+import AdminGeneros from "./AdminGeneros";
+import AdminAlbumes from "./AdminAlbumes";
 
 function PanelAdmin() {
   //#region variables de estado
@@ -23,31 +25,23 @@ function PanelAdmin() {
         }
         cargarGeneros();
     }, []);
-
+    //Efecto para cargar los albumes
+    useEffect(() => {
+        const cargarAlbumes = async () => {
+            let response = await adminRESTService.recuperarAlbumes();
+            setAlbumes(response.datosalbumes);
+        }
+        cargarAlbumes();
+    }, []);
   //#endregion
   return (
     <div className="flex w-full flex-col">
       <Tabs aria-label="Options">
         <Tab key="generos" title="Géneros">
-          <Card>
-            <CardBody>
-              {generos.map((genero) => (
-                <div key={genero._id}>
-                  <p>{genero.nombre}</p>
-                </div>
-              ))}
-            </CardBody>
-          </Card>
+          <AdminGeneros generos={generos} setGeneros={setGeneros}/>
         </Tab>
         <Tab key="albumes" title="Álbumes">
-          <Card>
-            <CardBody>
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur.
-            </CardBody>
-          </Card>
+            <AdminAlbumes albumes={albumes} setAlbumes={setAlbumes}/>
         </Tab>
         <Tab key="comentarios" title="Comentarios">
           <Card>
