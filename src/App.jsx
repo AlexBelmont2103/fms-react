@@ -36,9 +36,9 @@ const routerObjects = createBrowserRouter([
       },
       {path:"/Pedido/PedidoFinalizado",element:<PedidoFinalizado/>},
       {path:"/Cliente/Panel/InicioPanel",element:<PanelCliente/>},
+      {path:"/Admin/PanelAdmin",element:<PanelAdmin/>}
     ],
   },
-  {element:<PanelAdmin/>,loader:adminRESTService.recuperarColecciones,path:"/Admin/PanelAdmin"}
 ]
 );
 function App() {
