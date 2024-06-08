@@ -37,13 +37,16 @@ let adminRESTService = {
   },
   agregarGenero: async function (datos) {
     try {
-      let response = await fetch("http://localhost:5000/Api/Admin/AgregarGenero", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(datos),
-      });
+      let response = await fetch(
+        "http://localhost:5000/Api/Admin/AgregarGenero",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(datos),
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -72,13 +75,16 @@ let adminRESTService = {
   },
   eliminarGenero: async function (datos) {
     try {
-      let response = await fetch("http://localhost:5000/Api/Admin/EliminarGenero", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(datos),
-      });
+      let response = await fetch(
+        "http://localhost:5000/Api/Admin/EliminarGenero",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(datos),
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -86,12 +92,16 @@ let adminRESTService = {
       return null;
     }
   },
-  agregarAlbum: async function (datos) {
+  agregarAlbum: async function (formData) {
     try {
-      let response = await fetch("http://localhost:5000/Api/Admin/AgregarAlbum", {
-        method: "POST",
-        body: JSON.stringify(datos),
-      });
+      console.log("Valor del formData...", formData);
+      let response = await fetch(
+        "http://localhost:5000/Api/Admin/AgregarAlbum",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {
@@ -99,31 +109,15 @@ let adminRESTService = {
       return null;
     }
   },
-  modificarImagenAlbum: async function (datos) {
+  modificarAlbum: async function (formData) {
     try {
       let response = await fetch(
-        "http://localhost:5000/Api/Admin/ModificarImagenAlbum",
+        "http://localhost:5000/Api/Admin/ModificarAlbum",
         {
           method: "POST",
-          body: JSON.stringify(datos),
+          body: formData,
         }
       );
-      let data = await response.json();
-      return data;
-    } catch (error) {
-      console.log("Error en AdminRESTService.modificarImagenAlbum", error);
-      return null;
-    }
-  },
-  modificarAlbum: async function (datos) {
-    try {
-      let response = await fetch("http://localhost:5000/Api/Admin/ModificarAlbum", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(datos),
-      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -133,13 +127,16 @@ let adminRESTService = {
   },
   eliminarAlbum: async function (datos) {
     try {
-      let response = await fetch("http://localhost:5000/Api/Admin/EliminarAlbum", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(datos),
-      });
+      let response = await fetch(
+        "http://localhost:5000/Api/Admin/EliminarAlbum",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(datos),
+        }
+      );
       let data = await response.json();
       return data;
     } catch (error) {

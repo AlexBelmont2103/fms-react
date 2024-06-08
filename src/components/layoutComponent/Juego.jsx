@@ -8,7 +8,6 @@ import {
   DropdownSection,
   DropdownItem,
   Button,
-  Chip,
 } from "@nextui-org/react";
 
 function Juego() {
@@ -47,7 +46,6 @@ function Juego() {
   useEffect(() => {
     async function empezarJuego() {
       let _resp = await juegoRESTService.empezarJuego();
-      console.log("Respuesta de empezarJuego: ", _resp);
       if (_resp.codigo === 0) {
         //Cogemos los tracks
         setTracks(_resp.otrosdatos.tracks);

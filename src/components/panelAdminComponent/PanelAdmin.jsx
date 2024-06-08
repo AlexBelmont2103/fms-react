@@ -41,7 +41,7 @@ function PanelAdmin() {
           <AdminGeneros generos={generos} setGeneros={setGeneros}/>
         </Tab>
         <Tab key="albumes" title="Álbumes">
-            <AdminAlbumes albumes={albumes} setAlbumes={setAlbumes}/>
+            <AdminAlbumes albumes={albumes} setAlbumes={setAlbumes} generos={generos}/>
         </Tab>
         <Tab key="comentarios" title="Comentarios">
           <Card>

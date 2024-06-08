@@ -242,7 +242,7 @@ function RegistroForm() {
                     onChange={(event) => {
                       const file = event.currentTarget.files[0];
                       console.log(file);
-                      form.setFieldValue(field.name, file); // Almacena solo el nombre del archivo
+                      form.setFieldValue(field.name, file);
                     }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   />
