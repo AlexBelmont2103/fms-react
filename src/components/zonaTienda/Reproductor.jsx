@@ -3,9 +3,9 @@ import { Card, CardBody, Image, Button, Slider } from "@nextui-org/react";
 import { PreviousIcon } from "../../uiComponents/PreviousIcon";
 import { NextIcon } from "../../uiComponents/NextIcon";
 import { PauseCircleIcon } from "../../uiComponents/PauseCircleIcon";
-function Reproductor({ datosSpotify }) {
+function Reproductor({ datosSpotify, tokenSpotify }) {
   //#region variables de estado
-    
+
   //#endregion
 
   //#region funciones
@@ -13,7 +13,49 @@ function Reproductor({ datosSpotify }) {
   //#endregion
 
   //#region efectos
+  useEffect(() => {
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const token = tokenSpotify;
+      const player = new window.Spotify.Player({
+        name: "Web Playback SDK",
+        getOAuthToken: (cb) => {
+          cb(token);
+        },
+      });
 
+      // Error handling
+      player.addListener("initialization_error", ({ message }) => {
+        console.error(message);
+      });
+      player.addListener("authentication_error", ({ message }) => {
+        console.error(message);
+      });
+      player.addListener("account_error", ({ message }) => {
+        console.error(message);
+      });
+      player.addListener("playback_error", ({ message }) => {
+        console.error(message);
+      });
+
+      // Playback status updates
+      player.addListener("player_state_changed", (state) => {
+        console.log(state);
+      });
+
+      // Ready
+      player.addListener("ready", ({ device_id }) => {
+        console.log("Ready with Device ID", device_id);
+      });
+
+      // Not Ready
+      player.addListener("not_ready", ({ device_id }) => {
+        console.log("Device ID has gone offline", device_id);
+      });
+
+      // Connect to the player!
+      player.connect();
+    };
+  }, []);
   //#endregion
 
   return (
@@ -47,7 +89,6 @@ function Reproductor({ datosSpotify }) {
                     Frontend Radio
                   </h1>
                 </div>
-
               </div>
 
               <div className="flex flex-col mt-3 gap-1">
@@ -68,7 +109,6 @@ function Reproductor({ datosSpotify }) {
               </div>
 
               <div className="flex w-full items-center justify-center">
-
                 <Button
                   isIconOnly
                   className="data-[hover]:bg-foreground/10"
@@ -93,8 +133,6 @@ function Reproductor({ datosSpotify }) {
                 >
                   <NextIcon />
                 </Button>
-                
-                
               </div>
             </div>
           </div>
