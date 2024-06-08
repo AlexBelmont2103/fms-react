@@ -13,8 +13,8 @@ function BotonDarkMode() {
         size="lg"
         color="primary"
         onChange={toggleDarkMode}
-        startContent={<MoonIcon />}
-        endContent={<SunIcon />}
+        startContent={<SunIcon />}
+        endContent={<MoonIcon />}
       >
       </Switch>
     </div>
