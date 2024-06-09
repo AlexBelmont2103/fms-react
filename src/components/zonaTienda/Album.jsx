@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { Card, Textarea, Button } from "@nextui-org/react";
 import tiendaRESTService from "../../servicios/restTienda";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
+import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import Reproductor from "./Reproductor";
+import Comentario from "./Comentario";
+import Asuka from "../../assets/images/asuka.jpeg";
+import Shinji from "../../assets/images/shinji-pensive.png";
+import Gendo from "../../assets/images/Gendo.jpg";
+import Ristuko from "../../assets/images/ritsuko.jpeg";
 function Album() {
   //#region variables de estado
+  const { clienteLogged } = useClienteLoggedContext();
   const { itemsCarro, dispatch } = useItemsCarroContext();
   const { darkMode } = useDarkMode();
   const [album, setAlbum] = useState({
@@ -19,6 +27,32 @@ function Album() {
   const [tokenSpotify, setTokenSpotify] = useState("");
   const [imagenesSpotify, setImagenesSpotify] = useState([]);
   const [pistasSpotify, setPistasSpotify] = useState([]);
+  const [comentarios, setComentarios] = useState([
+    {
+      id: 1,
+      nombre: "Asuka Langley",
+      comentario: "Está bien, pero no es tan bueno como el anterior",
+      imagen: Asuka,
+    },
+    {
+      id: 2,
+      nombre: "Gendo Ikari",
+      comentario: "Escuché este álbum mientras pensaba en mi esposa muerta",
+      imagen: Gendo,
+    },
+    {
+      id: 3,
+      nombre: "Shinji Ikari",
+      comentario: "Creo que esta música me hace sentir menos solo",
+      imagen: Shinji,
+    },
+    {
+      id: 4,
+      nombre: "Ristuko Akagi",
+      comentario: "Me encanta este álbum, es muy relajante",
+      imagen: Ristuko,
+    },
+  ]);
   const location = useLocation();
   //#endregion
 
@@ -55,7 +89,6 @@ function Album() {
       {datosSpotify ? (
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2">
-            {/*Segundo grid */}
             <div className="grid grid-cols-2 gap-2">
               <div className="col-span-1">
                 <h2 className="text-2xl font-bold mb-4">
@@ -84,25 +117,56 @@ function Album() {
               </div>
               <div className="col-span-1">
                 <h2 className="text-2xl font-bold mb-4">Descripción</h2>
-                <p>
-                  {album.descripcion}
-                </p>
+                <p>{album.descripcion}</p>
               </div>
             </div>
-
-            <div>
-              {/*Vamos a añadir comentarios de prueba, para rellenar la página */}
-              <h3 className="text-2xl font-semibold">Comentarios</h3>
+            <div className="py-4">
+              <h3 className="text-2xl font-semibold my-2">Comentarios</h3>
+              {clienteLogged ? (
+                <Card shadow className="py-2">
+                  <div className="flex flex-row justify-start items-center mx-4">
+                    <img
+                      src={clienteLogged.datoscliente.cuenta.imagenAvatar}
+                      alt="Imagen de Usuario"
+                      className="h-12 w-12 rounded-full"
+                    />
+                    <div className="flex flex-col justify-start items-start">
+                      <p className="text-lg font-bold">
+                        {clienteLogged.datoscliente.cuenta.nombre}
+                      </p>
+                      <p className="text-lg">
+                        <textarea 
+                          className="w-full flex-grow"
+                          placeholder="Escribe un comentario"
+                        ></textarea>
+                      </p>
+                      <div className="flex flex-row justify-end items-center">
+                        <Button
+                          auto
+                          type="submit"
+                          color="primary"
+                          className="mx-2"
+                          onClick={() => {
+                            console.log("Comentario enviado");
+                          }}
+                        >
+                          Enviar
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ) : (
+                <div>
+                  <p>
+                    <a href="/login">Inicia sesión</a> para dejar un comentario
+                  </p>
+                </div>
+              )}
               <div className="grid grid-cols-1 gap-4">
-                <div className="bg-background/60 dark:bg-default-100/50 p-2 rounded-md">
-                  <p className="text-foreground/80">Comentario de prueba 1</p>
-                </div>
-                <div className="bg-background/60 dark:bg-default-100/50 p-2 rounded-md">
-                  <p className="text-foreground/80">Comentario de prueba 2</p>
-                </div>
-                <div className="bg-background/60 dark:bg-default-100/50 p-2 rounded-md">
-                  <p className="text-foreground/80">Comentario de prueba 3</p>
-                </div>
+                {comentarios.map((comentario) => (
+                  <Comentario comentario={comentario} key={comentario.id} />
+                ))}
               </div>
             </div>
           </div>
