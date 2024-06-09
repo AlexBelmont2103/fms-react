@@ -104,7 +104,7 @@ function AdminAlbumes({ albumes, setAlbumes, generos }) {
       </Table>
       <Modal
         title="Nuevo Género"
-        size="2xl"
+        size="3xl"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         scrollBehavior="inside"

@@ -65,7 +65,7 @@ function ModalGenero({ generoModal, setGeneros, operacion, onOpenChange }) {
               }}
             />
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end py-3">
             <Button color="success" className="mr-2" type="submit">
               Guardar
             </Button>

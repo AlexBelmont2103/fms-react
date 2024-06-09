@@ -38,8 +38,27 @@ function Albumes() {
   return (
     <div className={darkMode ? "purple-light" : "purple-dark"}>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {albumes.length === 0 && (
+          <div className="w-full h-full">
+            <Card>
+              <CardHeader>
+                <h3 className="text-lg font-semibold">No hay albumes</h3>
+              </CardHeader>
+              <CardBody>
+                <p className="text-sm text-foreground/80">
+                  No se han encontrado albumes con los criterios de búsqueda
+                </p>
+              </CardBody>
+              <CardFooter>
+                <Link to="/" className="text-sm text-primary">
+                  Volver a la tienda
+                </Link>
+              </CardFooter>
+            </Card>
+          </div>
+        )}
         {albumes.map((album) => (
-          <div className="w-full h-full" key={album._id}>
+          <div  key={album._id}>
             <CardAlbum album={album} />
           </div>
           

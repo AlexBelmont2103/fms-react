@@ -40,29 +40,17 @@ function CardAlbum({ album }) {
   //#endregion
 
   return (
-    <div className="w-full h-full" key={album._id}>
-      <Card className="py-4 w-full h-full" isFooterBlurred>
-        <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-          <p className="text-tiny uppercase font-bold">{album.nombre}</p>
-          <small className="text-default-500">{album.numCanciones} Temas</small>
-          <Link to={`?artista=${album.artista}`}>
-            <h4 className="font-bold text-large" textvalue={album.artista}>
-              {album.artista}
-            </h4>
-          </Link>
-        </CardHeader>
-        <CardBody className="overflow-visible py-2">
-          <Link to={`/Tienda/Album/${album._id}`}>
-            <Image
-              isZoomed
-              alt={"Portada de " + album.nombre}
-              className="object-cover rounded-xl w-full h-full"
-              src={album.imagenPortada}
-              width={270}
-              height={270}
-            />
-          </Link>
-        </CardBody>
+    <div key={album._id}>
+      <Card className="col-span-12 sm:col-span-4 h-[300px]">
+        <Link to={`/Tienda/Album/${album._id}`}>
+          <Image
+            removeWrapper
+            isZoomed
+            alt="Card background"
+            className="z-0 w-full h-full object-cover"
+            src={album.imagenPortada}
+          />
+        </Link>
         <CardFooter className="overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
           {album.stock > 0 ? (
             <Button

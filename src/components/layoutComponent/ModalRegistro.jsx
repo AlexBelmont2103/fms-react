@@ -51,7 +51,7 @@ function ModalRegistro(props) {
   });
   const { darkMode } = useDarkMode();
   return (
-    <div className={darkMode ? "purple-light bg-blue-100 tex-black":"purple-dark bg-gray-800 text-white"}>
+    <div className={darkMode ? "purple-light bg-blue-100 tex-black":"purple-dark bg-gray-500 text-white"}>
       <ModalHeader>Registro</ModalHeader>
       <ModalBody>
         <div className="flex flex-wrap">

@@ -7,6 +7,7 @@ import {
   Image,
   Select,
   SelectItem,
+  Textarea,
 } from "@nextui-org/react";
 import * as Yup from "yup";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
@@ -40,6 +41,7 @@ function ModalAlbum({
       .integer(),
     precio: Yup.number().required("* Precio obligatorio").positive(),
     stock: Yup.number().required("* Stock obligatorio").integer(),
+    descripcion: Yup.string().max(2000, "*Maximo 2000 caracteres"),
     imagenPortada: Yup.mixed().nullable(),
   });
   //#endregion
@@ -82,16 +84,16 @@ function ModalAlbum({
   }
   function onSubmit(ev) {
     ev.preventDefault();
-    try{
-        if(validarAlbum()){
-            if(operacion === "Añadir"){
-                agregarAlbum();
-            }else if(operacion === "Modificar"){
-                modificarAlbum();
-            }
+    try {
+      if (validarAlbum()) {
+        if (operacion === "Añadir") {
+          agregarAlbum();
+        } else if (operacion === "Modificar") {
+          modificarAlbum();
         }
-    }catch(error){
-        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
   //#endregion
@@ -105,122 +107,142 @@ function ModalAlbum({
       <ModalHeader>{operacion} Álbum</ModalHeader>
       <ModalBody>
         <form onSubmit={onSubmit}>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="w-full">
-              <Input
-                label="Nombre"
-                placeholder="Nombre del álbum"
-                value={album.nombre}
-                onChange={(e) => {
-                  setAlbum({ ...album, nombre: e.target.value });
-                }}
-              />
-            </div>
-            <div className="w-full">
-              <Input
-                label="Artista"
-                placeholder="Artista del álbum"
-                value={album.artista}
-                onChange={(e) => {
-                  setAlbum({ ...album, artista: e.target.value });
-                }}
-              />
-            </div>
-            <div className="w-full">
-              <Input
-                label="Año de lanzamiento"
-                placeholder="Año de lanzamiento del álbum"
-                value={album.anhoLanzamiento}
-                onChange={(e) => {
-                  setAlbum({ ...album, anhoLanzamiento: e.target.value });
-                }}
-              />
-            </div>
-            <div className="w-full">
-              <Select
-                label="Género"
-                placeholder={
-                  album.genero ? album.genero : "Seleccione un género"
-                }
-                className="max-w-xs"
-                items={generos}
-                onChange={(e) => {
-                  setAlbum({ ...album, genero: e.target.value });
-                }}
-              >
-                {(generos) => (
-                  <SelectItem key={generos.nombre} value={generos.nombre}>
-                    {generos.nombre}
-                  </SelectItem>
-                )}
-              </Select>
-            </div>
-            <div className="w-full">
-              <Input
-                label="Número de canciones"
-                placeholder="Número de canciones del álbum"
-                value={album.numCanciones}
-                onChange={(e) => {
-                  setAlbum({ ...album, numCanciones: e.target.value });
-                }}
-              />
-            </div>
-            <div className="w-full">
-              <Input
-                label="Precio"
-                placeholder="Precio del álbum"
-                value={album.precio}
-                onChange={(e) => {
-                  setAlbum({ ...album, precio: e.target.value });
-                }}
-              />
-            </div>
-            <div className="w-full">
-              <Input
-                label="Stock"
-                placeholder="Stock del álbum"
-                value={album.stock}
-                onChange={(e) => {
-                  setAlbum({ ...album, stock: e.target.value });
-                }}
-              />
-            </div>
-            <div className="w-full">
-              <div className="hidden">
-                <input
-                  type="file"
-                  id="imagenPortada"
-                  accept="image/*"
+          <div className="flex flex-wrap -mx-2">
+            <div className="w-1/2 px-2 py-2">
+              <div className="py-2">
+                <Input
+                  label="Nombre"
+                  placeholder="Nombre del álbum"
+                  value={album.nombre}
                   onChange={(e) => {
-                    setAlbum({
-                      ...album,
-                      imagenPortada: e.target.files[0],
-                    });
-                    cargarImagenPortada(e);
+                    setAlbum({ ...album, nombre: e.target.value });
                   }}
                 />
               </div>
-              <div className="flex space-x-2">
-                <label htmlFor="imagenPortada">
-                  <Button
-                    color="primary"
-                    onPress={() => {
-                      document.getElementById("imagenPortada").click();
-                    }}
-                  >
-                    Seleccionar imagen de portada
-                  </Button>
-                </label>
-                <Image
-                  src={imagenPortada}
-                  width="50"
-                  height="50"
-                  alt="Imagen de portada"
+              <div className="py-2">
+                <Input
+                  label="Año de lanzamiento"
+                  placeholder="Año de lanzamiento del álbum"
+                  value={album.anhoLanzamiento}
+                  onChange={(e) => {
+                    setAlbum({ ...album, anhoLanzamiento: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="py-2">
+                <Input
+                  label="Número de canciones"
+                  placeholder="Número de canciones del álbum"
+                  value={album.numCanciones}
+                  onChange={(e) => {
+                    setAlbum({ ...album, numCanciones: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="py-2">
+                <Input
+                  label="Stock"
+                  placeholder="Stock del álbum"
+                  value={album.stock}
+                  onChange={(e) => {
+                    setAlbum({ ...album, stock: e.target.value });
+                  }}
                 />
               </div>
             </div>
+            <div className="w-1/2 px-2 py-2">
+              <div className="py-2">
+                <Input
+                  label="Artista"
+                  placeholder="Artista del álbum"
+                  value={album.artista}
+                  onChange={(e) => {
+                    setAlbum({ ...album, artista: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="py-2">
+                <Select
+                  label="Género"
+                  placeholder={
+                    album.genero ? album.genero : "Seleccione un género"
+                  }
+                  className="max-w-xs"
+                  items={generos}
+                  onChange={(e) => {
+                    setAlbum({ ...album, genero: e.target.value });
+                  }}
+                >
+                  {(generos) => (
+                    <SelectItem key={generos.nombre} value={generos.nombre}>
+                      {generos.nombre}
+                    </SelectItem>
+                  )}
+                </Select>
+              </div>
+              <div className="py-2">
+                <Input
+                  label="Precio"
+                  placeholder="Precio del álbum"
+                  value={album.precio}
+                  onChange={(e) => {
+                    setAlbum({ ...album, precio: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="py-2">
+                <div className="hidden">
+                  <input
+                    type="file"
+                    id="imagenPortada"
+                    accept="image/*"
+                    onChange={(e) => {
+                      setAlbum({
+                        ...album,
+                        imagenPortada: e.target.files[0],
+                      });
+                      cargarImagenPortada(e);
+                    }}
+                  />
+                </div>
+                <div className="flex space-x-2">
+                  <label htmlFor="imagenPortada">
+                    <Button
+                      color="primary"
+                      onPress={() => {
+                        document.getElementById("imagenPortada").click();
+                      }}
+                    >
+                      Seleccionar imagen de portada
+                    </Button>
+                  </label>
+                  <Image
+                    src={imagenPortada}
+                    width="50"
+                    height="50"
+                    alt="Imagen de portada"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="w-full px-2">
+              <div className="py-2">
+                <label>Descripción</label>
+              </div>
+              <div className="py-2">
+                <textarea
+                  className="w-full p-2 border rounded"
+                  rows={5}
+                  value={album.descripcion}
+                  onChange={(e) => {
+                    setAlbum({ ...album, descripcion: e.target.value });
+                  }}
+                ></textarea>
+              </div>
+            </div>
           </div>
-          <div className="w-full">
+
+          <div className="w-full py-2">
             <Button
               color="primary"
               type="submit"

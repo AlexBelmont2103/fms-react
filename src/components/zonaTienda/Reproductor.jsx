@@ -87,7 +87,7 @@ function Reproductor({ album, datosSpotify, tokenSpotify, pistasSpotify }) {
           shadow="sm"
         >
           <CardHeader className="flex flex-col">
-            <h3 className="text-2xl font-semibold">Esucha antes de comprar!</h3>
+            <h3 className="text-2xl font-semibold">Escúchalo antes de comprar!</h3>
             <p className="text-sm text-foreground/80">
               Tenemos muestras de los temazos
             </p>
