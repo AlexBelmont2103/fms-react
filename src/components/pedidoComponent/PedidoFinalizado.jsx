@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
+import { useDarkMode } from "../../contextProviders/darkModeContext";
 import pedidoRESTService from "../../servicios/restPedido";
 
 function PedidoFinalizado() {
@@ -9,6 +10,7 @@ function PedidoFinalizado() {
   const location = useLocation();
   console.log("Location", location);
   const { clienteLogged, dispatch } = useClienteLoggedContext();
+  const { darkMode } = useDarkMode();
   //#endregion
 
   //#region Efectos
@@ -45,15 +47,20 @@ function PedidoFinalizado() {
     return <div>Cargando...</div>;
   } else {
     return (
-
-      <div className="flex flex-col items-center justify-center h-screen space-y-4">
+      <div
+        className={
+          darkMode
+            ? "purple-light text-black flex flex-col items-center justify-center h-screen space-y-4"
+            : "purple-dark text-white flex flex-col items-center justify-center h-screen space-y-4"
+        }
+      >
         <h1 className="text-4xl font-bold">Pedido finalizado</h1>
         <h2 className="text-2xl text-gray-600">Gracias por tu compra</h2>
         <h3 className="text-xl font-semibold">Detalles del pedido</h3>
-        <p className="text-lg text-gray-500">Id: {pedido._id}</p>
-        <p className="text-lg text-gray-500">Fecha: {pedido.fechaPedido}</p>
-        <p className="text-lg text-gray-500">Estado: {pedido.estadoPedido}</p>
-        <p className="text-lg text-gray-500">Total: {pedido.totalPedido} €</p>
+        <p >Id: {pedido._id}</p>
+        <p >Fecha: {pedido.fechaPedido}</p>
+        <p >Estado: {pedido.estadoPedido}</p>
+        <p >Total: {pedido.totalPedido} €</p>
       </div>
     );
   }
