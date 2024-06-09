@@ -18,13 +18,13 @@ function Comentario({ comentario }) {
     <Card shadow>
       <div className="flex flex-row justify-start items-center mx-4">
         <img
-          src={comentario.imagen}
+          src={comentario.imagenAvatar}
           alt="Imagen de Usuario"
           className="h-12 w-12 rounded-full"
         />
         <div className="flex flex-col justify-start items-start">
           <p className="text-lg font-bold px-2">{comentario.nombre}</p>
-          <p className="text-lg px-2">{comentario.comentario}</p>
+          <p className="text-lg px-2">{comentario.texto}</p>
         </div>
       </div>
     </Card>

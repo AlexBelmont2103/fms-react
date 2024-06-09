@@ -28,37 +28,49 @@ function Album() {
   const [imagenesSpotify, setImagenesSpotify] = useState([]);
   const [pistasSpotify, setPistasSpotify] = useState([]);
   const [comentario, setComentario] = useState("");
-  const [comentarios, setComentarios] = useState([
+  const [comentariosOffline, setComentariosOffline] = useState([
     {
       id: 1,
       nombre: "Asuka Langley",
-      comentario: "Está bien, pero no es tan bueno como el anterior",
-      imagen: Asuka,
+      texto: "Está bien, pero no es tan bueno como el anterior",
+      imagenAvatar: Asuka,
     },
     {
       id: 2,
       nombre: "Gendo Ikari",
-      comentario: "Escuché este álbum mientras pensaba en devolver la vida a mi esposa",
-      imagen: Gendo,
+      texto: "Escuché este álbum mientras pensaba en devolver la vida a mi esposa",
+      imagenAvatar: Gendo,
     },
     {
       id: 3,
       nombre: "Shinji Ikari",
-      comentario: "Creo que esta música me hace sentir menos solo",
-      imagen: Shinji,
+      texto: "Creo que esta música me hace sentir menos solo",
+      imagenAvatar: Shinji,
     },
     {
       id: 4,
       nombre: "Ristuko Akagi",
-      comentario: "Me encanta este álbum, es muy relajante",
-      imagen: Ristuko,
+      texto: "Me encanta este álbum, es muy relajante",
+      imagenAvatar: Ristuko,
     },
   ]);
+  const [comentarios, setComentarios] = useState([]);
   const location = useLocation();
   //#endregion
 
   //#region funciones
-
+  const enviarComentario = async () => {
+    let id = location.pathname.split("/")[3];
+    let comentarioAEnviar = {
+      texto: comentario,
+      nombre: clienteLogged.datoscliente.nombre + " " + clienteLogged.datoscliente.apellidos,
+      idCliente: clienteLogged.datoscliente._id,
+      idAlbum: id,
+      imagenAvatar: clienteLogged.datoscliente.cuenta.imagenAvatar,
+    };
+    let data = await tiendaRESTService.InsertarComentarioAlbum(comentarioAEnviar);
+    setComentarios(data.datoscomentarios);
+  }
   //#endregion
 
   //#region efectos
@@ -73,6 +85,7 @@ function Album() {
       setTokenSpotify(data.tokenSpotify);
       setImagenesSpotify(data.datosSpotify.images);
       setPistasSpotify(data.pistasSpotify);
+      setComentarios(data.datosComentario);
     };
     fetchAlbum();
   }, [location]);
@@ -142,7 +155,9 @@ function Album() {
                           <textarea
                             className="w-full p-2 border border-gray-300 rounded-md"
                             rows={5}
+                            value={comentario}
                             placeholder="Escribe un comentario"
+                            onChange={(e) => setComentario(e.target.value)}
                           ></textarea>
                         </p>
                         <div className="flex flex-row justify-end items-center w-full">
@@ -152,7 +167,7 @@ function Album() {
                             color="primary"
                             className="w-1/8 mx-2"
                             onClick={() => {
-                              console.log("Comentario enviado");
+                              enviarComentario();
                             }}
                           >
                             Enviar
@@ -170,8 +185,11 @@ function Album() {
                 </div>
               )}
               <div className="grid grid-cols-1 gap-4 py-4">
-                {comentarios.map((comentario) => (
+                {comentariosOffline.map((comentario) => (
                   <Comentario comentario={comentario} key={comentario.id} />
+                ))}
+                {comentarios.map((comentario) => (
+                  <Comentario comentario={comentario} key={comentario._id} />
                 ))}
               </div>
             </div>
@@ -181,7 +199,6 @@ function Album() {
             <div className="flex-grow">
               <Reproductor
                 datosSpotify={datosSpotify}
-                tokenSpotify={tokenSpotify}
                 pistasSpotify={pistasSpotify}
                 album={album}
               />

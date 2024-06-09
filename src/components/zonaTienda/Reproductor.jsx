@@ -8,7 +8,7 @@ import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedCon
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import BotonFavorito from "./BotonFavorito";
 
-function Reproductor({ album, datosSpotify, tokenSpotify, pistasSpotify }) {
+function Reproductor({ album, datosSpotify, pistasSpotify }) {
   //#region variables de estado
   const [pistaActual, setPistaActual] = useState(0);
   const audioRef = useRef(null);
@@ -84,7 +84,7 @@ function Reproductor({ album, datosSpotify, tokenSpotify, pistasSpotify }) {
   //#endregion
   return (
     <>
-      {datosSpotify && tokenSpotify && (
+      {datosSpotify &&  (
         <Card
           className="border-none bg-background/60 dark:bg-default-100/50 flex flex-col h-full"
           shadow="sm"
