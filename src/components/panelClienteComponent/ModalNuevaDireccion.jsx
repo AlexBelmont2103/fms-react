@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  Divider,
   Button,
   Input,
   Select,
@@ -9,7 +8,6 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import * as Yup from "yup";
-import { Formik, Field, Form, ErrorMessage } from "formik";
 import pedidoRESTService from "../../servicios/restPedido";
 import clienteRESTService from "../../servicios/restCliente";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
@@ -22,8 +20,6 @@ function ModalNuevaDireccion({ direccion, operacion, onOpenChange }) {
   const { darkMode } = useDarkMode();
   const [provincias, setProvincias] = useState([]);
   const [municipios, setMunicipios] = useState([]);
-  const [selectedProvincia, setSelectedProvincia] = useState({});
-  const [selectedMunicipio, setSelectedMunicipio] = useState({});
   //#endregion
 
   //#region funciones

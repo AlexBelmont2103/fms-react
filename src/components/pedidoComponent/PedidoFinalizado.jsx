@@ -43,14 +43,19 @@ function PedidoFinalizado() {
   // Si el pedido aún no ha sido cargado, renderizar un componente de carga
   if (!pedido) {
     return <div>Cargando...</div>;
-  }else{
-    return(
-      <div>
-        <h1>Pedido finalizado</h1>
-        <p>El pedido se ha realizado correctamente</p>
-        <p>El número de pedido es: {pedido._id}</p>
+  } else {
+    return (
+
+      <div className="flex flex-col items-center justify-center h-screen space-y-4">
+        <h1 className="text-4xl font-bold">Pedido finalizado</h1>
+        <h2 className="text-2xl text-gray-600">Gracias por tu compra</h2>
+        <h3 className="text-xl font-semibold">Detalles del pedido</h3>
+        <p className="text-lg text-gray-500">Id: {pedido._id}</p>
+        <p className="text-lg text-gray-500">Fecha: {pedido.fechaPedido}</p>
+        <p className="text-lg text-gray-500">Estado: {pedido.estadoPedido}</p>
+        <p className="text-lg text-gray-500">Total: {pedido.totalPedido} €</p>
       </div>
-    )
+    );
   }
 }
 

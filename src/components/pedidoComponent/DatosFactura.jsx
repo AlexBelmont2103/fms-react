@@ -27,7 +27,8 @@ function DatosFactura({ pedido, setPedido, onChange }) {
   //#region Funciones
   function cambiarDatosFactura(ev) {
     setMismosDatos(!mismosDatos);
-    if (mismosDatos) {
+    console.log("Mismos datos", mismosDatos);
+    if (!mismosDatos) {
       //Tengo que poner los mismos datos que en el envio
       setPedido({
         ...pedido,

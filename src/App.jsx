@@ -9,13 +9,13 @@ import { ItemsCarroProvider } from "./contextProviders/itemsCarroContext";
 import Layout from "./components/layoutComponent/Layout";
 import RegistroOk from "./components/zonaCliente/RegistroOk";
 import Albumes from "./components/zonaTienda/Albumes";
+import Album from "./components/zonaTienda/Album";
 import {
   DarkModeProvider,
   useDarkMode,
 } from "./contextProviders/darkModeContext";
 import tiendaRESTService from "./servicios/restTienda";
 import pedidoRESTService from "./servicios/restPedido";
-import adminRESTService from "./servicios/restAdmin";
 import PedidoForm from "./components/pedidoComponent/PedidoForm";
 import PedidoFinalizado from "./components/pedidoComponent/PedidoFinalizado";
 import PanelCliente from "./components/panelClienteComponent/PanelCliente";
@@ -28,6 +28,7 @@ const routerObjects = createBrowserRouter([
     children: [
       { path: "/", element: <Navigate to="/Tienda/Albumes" /> },
       { path: "/Tienda/Albumes", element: <Albumes /> },
+      {path:"/Tienda/Album/:id",element:<Album/>},
       { path: "/Cliente/RegistroOk/:email", element: <RegistroOk /> },
       {
         path: "/Pedido/MostrarPedido",

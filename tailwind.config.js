@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const { nextui } = require("@nextui-org/react");
+const { nextui, colors } = require("@nextui-org/react");
 export default {
   important: true,
   content: [
@@ -8,7 +8,12 @@ export default {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'custom-blue': '#F2E4F9',
+        'custom-gray': "#D1D1D1",
+      }
+    },
   },
   darkMode: "class",
   plugins: [
