@@ -84,7 +84,7 @@ function AdminGeneros({ generos, setGeneros }) {
         </TableBody>
       </Table>
       <Modal
-        title="Nuevo Género"
+        title={operacion === "Añadir" ? "Crear Género" : "Modificar Género"}
         size="xl"
         isOpen={isOpen}
         onOpenChange={onOpenChange}

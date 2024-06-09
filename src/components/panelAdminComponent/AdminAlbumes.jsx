@@ -103,7 +103,7 @@ function AdminAlbumes({ albumes, setAlbumes, generos }) {
         </TableBody>
       </Table>
       <Modal
-        title="Nuevo Género"
+        title={operacion === "Añadir" ? "Añadir Álbum" : "Modificar Álbum"}
         size="3xl"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
