@@ -130,12 +130,12 @@ function Album() {
                 </p>
               </div>
               <div className="col-span-1">
-                <h2 className="text-2xl font-bold mb-4">Descripción</h2>
+                <h2 className="text-2xl font-bold mb-4">Información</h2>
                 <p>{album.descripcion}</p>
               </div>
             </div>
             <div className="py-4">
-              <h3 className="text-2xl font-semibold my-4">Comentarios</h3>
+              <h3 className="text-2xl font-semibold my-4">Opiniones de la Comunidad</h3>
               {clienteLogged ? (
                 <Card className="py-4">
                   <div className="flex flex-row justify-start items-center mx-4">
