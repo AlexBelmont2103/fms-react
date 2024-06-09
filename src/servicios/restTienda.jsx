@@ -62,6 +62,17 @@ let tiendaRESTService = {
             console.log('Error al intentar insertar comentario de album...', error);
         }
     },
+    buscarAlbumes: async function (busqueda) {
+        try {
+            let response = await fetch('http://localhost:5000/api/Tienda/BuscarAlbumes/' + busqueda, {
+                method: 'GET',
+            });
+            console.log('response: ', response);
+            return await response.json();
+        } catch (error) {
+            console.log('Error al intentar buscar albumes...', error);
+        }
+    },
 };
 
 export default tiendaRESTService;

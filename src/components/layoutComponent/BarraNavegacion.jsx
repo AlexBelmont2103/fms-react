@@ -14,6 +14,9 @@ import {
   useDisclosure,
   Modal,
   ModalContent,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
 } from "@nextui-org/react";
 import BannerDark from "../../assets/images/FullMetalStoreDark.png";
 import BannerLight from "../../assets/images/FullMetalStoreLight.png";
@@ -22,15 +25,31 @@ import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import CartIcon from "../../uiComponents/CartIcon";
 import ModalCarrito from "./ModalCarrito";
+import ElementoBusqueda from "./ElementoBusqueda";
+import tiendaRESTService from "../../servicios/restTienda";
 function BarraNavegacion() {
+  //#region variables de estado
   const { itemsCarro } = useItemsCarroContext();
   const { darkMode } = useDarkMode();
   const respuestaserver = useLoaderData();
   const [isInvisible, setIsInvisible] = useState(false);
+  const [busqueda, setBusqueda] = useState("");
+  const [albumesBusqueda, setAlbumesBusqueda] = useState([]);
   const generos = respuestaserver.datosgeneros;
   const [totalItemsCarro, setTotalItemsCarro] = useState(0);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const _location = useLocation();
+  //#endregion
+
+  //#region funciones
+  const buscarAlbumes = async (busqueda) => {
+    let response = await tiendaRESTService.buscarAlbumes(busqueda);
+    console.log(response);
+    setAlbumesBusqueda(response.datosalbumes);
+  };
+  //#endregion
+
+  //#region efectos
   useEffect(() => {
     setTotalItemsCarro(
       itemsCarro.reduce((total, item) => total + item.cantidad, 0)
@@ -47,6 +66,16 @@ function BarraNavegacion() {
       setIsInvisible(true);
     }
   }, [itemsCarro, totalItemsCarro]);
+  useEffect(() => {
+    console.log(albumesBusqueda);
+    setAlbumesBusqueda([]);
+    if (busqueda === "") {
+      setAlbumesBusqueda([]);
+    }
+    buscarAlbumes(busqueda);
+    console.log(albumesBusqueda);
+  }, [busqueda]);
+  //#endregion
   return (
     <div className="container mx-auto px-0 h-auto rounded-md">
       <Navbar isBordered="true">
@@ -64,24 +93,30 @@ function BarraNavegacion() {
         </NavbarContent>
         <NavbarContent className="hidden sm:flex" justify="start">
           <NavbarItem>
-            <div className="container flex gap-1">
-              <Input type="text" placeholder="Buscar por grupo, titulo..." />
-              <Button color="primary" variant="shadow">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                  />
-                </svg>
-              </Button>
+            <div className={darkMode?"container flex flex-row gap-1 purple-light":"container flex flex-row gap-1 purple-dark"}>
+              <Input
+                type="text"
+                placeholder="Buscar por grupo, nombre..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+              />
+              <Popover 
+              backdrop="blur"
+              
+              >
+                <PopoverTrigger>
+                  <Button color="primary" variant="shadow">
+                    Buscar
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="grid grid-cols-1 gap-2">
+                    {albumesBusqueda.map((album) => (
+                      <ElementoBusqueda key={album._id} album={album} />
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           </NavbarItem>
         </NavbarContent>
@@ -89,7 +124,9 @@ function BarraNavegacion() {
           <NavbarItem className="px-5">
             <Dropdown>
               <DropdownTrigger>
-                <Button color="primary" variant="shadow">Categorías</Button>
+                <Button color="primary" variant="shadow">
+                  Categorías
+                </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Dynamic Actions" items={generos}>
                 {(genero) => (
