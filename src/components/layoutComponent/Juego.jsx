@@ -18,14 +18,20 @@ function Juego() {
   const [descubrir, setDescubrir] = useState(false);
   const [acertadas, setAcertadas] = useState(0);
   const [previewUrl, setPreviewUrl] = useState(null);
-
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const audioRef = useRef(null);
   const { darkMode } = useDarkMode();
   //#endregion
   //#region funciones
-  function reproducirTema() {
-    audioRef.current.play();
+  function togglePlay() {
+    if (audioRef.current.paused) {
+      audioRef.current.play();
+      setIsPlaying(true);
+    } else {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
   }
   //#endregion
   function toggleDropdown() {
@@ -103,10 +109,10 @@ function Juego() {
               color="warning"
               onClick={(e) => {
                 e.stopPropagation();
-                reproducirTema();
+                togglePlay();
               }}
             >
-              Reproducir de nuevo
+              {isPlaying ? "Pausar" : "Reproducir"}
             </Button>
           </DropdownItem>
           <DropdownSection className="">
