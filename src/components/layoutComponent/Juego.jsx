@@ -85,6 +85,13 @@ function Juego() {
     // Limpiar el temporizador cuando ya no sea necesario
     return () => clearTimeout(timeoutId);
   }, [descubrir, respuestaCorrecta, acertadas]);
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.onended = () => {
+        setIsPlaying(false);
+      };
+    }
+  }, []);
   //#endregion
   return (
     <div className={darkMode ? "purple-light" : "purple-dark"}>
