@@ -31,6 +31,34 @@ function CardAlbum({ album }) {
       alert("No puedes añadir este álbum al carrito. No hay stock disponible.");
     }
   }
+  async function añadirFavorito(album) {
+    let token = clienteLogged.tokensesion;
+    let response = await clienteRESTService.añadirFavorito(token, album.id);
+    if (response.ok) {
+      let data = await response.json();
+      dispatchCliente({
+        type: "CLIENTE_RECUPERAR",
+        payload: {
+          datoscliente: data.datoscliente,
+          tokensesion: data.tokensesion,
+        },
+      });
+    }
+  }
+  async function eliminarFavorito(album) {
+    let token = clienteLogged.tokensesion;
+    let response = await clienteRESTService.eliminarFavorito(token, album.id);
+    if (response.ok) {
+      let data = await response.json();
+      dispatchCliente({
+        type: "CLIENTE_RECUPERAR",
+        payload: {
+          datoscliente: data.datoscliente,
+          tokensesion: data.tokensesion,
+        },
+      });
+    }
+  }
   //#endregion
 
   //#region efectos
@@ -57,6 +85,7 @@ function CardAlbum({ album }) {
                     radius="full"
                     variant="light"
                     size="small"
+                    onPress={() => eliminarFavorito(album)}
                   >
                     <FullHeartIcon size={24} />
                   </Button>
@@ -67,6 +96,7 @@ function CardAlbum({ album }) {
                     radius="full"
                     variant="light"
                     size="small"
+                    onPress={() => añadirFavorito(album)}
                   >
                     <HeartIcon size={24} />
                   </Button>

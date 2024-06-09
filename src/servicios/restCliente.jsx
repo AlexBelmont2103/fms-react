@@ -183,6 +183,42 @@ let clienteRESTService = {
       console.log("Error al intentar cancelar pedido...", error);
     }
   },
+  agregarFavorito: async function (idAlbum, tokensesion) {
+    try {
+      let response = await fetch(
+        "http://localhost:5000/api/Cliente/AgregarFavorito",
+        {
+          method: "POST",
+          body: JSON.stringify({ idAlbum: idAlbum }),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + tokensesion,
+          },
+        }
+      );
+      return await response.json();
+    } catch (error) {
+      console.log("Error al intentar añadir favorito...", error);
+    }
+  },
+  eliminarFavorito: async function (idAlbum, tokensesion) {
+    try {
+      let response = await fetch(
+        "http://localhost:5000/api/Cliente/EliminarFavorito",
+        {
+          method: "POST",
+          body: JSON.stringify({ idAlbum: idAlbum }),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + tokensesion,
+          },
+        }
+      );
+      return await response.json();
+    } catch (error) {
+      console.log("Error al intentar eliminar favorito...", error);
+    }
+  },
 };
 
 export default clienteRESTService;
