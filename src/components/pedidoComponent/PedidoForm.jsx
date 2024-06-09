@@ -264,7 +264,7 @@ function PedidoForm() {
             <h1>Debes estar logueado para hacer un pedido</h1>
           </div>
         )}
-        {errores && (
+        {Array.isArray(errores) && errores.length > 0 && (
           <div>
             {errores.map((error) => (
               <p className="text-red-500">{error}</p>
