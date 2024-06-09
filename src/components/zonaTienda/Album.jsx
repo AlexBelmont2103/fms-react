@@ -27,6 +27,7 @@ function Album() {
   const [tokenSpotify, setTokenSpotify] = useState("");
   const [imagenesSpotify, setImagenesSpotify] = useState([]);
   const [pistasSpotify, setPistasSpotify] = useState([]);
+  const [comentario, setComentario] = useState("");
   const [comentarios, setComentarios] = useState([
     {
       id: 1,
@@ -37,7 +38,7 @@ function Album() {
     {
       id: 2,
       nombre: "Gendo Ikari",
-      comentario: "Escuché este álbum mientras pensaba en mi esposa muerta",
+      comentario: "Escuché este álbum mientras pensaba en devolver la vida a mi esposa",
       imagen: Gendo,
     },
     {
@@ -121,37 +122,42 @@ function Album() {
               </div>
             </div>
             <div className="py-4">
-              <h3 className="text-2xl font-semibold my-2">Comentarios</h3>
+              <h3 className="text-2xl font-semibold my-4">Comentarios</h3>
               {clienteLogged ? (
-                <Card shadow className="py-2">
+                <Card className="py-4">
                   <div className="flex flex-row justify-start items-center mx-4">
-                    <img
-                      src={clienteLogged.datoscliente.cuenta.imagenAvatar}
-                      alt="Imagen de Usuario"
-                      className="h-12 w-12 rounded-full"
-                    />
-                    <div className="flex flex-col justify-start items-start">
-                      <p className="text-lg font-bold">
-                        {clienteLogged.datoscliente.cuenta.nombre}
-                      </p>
-                      <p className="text-lg">
-                        <textarea 
-                          className="w-full flex-grow"
-                          placeholder="Escribe un comentario"
-                        ></textarea>
-                      </p>
-                      <div className="flex flex-row justify-end items-center">
-                        <Button
-                          auto
-                          type="submit"
-                          color="primary"
-                          className="mx-2"
-                          onClick={() => {
-                            console.log("Comentario enviado");
-                          }}
-                        >
-                          Enviar
-                        </Button>
+                    <div>
+                      <img
+                        src={clienteLogged.datoscliente.cuenta.imagenAvatar}
+                        alt="Imagen de Usuario"
+                        className="h-12 w-12 rounded-full"
+                      />
+                    </div>
+                    <div className="w-full px-2">
+                      <div className="flex flex-col justify-start items-start w-full">
+                        <p className="text-lg font-bold">
+                          {clienteLogged.datoscliente.cuenta.nombre}
+                        </p>
+                        <p className="text-lg w-full">
+                          <textarea
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                            rows={5}
+                            placeholder="Escribe un comentario"
+                          ></textarea>
+                        </p>
+                        <div className="flex flex-row justify-end items-center w-full">
+                          <Button
+                            auto
+                            type="submit"
+                            color="primary"
+                            className="w-1/8 mx-2"
+                            onClick={() => {
+                              console.log("Comentario enviado");
+                            }}
+                          >
+                            Enviar
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -163,7 +169,7 @@ function Album() {
                   </p>
                 </div>
               )}
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-4 py-4">
                 {comentarios.map((comentario) => (
                   <Comentario comentario={comentario} key={comentario.id} />
                 ))}

@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Image,
-  Button,
-} from "@nextui-org/react";
+import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 import tiendaRESTService from "../../servicios/restTienda";
+import clienteRESTService from "../../servicios/restCliente";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
+import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
+import HeartIcon from "../../uiComponents/HeartIcon";
+import FullHeartIcon from "../../uiComponents/FullHeartIcon";
 function CardAlbum({ album }) {
   //#region variables de estado
+  const { clienteLogged, dispatchCliente } = useClienteLoggedContext();
   const { itemsCarro, dispatch } = useItemsCarroContext();
   const [imagenesSpotify, setImagenSpotify] = useState([]);
   //#endregion
@@ -43,13 +41,39 @@ function CardAlbum({ album }) {
     <div key={album._id}>
       <Card className="col-span-12 sm:col-span-4 h-[300px]">
         <Link to={`/Tienda/Album/${album._id}`}>
-          <Image
-            removeWrapper
-            isZoomed
-            alt="Card background"
-            className="z-0 w-full h-full object-cover"
-            src={album.imagenPortada}
-          />
+          <div className="relative w-full h-full">
+            <Image
+              removeWrapper
+              alt="Card background"
+              className="z-0 w-full h-full object-cover"
+              src={album.imagenPortada}
+            />
+            {clienteLogged && (
+              <div className="absolute top-0 left-0 p-2">
+                {clienteLogged.datoscliente.favoritos.includes(album.id) ? (
+                  <Button
+                    isIconOnly
+                    className="data-[hover]:bg-foreground/10"
+                    radius="full"
+                    variant="light"
+                    size="small"
+                  >
+                    <FullHeartIcon size={24} />
+                  </Button>
+                ) : (
+                  <Button
+                    isIconOnly
+                    className="data-[hover]:bg-foreground/10"
+                    radius="full"
+                    variant="light"
+                    size="small"
+                  >
+                    <HeartIcon size={24} />
+                  </Button>
+                )}
+              </div>
+            )}
+          </div>
         </Link>
         <CardFooter className="overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
           {album.stock > 0 ? (
