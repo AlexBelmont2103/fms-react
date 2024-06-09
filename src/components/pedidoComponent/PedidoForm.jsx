@@ -19,6 +19,7 @@ function PedidoForm() {
   const [gastosEnvio, setGastosEnvio] = useState(0);
   const [totalPedido, setTotalPedido] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [errores, setErrores] = useState({});
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
     nombreEnvio: Yup.string().required("Campo requerido: Nombre"),
@@ -170,7 +171,8 @@ function PedidoForm() {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.errors);
+      setErrores(error.errors);
     }
   };
   const calcularSubTotal = async () => {
@@ -260,6 +262,13 @@ function PedidoForm() {
         {clienteLogged == null && (
           <div>
             <h1>Debes estar logueado para hacer un pedido</h1>
+          </div>
+        )}
+        {errores && (
+          <div>
+            {errores.map((error) => (
+              <p className="text-red-500">{error}</p>
+            ))}
           </div>
         )}
         {clienteLogged != null && (
