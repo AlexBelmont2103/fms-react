@@ -1,143 +1,153 @@
-import { useState, useEffect } from "react";
-import { Card, CardBody, Image, Button, Slider } from "@nextui-org/react";
+import { useState, useEffect, useRef } from "react";
+import { Card, CardHeader, CardBody, Image, Button } from "@nextui-org/react";
 import { PreviousIcon } from "../../uiComponents/PreviousIcon";
 import { NextIcon } from "../../uiComponents/NextIcon";
 import { PauseCircleIcon } from "../../uiComponents/PauseCircleIcon";
-function Reproductor({ datosSpotify, tokenSpotify }) {
-  //#region variables de estado
+import { PlayCircleIcon } from "../../uiComponents/PlayCircleIcon";
+import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 
+function Reproductor({ album, datosSpotify, tokenSpotify, pistasSpotify }) {
+  //#region variables de estado
+  const [pistaActual, setPistaActual] = useState(0);
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const { itemsCarro, dispatch } = useItemsCarroContext();
   //#endregion
 
   //#region funciones
+  function añadirAlbumCarro(album) {
+    // Buscar el álbum en el carrito
+    const itemCarro = itemsCarro.find((item) => item.album.id === album.id);
+    const cantidadEnCarro = itemCarro ? itemCarro.cantidad : 0;
+
+    if (album.stock > cantidadEnCarro) {
+      // Si hay stock disponible, añadir el álbum al carrito
+      dispatch({
+        type: "ADD_NUEVO_ALBUM",
+        payload: { album },
+      });
+    } else {
+      // Si no hay stock disponible, mostrar una alerta
+      alert("No puedes añadir este álbum al carrito. No hay stock disponible.");
+    }
+  }
+  function togglePlay() {
+    const currentIndex = pistasSpotify.findIndex(
+      (track) => track.id === pistaActual.id
+    );
+    setPistaActual(pistasSpotify[currentIndex]);
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.src = pistaActual.preview_url; // Asegúrate de que 'preview_url' es la propiedad correcta para la URL de la pista
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  }
+  function nextTrack() {
+    const currentIndex = pistasSpotify.findIndex(
+      (track) => track.id === pistaActual.id
+    );
+    const nextIndex = (currentIndex + 1) % pistasSpotify.length;
+    setPistaActual(pistasSpotify[nextIndex]);
+    audioRef.current.src = pistaActual.preview_url;
+    audioRef.current.pause();
+    setIsPlaying(false);
+  }
+
+  function previousTrack() {
+    const currentIndex = pistasSpotify.findIndex(
+      (track) => track.id === pistaActual.id
+    );
+    const previousIndex =
+      (currentIndex - 1 + pistasSpotify.length) % pistasSpotify.length;
+    setPistaActual(pistasSpotify[previousIndex]);
+    audioRef.current.src = pistaActual.preview_url;
+    audioRef.current.pause();
+    setIsPlaying(false);
+  }
 
   //#endregion
 
   //#region efectos
+  //Poner la primera pista del album en el reproductor al iniciar
   useEffect(() => {
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      const token = tokenSpotify;
-      const player = new window.Spotify.Player({
-        name: "Web Playback SDK",
-        getOAuthToken: (cb) => {
-          cb(token);
-        },
-      });
-
-      // Error handling
-      player.addListener("initialization_error", ({ message }) => {
-        console.error(message);
-      });
-      player.addListener("authentication_error", ({ message }) => {
-        console.error(message);
-      });
-      player.addListener("account_error", ({ message }) => {
-        console.error(message);
-      });
-      player.addListener("playback_error", ({ message }) => {
-        console.error(message);
-      });
-
-      // Playback status updates
-      player.addListener("player_state_changed", (state) => {
-        console.log(state);
-      });
-
-      // Ready
-      player.addListener("ready", ({ device_id }) => {
-        console.log("Ready with Device ID", device_id);
-      });
-
-      // Not Ready
-      player.addListener("not_ready", ({ device_id }) => {
-        console.log("Device ID has gone offline", device_id);
-      });
-
-      // Connect to the player!
-      player.connect();
-    };
-  }, []);
+    if (pistasSpotify.length > 0) {
+      setPistaActual(pistasSpotify[0]);
+    }
+  }, [pistasSpotify]);
   //#endregion
-
   return (
     <>
-      <Card
-        isBlurred
-        className="border-none bg-background/60 dark:bg-default-100/50 max-w-[610px]"
-        shadow="sm"
-      >
-        <CardBody>
-          <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center">
-            <div className="relative col-span-6 md:col-span-4">
-              <Image
-                alt="Album cover"
-                className="object-cover"
-                height={200}
-                shadow="md"
-                src="https://nextui.org/images/album-cover.png"
-                width="100%"
-              />
+      {datosSpotify && tokenSpotify && (
+        <Card
+          className="border-none bg-background/60 dark:bg-default-100/50 flex flex-col h-full"
+          shadow="sm"
+        >
+          <CardHeader className="flex flex-col">
+            <h3 className="text-2xl font-semibold">Esucha antes de comprar!</h3>
+            <p className="text-sm text-foreground/80">
+              Tenemos muestras de los temazos
+            </p>
+          </CardHeader>
+          <CardBody>
+            <Image src={datosSpotify.images[0].url} alt="Album cover" />
+            <audio
+              ref={audioRef}
+              onTimeUpdate={(e) => setTrackProgress(e.target.currentTime)}
+              onLoadedMetadata={(e) => setTrackDuration(e.target.duration)}
+              src={pistaActual.preview_url}
+            ></audio>
+            <div className="flex items-center justify-center">
+              <p>{pistaActual.name}</p>
             </div>
-
-            <div className="flex flex-col col-span-6 md:col-span-8">
-              <div className="flex justify-between items-start">
-                <div className="flex flex-col gap-0">
-                  <h3 className="font-semibold text-foreground/90">
-                    Daily Mix
-                  </h3>
-                  <p className="text-small text-foreground/80">12 Tracks</p>
-                  <h1 className="text-large font-medium mt-2">
-                    Frontend Radio
-                  </h1>
-                </div>
-              </div>
-
-              <div className="flex flex-col mt-3 gap-1">
-                <Slider
-                  aria-label="Music progress"
-                  classNames={{
-                    track: "bg-default-500/30",
-                    thumb: "w-2 h-2 after:w-2 after:h-2 after:bg-foreground",
-                  }}
-                  color="foreground"
-                  defaultValue={33}
-                  size="sm"
-                />
-                <div className="flex justify-between">
-                  <p className="text-small">1:23</p>
-                  <p className="text-small text-foreground/50">4:32</p>
-                </div>
-              </div>
-
-              <div className="flex w-full items-center justify-center">
-                <Button
-                  isIconOnly
-                  className="data-[hover]:bg-foreground/10"
-                  radius="full"
-                  variant="light"
-                >
-                  <PreviousIcon />
-                </Button>
-                <Button
-                  isIconOnly
-                  className="w-auto h-auto data-[hover]:bg-foreground/10"
-                  radius="full"
-                  variant="light"
-                >
-                  <PauseCircleIcon size={54} />
-                </Button>
-                <Button
-                  isIconOnly
-                  className="data-[hover]:bg-foreground/10"
-                  radius="full"
-                  variant="light"
-                >
-                  <NextIcon />
-                </Button>
-              </div>
+            <div className="flex items-center justify-center">
+              <Button
+                isIconOnly
+                className="data-[hover]:bg-foreground/10"
+                radius="full"
+                variant="light"
+                onClick={previousTrack}
+              >
+                <PreviousIcon />
+              </Button>
+              <Button
+                isIconOnly
+                className="w-auto h-auto data-[hover]:bg-foreground/10"
+                radius="full"
+                variant="light"
+                onClick={togglePlay}
+              >
+                {isPlaying ? <PauseCircleIcon /> : <PlayCircleIcon />}
+              </Button>
+              <Button
+                isIconOnly
+                className="data-[hover]:bg-foreground/10"
+                radius="full"
+                variant="light"
+                onClick={nextTrack}
+              >
+                <NextIcon />
+              </Button>
             </div>
-          </div>
-        </CardBody>
-      </Card>
+            {album.stock > 0 ? (
+              <Button
+                onClick={() => añadirAlbumCarro(album)}
+                className="w-full mt-4"
+                color="primary"
+              >
+                Añadir al carrito
+              </Button>
+            ) : (
+              <Button disabled color="danger" className="w-full mt-4">
+                Sin stock
+              </Button>
+            )}
+          </CardBody>
+        </Card>
+      )}
     </>
   );
 }

@@ -18,26 +18,12 @@ function Album() {
   const [datosSpotify, setDatosSpotify] = useState(null);
   const [tokenSpotify, setTokenSpotify] = useState("");
   const [imagenesSpotify, setImagenesSpotify] = useState([]);
+  const [pistasSpotify, setPistasSpotify] = useState([]);
   const location = useLocation();
   //#endregion
 
   //#region funciones
-  function añadirAlbumCarro(album) {
-    // Buscar el álbum en el carrito
-    const itemCarro = itemsCarro.find((item) => item.album.id === album.id);
-    const cantidadEnCarro = itemCarro ? itemCarro.cantidad : 0;
 
-    if (album.stock > cantidadEnCarro) {
-      // Si hay stock disponible, añadir el álbum al carrito
-      dispatch({
-        type: "ADD_NUEVO_ALBUM",
-        payload: { album },
-      });
-    } else {
-      // Si no hay stock disponible, mostrar una alerta
-      alert("No puedes añadir este álbum al carrito. No hay stock disponible.");
-    }
-  }
   //#endregion
 
   //#region efectos
@@ -51,6 +37,7 @@ function Album() {
       setDatosSpotify(data.datosSpotify);
       setTokenSpotify(data.tokenSpotify);
       setImagenesSpotify(data.datosSpotify.images);
+      setPistasSpotify(data.pistasSpotify);
     };
     fetchAlbum();
   }, [location]);
@@ -60,23 +47,69 @@ function Album() {
   return (
     <div
       className={
-        darkMode ? "purple-light text-black my-2" : "purple-dark text-white my-2"
+        darkMode
+          ? "purple-light text-black my-2"
+          : "purple-dark text-white my-2"
       }
     >
-      <div className="grid grid-cols-3 gap-4">
-        <div>
-            <Reproductor datosSpotify={datosSpotify} tokenSpotify={tokenSpotify}/>
+      {datosSpotify ? (
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2">
+            <div className=""></div>
+            <div>
+              <h2 className="text-2xl font-bold mb-4">Información del Álbum</h2>
+              <p>
+                <strong>Nombre del álbum:</strong> {datosSpotify.name}
+              </p>
+              <p>
+                <strong>Fecha de lanzamiento:</strong>{" "}
+                {datosSpotify.release_date}
+              </p>
+              <p>
+                <strong>Total de pistas:</strong> {datosSpotify.total_tracks}
+              </p>
+              <p>
+                <strong>Enlace a Spotify:</strong>{" "}
+                <a
+                  href={datosSpotify.external_urls.spotify}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Escucha en Spotify
+                </a>
+              </p>
+            </div>
+            <div>
+              {/*Vamos a añadir comentarios de prueba, para rellenar la página */}
+              <h3 className="text-2xl font-semibold">Comentarios</h3>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="bg-background/60 dark:bg-default-100/50 p-2 rounded-md">
+                  <p className="text-foreground/80">Comentario de prueba 1</p>
+                </div>
+                <div className="bg-background/60 dark:bg-default-100/50 p-2 rounded-md">
+                  <p className="text-foreground/80">Comentario de prueba 2</p>
+                </div>
+                <div className="bg-background/60 dark:bg-default-100/50 p-2 rounded-md">
+                  <p className="text-foreground/80">Comentario de prueba 3</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <div className="flex-grow">
+              <Reproductor
+                datosSpotify={datosSpotify}
+                tokenSpotify={tokenSpotify}
+                pistasSpotify={pistasSpotify}
+                album={album}
+              />
+            </div>
+            <div className="flex-grow my-2"></div>
+          </div>
         </div>
-        <div>
-          <h1>Nombre del álbum: {album.nombre}</h1>
-          <h2>Nombre del artista: {album.artista}</h2>
-          <h3>Género: {album.genero}</h3>
-          <h4>Precio: {album.precio}</h4>
-        </div>
-        <div>
-
-        </div>
-      </div>
+      ): (
+        <div>Cargando...</div>
+      )}
     </div>
   );
 }
