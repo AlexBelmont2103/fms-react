@@ -102,7 +102,7 @@ function MiniPedido({ pedido }) {
           </PopoverTrigger>
           <PopoverContent className={darkMode?"bg-blue-300":"bg-gray-800"}>
             {pedidoState.elementosPedido.map((elemento) => (
-              <div key={elemento._id}>
+              <div key={elemento._id} className="w-full">
                 <ElementoPedidoCompletado elemento={elemento} />
               </div>
             ))}
