@@ -184,6 +184,8 @@ let clienteRESTService = {
     }
   },
   agregarFavorito: async function (idAlbum, tokensesion) {
+    console.log("Valor de idAlbum...", idAlbum);
+    console.log("Valor de tokensesion...", tokensesion);
     try {
       let response = await fetch(
         "http://localhost:5000/api/Cliente/AgregarFavorito",

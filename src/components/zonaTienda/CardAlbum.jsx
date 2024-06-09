@@ -5,13 +5,12 @@ import tiendaRESTService from "../../servicios/restTienda";
 import clienteRESTService from "../../servicios/restCliente";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
-import HeartIcon from "../../uiComponents/HeartIcon";
-import FullHeartIcon from "../../uiComponents/FullHeartIcon";
+import BotonFavorito from "./BotonFavorito";
 function CardAlbum({ album }) {
   //#region variables de estado
-  const { clienteLogged, dispatchCliente } = useClienteLoggedContext();
   const { itemsCarro, dispatch } = useItemsCarroContext();
   const [imagenesSpotify, setImagenSpotify] = useState([]);
+  const { clienteLogged } = useClienteLoggedContext();
   //#endregion
 
   //#region funciones
@@ -31,37 +30,11 @@ function CardAlbum({ album }) {
       alert("No puedes añadir este álbum al carrito. No hay stock disponible.");
     }
   }
-  async function añadirFavorito(album) {
-    let token = clienteLogged.tokensesion;
-    let response = await clienteRESTService.añadirFavorito(token, album.id);
-    if (response.ok) {
-      let data = await response.json();
-      dispatchCliente({
-        type: "CLIENTE_RECUPERAR",
-        payload: {
-          datoscliente: data.datoscliente,
-          tokensesion: data.tokensesion,
-        },
-      });
-    }
-  }
-  async function eliminarFavorito(album) {
-    let token = clienteLogged.tokensesion;
-    let response = await clienteRESTService.eliminarFavorito(token, album.id);
-    if (response.ok) {
-      let data = await response.json();
-      dispatchCliente({
-        type: "CLIENTE_RECUPERAR",
-        payload: {
-          datoscliente: data.datoscliente,
-          tokensesion: data.tokensesion,
-        },
-      });
-    }
-  }
+
   //#endregion
 
   //#region efectos
+  //Efecto para comparar si el álbum es favorito
 
   //#endregion
 
@@ -76,59 +49,39 @@ function CardAlbum({ album }) {
               className="z-0 w-full h-full object-cover"
               src={album.imagenPortada}
             />
-            {clienteLogged && (
-              <div className="absolute top-0 left-0 p-2">
-                {clienteLogged.datoscliente.favoritos.includes(album.id) ? (
-                  <Button
-                    isIconOnly
-                    className="data-[hover]:bg-foreground/10"
-                    radius="full"
-                    variant="light"
-                    size="small"
-                    onPress={() => eliminarFavorito(album)}
-                  >
-                    <FullHeartIcon size={24} />
-                  </Button>
-                ) : (
-                  <Button
-                    isIconOnly
-                    className="data-[hover]:bg-foreground/10"
-                    radius="full"
-                    variant="light"
-                    size="small"
-                    onPress={() => añadirFavorito(album)}
-                  >
-                    <HeartIcon size={24} />
-                  </Button>
-                )}
-              </div>
-            )}
           </div>
         </Link>
         <CardFooter className="overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
-          {album.stock > 0 ? (
-            <Button
-              className="w-full text-large"
-              variant="shadow"
-              color="primary"
-              radius="lg"
-              size="sm"
-              onPress={() => añadirAlbumCarro(album)}
-            >
-              Comprar
-            </Button>
-          ) : (
-            <Button
-              disabled
-              className="w-full text-large"
-              variant="shadow"
-              color="danger"
-              radius="lg"
-              size="sm"
-            >
-              Agotado
-            </Button>
-          )}
+          <div className="flex flex-col justify-end">
+            <div className="py-2">
+              {album.stock > 0 ? (
+                <Button
+                  className="w-full text-large"
+                  variant="shadow"
+                  color="primary"
+                  radius="lg"
+                  size="sm"
+                  onPress={() => añadirAlbumCarro(album)}
+                >
+                  Comprar
+                </Button>
+              ) : (
+                <Button
+                  disabled
+                  className="w-full text-large"
+                  variant="shadow"
+                  color="danger"
+                  radius="lg"
+                  size="sm"
+                >
+                  Agotado
+                </Button>
+              )}
+            </div>
+            <div className="py-2">
+              <BotonFavorito album={album} />
+            </div>
+          </div>
         </CardFooter>
       </Card>
     </div>

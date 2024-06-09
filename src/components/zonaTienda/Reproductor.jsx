@@ -4,7 +4,9 @@ import { PreviousIcon } from "../../uiComponents/PreviousIcon";
 import { NextIcon } from "../../uiComponents/NextIcon";
 import { PauseCircleIcon } from "../../uiComponents/PauseCircleIcon";
 import { PlayCircleIcon } from "../../uiComponents/PlayCircleIcon";
+import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
+import BotonFavorito from "./BotonFavorito";
 
 function Reproductor({ album, datosSpotify, tokenSpotify, pistasSpotify }) {
   //#region variables de estado
@@ -12,6 +14,7 @@ function Reproductor({ album, datosSpotify, tokenSpotify, pistasSpotify }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const { itemsCarro, dispatch } = useItemsCarroContext();
+  const { clienteLogged } = useClienteLoggedContext();
   //#endregion
 
   //#region funciones
@@ -87,7 +90,9 @@ function Reproductor({ album, datosSpotify, tokenSpotify, pistasSpotify }) {
           shadow="sm"
         >
           <CardHeader className="flex flex-col">
-            <h3 className="text-2xl font-semibold">Escúchalo antes de comprar!</h3>
+            <h3 className="text-2xl font-semibold">
+              Escúchalo antes de comprar!
+            </h3>
             <p className="text-sm text-foreground/80">
               Tenemos muestras de los temazos
             </p>
@@ -132,19 +137,32 @@ function Reproductor({ album, datosSpotify, tokenSpotify, pistasSpotify }) {
                 <NextIcon />
               </Button>
             </div>
-            {album.stock > 0 ? (
-              <Button
-                onClick={() => añadirAlbumCarro(album)}
-                className="w-full mt-4"
-                color="primary"
-              >
-                Añadir al carrito
-              </Button>
-            ) : (
-              <Button disabled color="danger" className="w-full mt-4">
-                Sin stock
-              </Button>
-            )}
+            <div>
+              <div className="py-2">
+                {album.stock > 0 ? (
+                  <Button
+                    onClick={() => añadirAlbumCarro(album)}
+                    className="w-full mt-4"
+                    color="primary"
+                  >
+                    Añadir al carrito
+                  </Button>
+                ) : (
+                  <Button disabled color="danger" className="w-full mt-4">
+                    Sin stock
+                  </Button>
+                )}
+              </div>
+              <div className="py-2">
+                {clienteLogged ? (
+                  <BotonFavorito album={album} />
+                ) : (
+                  <p className="text-foreground/80 text-center mt-4">
+                    Inicia sesión para añadir este álbum a tus favoritos
+                  </p>
+                )}
+              </div>
+            </div>
           </CardBody>
         </Card>
       )}

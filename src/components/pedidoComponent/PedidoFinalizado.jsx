@@ -45,14 +45,15 @@ function PedidoFinalizado() {
     return <div>Cargando...</div>;
   } else {
     return (
+
       <div className="flex flex-col items-center justify-center h-screen space-y-4">
         <h1 className="text-4xl font-bold">Pedido finalizado</h1>
         <h2 className="text-2xl text-gray-600">Gracias por tu compra</h2>
         <h3 className="text-xl font-semibold">Detalles del pedido</h3>
-        <p className="text-lg text-gray-500">Id: {pedido.id}</p>
-        <p className="text-lg text-gray-500">Fecha: {pedido.fecha}</p>
-        <p className="text-lg text-gray-500">Estado: {pedido.estado}</p>
-        <p className="text-lg text-gray-500">Total: {pedido.total} €</p>
+        <p className="text-lg text-gray-500">Id: {pedido._id}</p>
+        <p className="text-lg text-gray-500">Fecha: {pedido.fechaPedido}</p>
+        <p className="text-lg text-gray-500">Estado: {pedido.estadoPedido}</p>
+        <p className="text-lg text-gray-500">Total: {pedido.totalPedido} €</p>
       </div>
     );
   }
