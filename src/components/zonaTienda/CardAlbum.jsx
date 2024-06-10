@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { Card, CardFooter, Image, Button } from "@nextui-org/react";
+import { Card, CardFooter,CardBody, Image, Button } from "@nextui-org/react";
 import tiendaRESTService from "../../servicios/restTienda";
 import clienteRESTService from "../../servicios/restCliente";
 import { useItemsCarroContext } from "../../contextProviders/itemsCarroContext";
@@ -51,7 +51,7 @@ function CardAlbum({ album }) {
             />
           </div>
         </Link>
-        <CardFooter className="overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+        <CardFooter className="overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)]">
           <div className="flex flex-col justify-end">
             <div className="py-2">
               {album.stock > 0 ? (

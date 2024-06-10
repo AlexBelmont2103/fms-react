@@ -5,16 +5,21 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Image,
-  Button,
+  Pagination,
 } from "@nextui-org/react";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import CardAlbum from "./CardAlbum";
 import tiendaRESTService from "../../servicios/restTienda";
 
 function Albumes() {
+  //#region variables de estado
   const location = useLocation();
   const busqueda = new URLSearchParams(location.search);
+  const [albumes, setAlbumes] = useState([]);
+  const [albumesPorPagina, setAlbumesPorPagina] = useState(12);
+  const [pagina, setPagina] = useState(1);
+  const [albumesActuales, setAlbumesActuales] = useState([]);
+  const [totalPaginas, setTotalPaginas] = useState(0);
   const { darkMode } = useDarkMode();
   let operacion = "";
   let busquedaValor = "";
@@ -25,8 +30,11 @@ function Albumes() {
     operacion = "genero";
     busquedaValor = busqueda.get("genero");
   }
-  const [albumes, setAlbumes] = useState([]);
+  //#endregion
+  //#region Funciones
 
+  //#endregion
+  //#region Efectos
   useEffect(() => {
     tiendaRESTService
       .RecuperarAlbumes(operacion, busquedaValor)
@@ -34,7 +42,13 @@ function Albumes() {
         setAlbumes(data.datosalbumes);
       });
   }, [operacion, busquedaValor]);
-  
+  useEffect(() => {
+    setTotalPaginas(Math.ceil(albumes.length / albumesPorPagina));
+  }, [albumes, albumesPorPagina]);
+  useEffect(() => {
+    setAlbumesActuales(albumes.slice(0, albumesPorPagina));
+  }, [albumes, albumesPorPagina]);
+  //#endregion
   return (
     <div className={darkMode ? "purple-light" : "purple-dark"}>
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -57,12 +71,31 @@ function Albumes() {
             </Card>
           </div>
         )}
-        {albumes.map((album) => (
-          <div  key={album._id}>
+        {albumesActuales.map((album) => (
+          <div key={album._id}>
             <CardAlbum album={album} />
           </div>
-          
         ))}
+      </div>
+      <div className="flex justify-center overflow-hidden w-full">
+        <Pagination
+          total={totalPaginas}
+          current={pagina}
+          initialPage={1}
+          variant="faded"
+          className="mt-2"
+          showControls
+          onChange={(page) => {
+            setPagina(page);
+            setAlbumesActuales(
+              albumes.slice(
+                (page - 1) * albumesPorPagina,
+                page * albumesPorPagina
+              )
+            );
+          }}
+          
+        />
       </div>
     </div>
   );
