@@ -52,8 +52,13 @@ function Layout() {
   }, []);
   //Si el clienteLogged es null o no es administrador, redirigir a la página de inicio
   useEffect(() => {
-    if (clienteLogged === null || !clienteLogged.datoscliente.cuenta.email !== "admin@fullmetalstore.es") {
-      navigate("/");
+    if (location.pathname === "/Admin") {
+      if (
+        clienteLogged === null ||
+        !clienteLogged.datoscliente.cuenta.email !== "admin@fullmetalstore.es"
+      ) {
+        navigate("/");
+      }
     }
   }, [clienteLogged]);
   //#endregion

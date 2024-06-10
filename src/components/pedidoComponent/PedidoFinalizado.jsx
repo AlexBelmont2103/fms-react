@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useClienteLoggedContext } from "../../contextProviders/clienteLoggedContext";
 import { useDarkMode } from "../../contextProviders/darkModeContext";
 import pedidoRESTService from "../../servicios/restPedido";
+import ElementoPedidoCompletado from "../panelClienteComponent/ElementoPedidoCompletado";
 
 function PedidoFinalizado() {
   //#region Variables de estado
@@ -57,10 +58,12 @@ function PedidoFinalizado() {
         <h1 className="text-4xl font-bold">Pedido finalizado</h1>
         <h2 className="text-2xl text-gray-600">Gracias por tu compra</h2>
         <h3 className="text-xl font-semibold">Detalles del pedido</h3>
-        <p >Id: {pedido._id}</p>
-        <p >Fecha: {pedido.fechaPedido}</p>
-        <p >Estado: {pedido.estadoPedido}</p>
-        <p >Total: {pedido.totalPedido} €</p>
+        <p>Id: {pedido._id}</p>
+        <p>Fecha: {pedido.fechaPedido}</p>
+        <p>Estado: {pedido.estadoPedido}</p>
+        <p>Total: {pedido.totalPedido} €</p>
+        <h3 className="text-xl font-semibold">Productos</h3>
+
       </div>
     );
   }
