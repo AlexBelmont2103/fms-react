@@ -39,6 +39,10 @@ function MiniDireccion({ direccion, setDireccionModal, setOperacion, onOpenChang
           <p className="text-small text-default-500">
             {direccion.municipio.DMUN50} ({direccion.provincia.PRO})
           </p>
+          <p className="text-small text-default-500">
+            {direccion.codigoPostal}
+          </p>
+          
         </div>
         <div className="flex flex-col gap-2">
           <div className="w-full flex">
