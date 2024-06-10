@@ -52,10 +52,10 @@ function Layout() {
   }, []);
   //Si el clienteLogged es null o no es administrador, redirigir a la página de inicio
   useEffect(() => {
-    if (location.pathname === "/Admin") {
+    if (location.pathname === "/Admin/PanelAdmin") {
       if (
         clienteLogged === null ||
-        !clienteLogged.datoscliente.cuenta.email !== "admin@fullmetalstore.es"
+        clienteLogged.datoscliente.cuenta.email !== "admin@fullmetalstore.es"
       ) {
         navigate("/");
       }
