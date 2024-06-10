@@ -25,6 +25,22 @@ function MiniDireccion({ direccion, setDireccionModal, setOperacion, onOpenChang
       console.log("Error al intentar eliminar direccion...",response.error);
     }
   }
+  async function hacerDireccionPrincipal() {
+    console.log("Hacer dirección principal", direccion._id);
+    let response = await clienteRESTService.hacerDireccionPrincipal(direccion._id,clienteLogged.tokensesion);
+    if (response.codigo === 0) {
+      console.log("Direccion principal actualizada correctamente...");
+      dispatch({
+        type: "CLIENTE_LOGIN",
+        payload: {
+          datoscliente: response.datoscliente,
+          tokensesion: response.tokensesion,
+        }
+      });
+    } else {
+      console.log("Error al intentar hacer dirección principal...",response.error);
+    }
+  }
   //#endregion
 
   //#region efectos
@@ -42,7 +58,13 @@ function MiniDireccion({ direccion, setDireccionModal, setOperacion, onOpenChang
           <p className="text-small text-default-500">
             {direccion.codigoPostal}
           </p>
-          
+          {direccion.esPrincipal ? (
+            <Chip color="success">Principal</Chip>
+          ) : (
+            <Chip as={Button} color="secondary" onPress={hacerDireccionPrincipal}>
+              Hacer principal
+            </Chip>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <div className="w-full flex">

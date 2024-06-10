@@ -221,6 +221,24 @@ let clienteRESTService = {
       console.log("Error al intentar eliminar favorito...", error);
     }
   },
+  hacerDireccionPrincipal: async function (idDireccion, tokensesion) {
+    try {
+      let response = await fetch(
+        "http://localhost:5000/api/Cliente/HacerDireccionPrincipal",
+        {
+          method: "POST",
+          body: JSON.stringify({ idDireccion: idDireccion }),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + tokensesion,
+          },
+        }
+      );
+      return await response.json();
+    } catch (error) {
+      console.log("Error al intentar hacer dirección principal...", error);
+    }
+  },
 };
 
 export default clienteRESTService;
